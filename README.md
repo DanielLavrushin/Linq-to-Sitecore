@@ -41,7 +41,7 @@ using LinqToSitecore;
         public string Name { get; set; }
     }
 ```
-Base class must define Properties Id and Name which are sitecore base item properties.
+Base class could contain predefined Sitecore Properties - Id and Name which are base item properties.
 
 Next, create your class:
 
