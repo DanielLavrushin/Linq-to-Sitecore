@@ -123,6 +123,7 @@ Lets say you have a class:
         public MyLinqToSitecore Droplink { get; set; }
     }
 ```
+Droplink is a standart Sitecorefield of type Drop-Link.
 
 You could get the items like this:
 ```C#
