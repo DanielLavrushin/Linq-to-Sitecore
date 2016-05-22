@@ -1,9 +1,9 @@
-#1 Linq to Sitecore
-#2 About
+# Linq to Sitecore
+## About
 This is a small library to help a developer to map sitecore items to the code-model.
 
-#2 Examples
-#3 Code-First Approach
+## Examples
+### Code-First Approach
 First of all you need to prepare your classes and reflect them in the sitecore items.
 
 Lets create our base object class:
@@ -44,6 +44,8 @@ namespace MyTestClasses
 Use class attribute SitecoreTemplate to define Sitecore template which reflects your class. 
 Also use SitecoreField property attribute to define a custom sitecore field name (in order if you want to have different names in your code and the sitecore template).
 
+It is also possible to do not specify SitecoreTemplate attribute. In tis case LinqToSitecore will try to query and search the Sitecore database by the TemplateName which must be the same as your class name (in our case you have to create a template with the name MySitecoreItem).
+
 Next, you could call linq-to-sitecore extended methods:
 ```C#
 using LinqToSitecore;
@@ -68,5 +70,23 @@ using LinqToSitecore;
             
 
             return Json(queriable);
+
+```
+
+
+Possible to use comparables:
+
+```C#
+using LinqToSitecore;
+ public class MySitecoreController: MyBaseController
+    {
+        [HttpGet]
+        public ActionResult Output()
+        {
+
+            var queriable = Sitecore.Context.Database.Where<MySitecoreItem>(s => s.Name.Contains("Black") && !s.Name.Contains("Red")).ToList();
+        }
+
+    }
 
 ```
