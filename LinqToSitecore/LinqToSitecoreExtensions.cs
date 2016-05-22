@@ -41,7 +41,6 @@ namespace LinqToSitecore
         }
 
 
-
         public static bool Any<T>(this Database database, Expression<Func<T, bool>> query = null) where T : class, new()
         {
             return database.SelectItems(LambdaToSitecoreQuery(query)).ToList<T>().Any();
@@ -68,16 +67,85 @@ namespace LinqToSitecore
             return database.SelectItems(LambdaToSitecoreQuery(query, path)).Count();
         }
 
+        public static int Count<T>(this Item[] items) where T : class, new()
+        {
+            return items.ToList<T>().Count;
+        }
+        public static int Count<T>(this Item[] items, Expression<Func<T, bool>> query) where T : class, new()
+        {
+            return items.ToList<T>(query).Count;
+        }
+
+        public static int Count<T>(this ChildList items) where T : class, new()
+        {
+            return items.ToList<T>().Count;
+        }
+        public static int Count<T>(this ChildList items, Expression<Func<T, bool>> query) where T : class, new()
+        {
+            return items.ToList<T>(query).Count;
+        }
+
         public static ICollection<T> Where<T>(this Database database, Expression<Func<T, bool>> query) where T : class, new()
         {
             return database.SelectItems(LambdaToSitecoreQuery(query)).ToList<T>()
                 .Where(query.Compile()).ToList();
         }
+
+        public static ICollection<T> Where<T>(this Item[] items, Expression<Func<T, bool>> query) where T : class, new()
+        {
+            return items.ToList<T>(query).ToList();
+        }
+        public static ICollection<T> Where<T>(this ChildList items, Expression<Func<T, bool>> query) where T : class, new()
+        {
+            return items.ToList<T>(query).ToList();
+        }
+
+        public static T FirstOrDefault<T>(this Database database) where T : class, new()
+        {
+            return database.SelectSingleItem(LambdaToSitecoreQuery<T>(null))?.ReflectTo<T>();
+        }
+
         public static T FirstOrDefault<T>(this Database database, Expression<Func<T, bool>> query) where T : class, new()
         {
             return database.SelectSingleItem(LambdaToSitecoreQuery(query))?.ReflectTo<T>();
         }
 
+        public static T FirstOrDefault<T>(this Item[] items) where T : class, new()
+        {
+            return items.ToList<T>()?.FirstOrDefault();
+        }
+
+        public static T FirstOrDefault<T>(this Item[] items, Expression<Func<T, bool>> query) where T : class, new()
+        {
+            return items.ToList(query)?.FirstOrDefault();
+        }
+
+        public static T FirstOrDefault<T>(this ChildList items) where T : class, new()
+        {
+            return items.ToList<T>()?.FirstOrDefault();
+        }
+
+        public static T FirstOrDefault<T>(this ChildList items, Expression<Func<T, bool>> query) where T : class, new()
+        {
+            return items.ToList(query)?.FirstOrDefault();
+        }
+
+        public static decimal Max<T>(this Item[] items, Expression<Func<T, decimal>> query) where T : class, new()
+        {
+            return items.ToList<T>().Max(query.Compile());
+        }
+        public static decimal Max<T>(this ChildList items, Expression<Func<T, decimal>> query) where T : class, new()
+        {
+            return items.ToList<T>().Max(query.Compile());
+        }
+        public static decimal Min<T>(this Item[] items, Expression<Func<T, decimal>> query) where T : class, new()
+        {
+            return items.ToList<T>().Max(query.Compile());
+        }
+        public static decimal Min<T>(this ChildList items, Expression<Func<T, decimal>> query) where T : class, new()
+        {
+            return items.ToList<T>().Max(query.Compile());
+        }
         private static string LambdaToSitecoreQuery<T>(Expression<Func<T, bool>> query, string path = null) where T : class
         {
 
@@ -166,21 +234,42 @@ namespace LinqToSitecore
             return prop;
         }
 
+        public static bool IsOfType<T>(this Item item) where T : class
+        {
+            var tid = GetTemplateIdFromType<T>();
+            if (!tid.IsNull)
+            {
+                return item.TemplateID == tid;
+            }
+
+            var ntname = GetTemplateNameFromType<T>();
+            return item.TemplateName == ntname;
+        }
+
         public static ICollection<T> ToList<T>(this Item[] items) where T : class, new()
         {
-            return items.Select(s => s.ReflectTo<T>()).ToList();
+            return items.Select(s => s.ReflectTo<T>()).Where(x => x != null).ToList();
+        }
+        public static ICollection<T> ToList<T>(this Item[] items, Expression<Func<T, bool>> query) where T : class, new()
+        {
+            return items.Select(s => s.ReflectTo<T>()).Where(x => x != null).Where(query.Compile()).ToList();
         }
         public static ICollection<T> ToList<T>(this ChildList items) where T : class, new()
         {
-            return items.Select(s => s.ReflectTo<T>()).ToList();
+            return items.Select(s => s.ReflectTo<T>()).Where(x => x != null).ToList();
         }
 
-
+        public static ICollection<T> ToList<T>(this ChildList items, Expression<Func<T, bool>> query) where T : class, new()
+        {
+            return items.Select(s => s.ReflectTo<T>()).Where(x => x != null).Where(query.Compile()).ToList();
+        }
 
         public static T ReflectTo<T>(this Item item, bool lazyLoading = false)
              where T : class, new()
         {
             if (item == null) return default(T);
+
+            if (!item.IsOfType<T>()) return null;
 
             var o = new T();
 
@@ -190,6 +279,7 @@ namespace LinqToSitecore
 
             idProp?.SetValue(o, item.ID);
             nameProp?.SetValue(o, item.Name);
+
 
             foreach (var f in o.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.SetProperty))
             {
