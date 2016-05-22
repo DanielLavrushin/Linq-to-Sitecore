@@ -1,7 +1,11 @@
 # Linq to Sitecore
 ## About
 This is a small library to help a developer to map sitecore items to the code-model.
-
+## Nuget
+<a href="https://www.nuget.org/packages/LinqToSitecore/">nuget project</a>
+'''
+Install-Package LinqToSitecore
+'''
 ## Examples
 ### Code-First Approach
 First of all you need to prepare your classes and reflect them in the sitecore items.
