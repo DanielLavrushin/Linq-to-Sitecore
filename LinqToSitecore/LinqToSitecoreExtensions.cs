@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Sitecore.Collections;
 using Sitecore.Data;
@@ -51,6 +52,13 @@ namespace LinqToSitecore
 
             var paramName = query.Parameters[0].Name;
             var paramTypeName = query.Parameters[0].Type.Name;
+
+            var m = Regex.Replace(expBody, @"(\.Contains\(.(?<g1>.+?).\))", " = '%$1%'", RegexOptions.ExplicitCapture);
+            var m2 = Regex.Replace(m, @"Not\((?<g1>[^=]+?)\)", "($1 != 1)", RegexOptions.ExplicitCapture);
+            var m3 = Regex.Replace(m2, @"Not\((?<g1>.+?)\)", "($1)", RegexOptions.ExplicitCapture);
+
+            expBody = Regex.Replace(m3, @"(?<q1>\.[a-zA-Z0-9]+)(:?\)|\s\w+|$)", "$1 = 1", RegexOptions.ExplicitCapture);
+
 
             expBody = expBody.Replace(paramName + ".", "@")
                  .Replace("AndAlso", "and")
