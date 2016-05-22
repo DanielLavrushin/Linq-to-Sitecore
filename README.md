@@ -21,7 +21,7 @@ yes - means supported
 
 ReflectTo\<>() method extends Sitecore Item class, and allow you to convert any item to a trongly typed object.
 
-IsOfType<T>() method extends Sitecore item Class, and returns true if the template of the specific Item is of provided type (T).
+IsOfType\<T>() method extends Sitecore item Class, and returns true if the template of the specific Item is of provided type (T).
 
 
 ## Examples
