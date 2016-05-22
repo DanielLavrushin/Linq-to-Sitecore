@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -10,31 +11,53 @@ using Sitecore.Collections;
 using Sitecore.Data;
 using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
+using Sitecore.Resources.Media;
 
 namespace LinqToSitecore
 {
     public static class LinqToSitecoreExtensions
     {
-        public static ICollection<T> OfType<T>(this Database database, string path = null) where T : class, new()
+        public static ICollection<T> OfType<T>(this Database database, Expression<Func<T, bool>> query = null) where T : class, new()
         {
-            var coll = new List<T>();
-            var tempId = GetTemplateIdFromType<T>();
-
-            if (!string.IsNullOrEmpty(path) && !path.EndsWith("//"))
-            {
-                path = $"{path}//";
-            }
-
-            var q = $"fast://{path}*[@@templateId='{tempId}']";
-            if (tempId == ID.Null)
-            {
-                q = $"fast://{path}*[@@templatename='{GetTemplateNameFromType<T>()}']";
-            }
-            var items = database.SelectItems(q);
+            var items = database.SelectItems(LambdaToSitecoreQuery(query));
 
             var col = items.ToList<T>();
             return col;
+        }
+        public static ICollection<T> OfType<T>(this Database database, string path = null, Expression<Func<T, bool>> query = null) where T : class, new()
+        {
+            var items = database.SelectItems(LambdaToSitecoreQuery(query, path));
 
+            var col = items.ToList<T>();
+            return col;
+        }
+
+       
+
+        public static bool Any<T>(this Database database, Expression<Func<T, bool>> query = null) where T : class, new()
+        {
+            return database.SelectItems(LambdaToSitecoreQuery(query)).ToList<T>().Any();
+        }
+
+        public static bool Any<T>(this Database database, string path = null, Expression<Func<T, bool>> query = null) where T : class, new()
+        {
+            return database.SelectItems(LambdaToSitecoreQuery(query, path)).ToList<T>().Any();
+        }
+
+        public static int Count<T>(this Database database) where T : class, new()
+        {
+            return database.SelectItems(LambdaToSitecoreQuery<T>(null, null)).Count();
+        }
+
+        public static int Count<T>(this Database database, Expression<Func<T, bool>> query = null) where T : class, new()
+        {
+            return database.SelectItems(LambdaToSitecoreQuery(query)).Count();
+        }
+
+
+        public static int Count<T>(this Database database, string path = null, Expression<Func<T, bool>> query = null) where T : class, new()
+        {
+            return database.SelectItems(LambdaToSitecoreQuery(query, path)).Count();
         }
 
         public static ICollection<T> Where<T>(this Database database, Expression<Func<T, bool>> query) where T : class, new()
@@ -46,59 +69,71 @@ namespace LinqToSitecore
         {
             return database.SelectSingleItem(LambdaToSitecoreQuery(query))?.ReflectTo<T>();
         }
-        private static string LambdaToSitecoreQuery<T>(Expression<Func<T, bool>> query) where T : class
+
+        private static string LambdaToSitecoreQuery<T>(Expression<Func<T, bool>> query, string path = null) where T : class
         {
-            string expBody = query.Body.ToString();
 
-            var paramName = query.Parameters[0].Name;
-            var paramTypeName = query.Parameters[0].Type.Name;
-
-            var m = Regex.Replace(expBody, @"(\.Contains\(.(?<g1>.+?).\))", " = '%$1%'", RegexOptions.ExplicitCapture);
-            var m2 = Regex.Replace(m, @"Not\((?<g1>[^=]+?)\)", "($1 != 1)", RegexOptions.ExplicitCapture);
-            var m3 = Regex.Replace(m2, @"Not\((?<g1>.+?)\)", "($1)", RegexOptions.ExplicitCapture);
-
-            expBody = Regex.Replace(m3, @"(?<q1>\.[a-zA-Z0-9]+)(:?\)|\s\w+|$)", "$1 = 1", RegexOptions.ExplicitCapture);
-
-
-            expBody = expBody.Replace(paramName + ".", "@")
-                 .Replace("AndAlso", "and")
-                 .Replace("OrElse", "or")
-                 .Replace("==", "=")
-                 .Replace("\"", "'")
-                 .Replace("True", "1")
-                 .Replace("False", "0");
-
-            expBody = expBody.Replace("@Name", "@@Name").Replace("@Id", "@@Id");
-
-            var props =
-                typeof(T).GetProperties().Where(s => s.GetCustomAttributes<SitecoreFieldAttribute>().Any()).ToList();
-
-            if (props.Any())
+            var expBody = query?.Body?.ToString();
+            if (!string.IsNullOrEmpty(expBody))
             {
-                foreach (var prop in props)
+                var paramName = query.Parameters[0].Name;
+                var paramTypeName = query.Parameters[0].Type.Name;
+
+                var m = Regex.Replace(expBody, @"(\.Contains\(.(?<g1>.+?).\))", " = '%$1%'", RegexOptions.ExplicitCapture);
+                var m2 = Regex.Replace(m, @"Not\((?<g1>[^=]+?)\)", "($1 != 1)", RegexOptions.ExplicitCapture);
+                var m3 = Regex.Replace(m2, @"Not\((?<g1>.+?)\)", "($1)", RegexOptions.ExplicitCapture);
+
+                expBody = Regex.Replace(m3, @"(?<q1>\.[a-zA-Z0-9]+)(:?\)|\s\w+|$)", "$1 = 1", RegexOptions.ExplicitCapture);
+
+
+                expBody = expBody.Replace(paramName + ".", "@")
+                     .Replace("AndAlso", "and")
+                     .Replace("OrElse", "or")
+                     .Replace("==", "=")
+                     .Replace("\"", "'")
+                     .Replace("True", "1")
+                     .Replace("False", "0");
+
+                expBody = expBody.Replace("@Name", "@@Name").Replace("@Id", "@@Id");
+
+                var props =
+                    typeof(T).GetProperties().Where(s => s.GetCustomAttributes<SitecoreFieldAttribute>().Any()).ToList();
+
+                if (props.Any())
                 {
-                    var scFieldName = prop.GetCustomAttributes<SitecoreFieldAttribute>().FirstOrDefault()?.Name;
-                    if (!string.IsNullOrEmpty(scFieldName))
+                    foreach (var prop in props)
                     {
-                        if (prop.PropertyType == typeof(bool))
+                        var scFieldName = prop.GetCustomAttributes<SitecoreFieldAttribute>().FirstOrDefault()?.Name;
+                        if (!string.IsNullOrEmpty(scFieldName))
                         {
-                            expBody = expBody.Replace($"@!{prop.Name}", $"@{prop.Name} = 0");
+                            if (prop.PropertyType == typeof(bool))
+                            {
+                                expBody = expBody.Replace($"@!{prop.Name}", $"@{prop.Name} = 0");
 
+                            }
+
+                            expBody = expBody.Replace($"@{prop.Name}", $"@{scFieldName}");
                         }
-
-                        expBody = expBody.Replace($"@{prop.Name}", $"@{scFieldName}");
                     }
                 }
-            }
 
+
+            }
+            expBody = string.IsNullOrEmpty(expBody) ? string.Empty : $"and {expBody}";
             var tempId = GetTemplateIdFromType<T>();
 
 
-            var scQuery = $"fast://*[@@templateId='{tempId}' and {expBody}]";
+
+            if (!string.IsNullOrEmpty(path) && !path.EndsWith("//"))
+            {
+                path = $"{path}//";
+            }
+            var scQuery = $"fast://{path}*[@@templateId='{tempId}' {expBody}]";
             if (tempId == ID.Null)
             {
-                scQuery = $"fast://*[@@templatename='{GetTemplateNameFromType<T>()}' and {expBody}]";
+                scQuery = $"fast://{path}*[@@templatename='{GetTemplateNameFromType<T>()}' {expBody}]";
             }
+
             return scQuery;
         }
 
@@ -134,7 +169,7 @@ namespace LinqToSitecore
 
 
 
-        public static T ReflectTo<T>(this Item item, params Item[] relatedItems)
+        public static T ReflectTo<T>(this Item item, bool lazyLoading = false)
              where T : class, new()
         {
             if (item == null) return default(T);
@@ -168,24 +203,42 @@ namespace LinqToSitecore
                     try
                     {
                         object value = field.Value;
-                        if (ID.IsID(field.Value))
-                        {
-                            var relatedItem = relatedItems.FirstOrDefault(s => s.ID == new ID(field.Value));
-
-                            if (relatedItem != null)
-                            {
-                                var method = typeof(LinqToSitecoreExtensions).GetMethod("ReflectTo").MakeGenericMethod(f.PropertyType);
-
-                                value = method.Invoke(null, new object[] { relatedItem, relatedItems });
-
-                            }
-                        }
-
                         try
                         {
                             if (f.PropertyType == typeof(bool))
                             {
                                 f.SetValue(o, (string)value == "1");
+                            }
+                            else if (f.PropertyType == typeof(DateTime))
+                            {
+                                f.SetValue(o, ((DateField)field).DateTime);
+                            }
+                            else if (f.PropertyType == typeof(byte[]))
+                            {
+
+                            }
+                            else if (f.PropertyType == typeof(ICollection<>))
+                            {
+
+                            }
+                            else if (field.TypeKey == "droplink" && lazyLoading)
+                            {
+                                var dropid = ID.Null;
+
+                                if (ID.TryParse(field.Value, out dropid))
+                                {
+                                    if (f.PropertyType != typeof(ID) && f.PropertyType != typeof(Guid) &&
+                                        f.PropertyType != typeof(string))
+                                    {
+                                        var dropitem = item.Database.GetItem(dropid);
+                                        var result = typeof(LinqToSitecoreExtensions)
+                                                    .GetMethod("ReflectTo")
+                                                    .MakeGenericMethod(f.PropertyType)
+                                                    .Invoke(item.Database.GetItem(dropid), new object[] { dropitem, lazyLoading });
+                                        f.SetValue(o, result);
+                                    }
+                                }
+
                             }
                             else
                             {
@@ -193,7 +246,7 @@ namespace LinqToSitecore
                                 f.SetValue(o, convertedObj);
                             }
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
                             f.SetValue(o, value);
 
