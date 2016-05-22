@@ -17,14 +17,22 @@ namespace LinqToSitecore
 {
     public static class LinqToSitecoreExtensions
     {
-        public static ICollection<T> OfType<T>(this Database database, Expression<Func<T, bool>> query = null) where T : class, new()
+        public static ICollection<T> OfType<T>(this Database database) where T : class, new()
+        {
+            var items = database.SelectItems(LambdaToSitecoreQuery<T>(null));
+
+            var col = items.ToList<T>();
+            return col;
+        }
+
+        public static ICollection<T> OfType<T>(this Database database, Expression<Func<T, bool>> query) where T : class, new()
         {
             var items = database.SelectItems(LambdaToSitecoreQuery(query));
 
             var col = items.ToList<T>();
             return col;
         }
-        public static ICollection<T> OfType<T>(this Database database, string path = null, Expression<Func<T, bool>> query = null) where T : class, new()
+        public static ICollection<T> OfType<T>(this Database database, string path, Expression<Func<T, bool>> query = null) where T : class, new()
         {
             var items = database.SelectItems(LambdaToSitecoreQuery(query, path));
 
@@ -32,7 +40,7 @@ namespace LinqToSitecore
             return col;
         }
 
-       
+
 
         public static bool Any<T>(this Database database, Expression<Func<T, bool>> query = null) where T : class, new()
         {
@@ -49,13 +57,13 @@ namespace LinqToSitecore
             return database.SelectItems(LambdaToSitecoreQuery<T>(null, null)).Count();
         }
 
-        public static int Count<T>(this Database database, Expression<Func<T, bool>> query = null) where T : class, new()
+        public static int Count<T>(this Database database, Expression<Func<T, bool>> query) where T : class, new()
         {
             return database.SelectItems(LambdaToSitecoreQuery(query)).Count();
         }
 
 
-        public static int Count<T>(this Database database, string path = null, Expression<Func<T, bool>> query = null) where T : class, new()
+        public static int Count<T>(this Database database, string path, Expression<Func<T, bool>> query = null) where T : class, new()
         {
             return database.SelectItems(LambdaToSitecoreQuery(query, path)).Count();
         }
