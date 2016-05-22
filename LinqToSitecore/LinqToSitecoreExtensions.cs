@@ -114,6 +114,10 @@ namespace LinqToSitecore
         {
             return items.Select(s => s.ReflectTo<T>()).ToList();
         }
+        public static ICollection<T> ToList<T>(this ChildList items) where T : class, new()
+        {
+            return items.Select(s => s.ReflectTo<T>()).ToList();
+        }
 
 
 
