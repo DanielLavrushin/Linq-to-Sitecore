@@ -6,6 +6,24 @@ This is a small library to help a developer to map sitecore items to the code-mo
 ```
 Install-Package LinqToSitecore
 ```
+## Supports
+###Supported LINQ Methods
+n/r - meants not relevant for this specific object
+yes - means supported
+
+| LINQ Method  | Sitecore Database | Sitecore Item | Sitecore ItemList| Item[] collection | 
+| ------------- | ------------- | ------------- | ------------- | ------------- |
+| OfType\<T>(lambda expression) | yes  | n/r | no (use ToList\<T>()) | no (use ToList\<T>()) |
+| ToList\<T>(lambda expression)  | n/r  | yes| yes | yes |
+| Where\<T>(lambda expression)  | yes  | yes | yes | yes |
+| FirstOrDefault\<T>(lambda expression)  | yes  | yes | yes | yes |
+| Count\<T>(lambda expression)  | yes  | yes | yes | yes |
+
+ReflectTo\<>() method extends Sitecore Item class, and allow you to convert any item to a trongly typed object.
+
+IsOfType\<T>() method extends Sitecore item Class, and returns true if the template of the specific Item is of provided type (T).
+
+
 ## Examples
 ### Code-First Approach
 First of all you need to prepare your classes and reflect them in the sitecore items.
@@ -23,7 +41,7 @@ using LinqToSitecore;
         public string Name { get; set; }
     }
 ```
-Base class must define Properties Id and Name which are sitecore base item properties.
+Base class could contain predefined Sitecore Properties - Id and Name which are base item properties.
 
 Next, create your class:
 
@@ -93,4 +111,26 @@ using LinqToSitecore;
 
     }
 
+```
+
+
+###Lazy Loading Items
+You could also reflect your Droplink fields into the classes.
+Lets say you have a class:
+```C#
+    public class MyLinqToSitecore: TemplateObject
+    {
+        public MyLinqToSitecore Droplink { get; set; }
+    }
+```
+Droplink is a standart Sitecorefield of type Drop-Link.
+
+You could get the items like this:
+```C#
+    Sitecore.Context.Database.GetItem("pathtotheitem").ReflectTo<MyLinqToSitecore>();
+```
+In this case Droplink property will return NULL.
+If you want to reflect all possible properties, do this:
+```C#
+    Sitecore.Context.Database.GetItem("pathtotheitem").ReflectTo<MyLinqToSitecore>(true);
 ```
