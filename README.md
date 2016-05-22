@@ -112,3 +112,24 @@ using LinqToSitecore;
     }
 
 ```
+
+
+###Lazy Loading Items
+You could also reflect your Droplink fields into the classes.
+Lets say you have a class:
+```C#
+    public class MyLinqToSitecore: TemplateObject
+    {
+        public MyLinqToSitecore Droplink { get; set; }
+    }
+```
+
+You could get the items like this:
+```C#
+    Sitecore.Context.Database.GetItem("pathtotheitem").ReflectTo<MyLinqToSitecore>();
+```
+In this case Droplink property will return NULL.
+If you want to reflect all possible properties, do this:
+```C#
+    Sitecore.Context.Database.GetItem("pathtotheitem").ReflectTo<MyLinqToSitecore>(true);
+```
