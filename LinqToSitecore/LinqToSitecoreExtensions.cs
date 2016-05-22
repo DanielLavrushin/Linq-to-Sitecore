@@ -18,23 +18,22 @@ namespace LinqToSitecore
         {
             var coll = new List<T>();
             var tempId = GetTemplateIdFromType<T>();
-            if (!tempId.IsNull)
+
+            if (!string.IsNullOrEmpty(path) && !path.EndsWith("//"))
             {
-
-                if (!string.IsNullOrEmpty(path) && !path.EndsWith("//"))
-                {
-                    path = $"{path}//";
-                }
-
-                var q = $"fast://{path}*[@@templateId='{tempId}']";
-                var items = database.SelectItems(q);
-
-                var col = items.ToList<T>();
-                return col;
-
+                path = $"{path}//";
             }
 
-            return coll;
+            var q = $"fast://{path}*[@@templateId='{tempId}']";
+            if (tempId == ID.Null)
+            {
+                q = $"fast://{path}*[@@templatename='{GetTemplateNameFromType<T>()}']";
+            }
+            var items = database.SelectItems(q);
+
+            var col = items.ToList<T>();
+            return col;
+
         }
 
         public static ICollection<T> Where<T>(this Database database, Expression<Func<T, bool>> query) where T : class, new()
@@ -64,7 +63,7 @@ namespace LinqToSitecore
             expBody = expBody.Replace("@Name", "@@Name").Replace("@Id", "@@Id");
 
             var props =
-                typeof (T).GetProperties().Where(s => s.GetCustomAttributes<SitecoreFieldAttribute>().Any()).ToList();
+                typeof(T).GetProperties().Where(s => s.GetCustomAttributes<SitecoreFieldAttribute>().Any()).ToList();
 
             if (props.Any())
             {
@@ -73,7 +72,7 @@ namespace LinqToSitecore
                     var scFieldName = prop.GetCustomAttributes<SitecoreFieldAttribute>().FirstOrDefault()?.Name;
                     if (!string.IsNullOrEmpty(scFieldName))
                     {
-                        if (prop.PropertyType == typeof (bool))
+                        if (prop.PropertyType == typeof(bool))
                         {
                             expBody = expBody.Replace($"@!{prop.Name}", $"@{prop.Name} = 0");
 
@@ -86,13 +85,13 @@ namespace LinqToSitecore
 
             var tempId = GetTemplateIdFromType<T>();
 
-            if (!tempId.IsNull)
-            {
-                var scQuery = $"fast://*[@@templateId='{tempId}' and {expBody}]";
-                return scQuery;
-            }
 
-            return null;
+            var scQuery = $"fast://*[@@templateId='{tempId}' and {expBody}]";
+            if (tempId == ID.Null)
+            {
+                scQuery = $"fast://*[@@templatename='{GetTemplateNameFromType<T>()}' and {expBody}]";
+            }
+            return scQuery;
         }
 
         private static ID GetTemplateIdFromType<T>() where T : class
@@ -100,7 +99,13 @@ namespace LinqToSitecore
             var templateAttr =
                 (SitecoreTemplateAttribute)
                     typeof(T).GetCustomAttributes(typeof(SitecoreTemplateAttribute), true).FirstOrDefault();
-            return templateAttr?.TemplateId;
+            return templateAttr?.TemplateId ?? ID.Null;
+        }
+
+        private static string GetTemplateNameFromType<T>() where T : class
+        {
+            var templateAttr = typeof(T).Name;
+            return templateAttr;
         }
 
         private static PropertyInfo GetTemplateSystemProperty<T>(SitecoreSystemPropertyType type) where T : class
