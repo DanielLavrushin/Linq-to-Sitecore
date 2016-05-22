@@ -70,3 +70,21 @@ using LinqToSitecore;
             return Json(queriable);
 
 ```
+
+
+Possible to use comparables:
+
+```C#
+using LinqToSitecore;
+ public class MySitecoreController: MyBaseController
+    {
+        [HttpGet]
+        public ActionResult Output()
+        {
+
+            var queriable = Sitecore.Context.Database.Where<MySitecoreItem>(s => s.Name.Contains("Black") && !s.Name.Contains("Red")).ToList();
+        }
+
+    }
+
+```
