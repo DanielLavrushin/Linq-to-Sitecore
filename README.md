@@ -18,6 +18,8 @@ yes - means supported
 | Where\<T>(lambda expression)  | yes  | yes | yes | yes |
 | FirstOrDefault\<T>(lambda expression)  | yes  | yes | yes | yes |
 | Count\<T>(lambda expression)  | yes  | yes | yes | yes |
+| Max\<T>(lambda expression)  | no  | yes | yes | yes |
+| Min\<T>(lambda expression)  | no  | yes | yes | yes |
 
 ReflectTo\<>() method extends Sitecore Item class, and allow you to convert any item to a trongly typed object.
 
