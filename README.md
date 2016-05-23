@@ -25,6 +25,52 @@ ReflectTo\<>() method extends Sitecore Item class, and allow you to convert any 
 
 IsOfType\<T>() method extends Sitecore item Class, and returns true if the template of the specific Item is of provided type (T).
 
+##Property Types
+The following Sitecore Field Types will be reflected to .NET Class Property Types:
+| Sitecore Field  | .Net Type | 
+| ------------- | ------------- |
+| Singline | string  |
+| Checkbox | bool  |
+| Multiline | string  |
+| File | string (path)  |
+| File | byte[] |
+| Image | string (path)  |
+| Image | byte[] |
+| Number | decimal float double |
+| Integer | int |
+| Date | DateTime |
+| Datetime | DateTime |
+| RichText | string |
+| Droplist | string |
+| Droplist | Generic Type |
+| Multilist | ICollection<T> |
+| Multilist w. search | ICollection<T> |
+| Treelist | ICollection<T> |
+| Checklist | ICollection<T> |
+
+For example:
+```C#
+using LinqToSitecore;
+public class MyLinqToSitecore
+    {
+        public string SingleLine { get; set; }
+        public bool Checkbox { get; set; }
+        public string Multiline { get; set; }
+        public string File { get; set; }
+        public byte[] Image { get; set; }
+        public float Number { get; set; }
+        public int Integer { get; set; }
+        public DateTime Date { get; set; }
+        public DateTime DateTime { get; set; }
+        public string RichText { get; set; }
+        public string Droplist { get; set; }
+        public ICollection<MyAnotherCustomClass> CustomItems { get; set; }
+
+        public ICollection<MyAnotherCustomClass> CustomItemss { get; set; }
+        public MyLinqToSitecore Droplink { get; set; }
+    }
+```
+
 
 ## Examples
 ### Code-First Approach
