@@ -43,7 +43,7 @@ The following Sitecore Field Types will be reflected to .NET Class Property Type
 | Datetime | DateTime |
 | RichText | string |
 | Droplist | string |
-| Droplist | Generic Type |
+| Droplink | Generic Type |
 | Multilist | ICollection\<T> |
 | Multilist w. search | ICollection\<T> |
 | Treelist | ICollection\<T> |
