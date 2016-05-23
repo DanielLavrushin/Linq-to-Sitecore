@@ -27,7 +27,8 @@ IsOfType\<T>() method extends Sitecore item Class, and returns true if the templ
 
 ##Property Types
 The following Sitecore Field Types will be reflected to .NET Class Property Types:
-| Sitecore Field  | .Net Type | 
+
+| Sitecore Field  | Net Type | 
 | ------------- | ------------- |
 | Singline | string  |
 | Checkbox | bool  |
@@ -43,10 +44,10 @@ The following Sitecore Field Types will be reflected to .NET Class Property Type
 | RichText | string |
 | Droplist | string |
 | Droplist | Generic Type |
-| Multilist | ICollection<T> |
-| Multilist w. search | ICollection<T> |
-| Treelist | ICollection<T> |
-| Checklist | ICollection<T> |
+| Multilist | ICollection\<T> |
+| Multilist w. search | ICollection\<T> |
+| Treelist | ICollection\<T> |
+| Checklist | ICollection\<T> |
 
 For example:
 ```C#
@@ -65,8 +66,7 @@ public class MyLinqToSitecore
         public string RichText { get; set; }
         public string Droplist { get; set; }
         public ICollection<MyAnotherCustomClass> CustomItems { get; set; }
-
-        public ICollection<MyAnotherCustomClass> CustomItemss { get; set; }
+        public ICollection<MyAnotherCustomClass> CustomItems2 { get; set; }
         public MyLinqToSitecore Droplink { get; set; }
     }
 ```
