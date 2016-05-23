@@ -322,9 +322,12 @@ namespace LinqToSitecore
                             else if (field.TypeKey == "droplink" && lazyLoading)
                             {
                                 var dropid = ID.Null;
-
                                 if (ID.TryParse(field.Value, out dropid))
                                 {
+                                    //potential loop
+                                    if (dropid != item.ID)
+                                    {
+                                    }
                                     if (f.PropertyType != typeof(ID) && f.PropertyType != typeof(Guid) &&
                                         f.PropertyType != typeof(string))
                                     {
