@@ -17,28 +17,30 @@ namespace LinqToSitecore
 {
     public static class LinqToSitecoreExtensions
     {
-        public static ICollection<T> OfType<T>(this Database database) where T : class, new()
+
+        public static ICollection<T> OfType<T>(this Database database, bool lazyLoading = false) where T : class, new()
         {
             var items = database.SelectItems(LambdaToSitecoreQuery<T>(null));
 
-            var col = items.ToList<T>();
+            var col = items.ToList<T>(lazyLoading);
             return col;
         }
 
-        public static ICollection<T> OfType<T>(this Database database, Expression<Func<T, bool>> query) where T : class, new()
+        public static ICollection<T> OfType<T>(this Database database, Expression<Func<T, bool>> query, bool lazyLoading = false) where T : class, new()
         {
             var items = database.SelectItems(LambdaToSitecoreQuery(query));
 
-            var col = items.ToList<T>();
+            var col = items.ToList<T>(lazyLoading);
             return col;
         }
-        public static ICollection<T> OfType<T>(this Database database, string path, Expression<Func<T, bool>> query = null) where T : class, new()
+        public static ICollection<T> OfType<T>(this Database database, string path, Expression<Func<T, bool>> query, bool lazyLoading = false) where T : class, new()
         {
             var items = database.SelectItems(LambdaToSitecoreQuery(query, path));
 
-            var col = items.ToList<T>();
+            var col = items.ToList<T>(lazyLoading);
             return col;
         }
+
 
 
         public static bool Any<T>(this Database database, Expression<Func<T, bool>> query = null) where T : class, new()
@@ -246,22 +248,22 @@ namespace LinqToSitecore
             return item.TemplateName == ntname;
         }
 
-        public static ICollection<T> ToList<T>(this Item[] items) where T : class, new()
+        public static ICollection<T> ToList<T>(this Item[] items, bool lazyLoading = false) where T : class, new()
         {
-            return items.Select(s => s.ReflectTo<T>()).Where(x => x != null).ToList();
+            return items.Select(s => s.ReflectTo<T>(lazyLoading)).Where(x => x != null).ToList();
         }
-        public static ICollection<T> ToList<T>(this Item[] items, Expression<Func<T, bool>> query) where T : class, new()
+        public static ICollection<T> ToList<T>(this Item[] items, Expression<Func<T, bool>> query, bool lazyLoading = false) where T : class, new()
         {
-            return items.Select(s => s.ReflectTo<T>()).Where(x => x != null).Where(query.Compile()).ToList();
+            return items.Select(s => s.ReflectTo<T>(lazyLoading)).Where(x => x != null).Where(query.Compile()).ToList();
         }
-        public static ICollection<T> ToList<T>(this ChildList items) where T : class, new()
+        public static ICollection<T> ToList<T>(this ChildList items, bool lazyLoading = false) where T : class, new()
         {
-            return items.Select(s => s.ReflectTo<T>()).Where(x => x != null).ToList();
+            return items.Select(s => s.ReflectTo<T>(lazyLoading)).Where(x => x != null).ToList();
         }
 
-        public static ICollection<T> ToList<T>(this ChildList items, Expression<Func<T, bool>> query) where T : class, new()
+        public static ICollection<T> ToList<T>(this ChildList items, Expression<Func<T, bool>> query, bool lazyLoading = false) where T : class, new()
         {
-            return items.Select(s => s.ReflectTo<T>()).Where(x => x != null).Where(query.Compile()).ToList();
+            return items.Select(s => s.ReflectTo<T>(lazyLoading)).Where(x => x != null).Where(query.Compile()).ToList();
         }
 
         public static T ReflectTo<T>(this Item item, bool lazyLoading = false)
@@ -313,7 +315,19 @@ namespace LinqToSitecore
                             }
                             else if (f.PropertyType == typeof(byte[]))
                             {
+                                if (field.TypeKey == "file" || field.TypeKey == "image")
+                                {
+                                    var fitem = (FileField)field;
+                                    var mitem = ((MediaItem)fitem.MediaItem).GetMediaStream();
 
+                                    byte[] bytes;
+                                    using (var memstream = new MemoryStream())
+                                    {
+                                        mitem.CopyTo(memstream);
+                                        bytes = memstream.ToArray();
+                                    }
+                                    f.SetValue(o, bytes);
+                                }
                             }
                             else if (f.PropertyType == typeof(ICollection<>))
                             {
@@ -333,18 +347,41 @@ namespace LinqToSitecore
                                     {
                                         var dropitem = item.Database.GetItem(dropid);
                                         var result = typeof(LinqToSitecoreExtensions)
-                                                    .GetMethod("ReflectTo")
-                                                    .MakeGenericMethod(f.PropertyType)
-                                                    .Invoke(item.Database.GetItem(dropid), new object[] { dropitem, lazyLoading });
+                                            .GetMethod("ReflectTo")
+                                            .MakeGenericMethod(f.PropertyType)
+                                            .Invoke(dropitem, new object[] { dropitem, lazyLoading });
                                         f.SetValue(o, result);
                                     }
                                 }
 
                             }
+                            else if (lazyLoading && typeof(ICollection<>).IsAssignableFrom(f.PropertyType.GetGenericTypeDefinition()))
+                            {
+                                var multiField = (MultilistField)field;
+                                var colgenType = f.PropertyType.GetGenericArguments().FirstOrDefault();
+                                var subItems = multiField.GetItems();
+                                if (subItems.Any())
+                                {
+                                    var result = typeof (LinqToSitecoreExtensions).GetMethod("ToList",
+                                        new Type[] {typeof (Item[]), typeof (bool)})
+                                        .MakeGenericMethod(colgenType)
+                                        .Invoke(subItems, new object[] {subItems, lazyLoading});
+                                    f.SetValue(o, result);
+                                }
+                            }
                             else
                             {
-                                var convertedObj = Convert.ChangeType(value, f.PropertyType);
-                                f.SetValue(o, convertedObj);
+                                if (field.TypeKey == "file" || field.TypeKey == "image")
+                                {
+                                    var fitem = (FileField)field;
+                                    f.SetValue(o, fitem.Src);
+                                }
+                                else
+                                {
+
+                                    var convertedObj = Convert.ChangeType(value, f.PropertyType);
+                                    f.SetValue(o, field.TypeKey);
+                                }
                             }
                         }
                         catch (Exception ex)
