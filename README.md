@@ -163,7 +163,7 @@ using LinqToSitecore;
 
 
 ###Lazy Loading Items
-You could also reflect your Droplink fields into the classes.
+By default the library reflects only basic fields in order to reduce connections to the database. However, you could force it to load linked items and reflect them into your classes.
 Lets say you have a class:
 ```C#
     public class MyLinqToSitecore: TemplateObject
