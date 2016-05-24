@@ -148,7 +148,7 @@ namespace LinqToSitecore
         {
             return items.ToList<T>().Max(query.Compile());
         }
-        public static string LambdaToSitecoreQuery<T>(Expression<Func<T, bool>> query, string path = null) where T : class
+        internal static string LambdaToSitecoreQuery<T>(Expression<Func<T, bool>> query, string path = null) where T : class
         {
 
             var expBody = query?.Body?.ToString();
@@ -157,13 +157,15 @@ namespace LinqToSitecore
                 var paramName = query.Parameters[0].Name;
                 var paramTypeName = query.Parameters[0].Type.Name;
 
-                expBody = ExpressionToStringResolver(query.Body, expBody);
+                expBody = ExpressionEvaluator.PartialEval(query.Body).ToString();
 
-                var m = Regex.Replace(expBody, @"(\.Contains\(.(?<g1>.+?).\))", " = '%$1%'", RegexOptions.ExplicitCapture);
-                var m2 = Regex.Replace(m, @"Not\((?<g1>[^=]+?)\)", "($1 != 1)", RegexOptions.ExplicitCapture);
-                var m3 = Regex.Replace(m2, @"Not\((?<g1>.+?)\)", "($1)", RegexOptions.ExplicitCapture);
+                var m = Regex.Replace(expBody.ToString(), @"^.+?=>(?<q1>.+)", "$1", RegexOptions.ExplicitCapture).Trim();
+                m = Regex.Replace(m, @"(\.Contains\(.(?<g1>.+?).\))", " = '%$1%'", RegexOptions.ExplicitCapture);
+                m = Regex.Replace(m, @"Not\((?<g1>[^=]+?)\)", "($1 != 1)", RegexOptions.ExplicitCapture);
+                m = Regex.Replace(m, @"Not\((?<g1>.+?)\)", "($1)", RegexOptions.ExplicitCapture);
+                m = Regex.Replace(m, @"(?<q1>\.[a-zA-Z0-9]+)(:?\)|\s\w+|$)", "$1 = 1", RegexOptions.ExplicitCapture);
 
-                expBody = Regex.Replace(m3, @"(?<q1>\.[a-zA-Z0-9]+)(:?\)|\s\w+|$)", "$1 = 1", RegexOptions.ExplicitCapture);
+                expBody = Regex.Replace(m, @"(?<q1>\.[a-zA-Z0-9]+)(:?\)|\s\w+|$)", "$1 = 1", RegexOptions.ExplicitCapture);
 
 
                 expBody = expBody.Replace(paramName + ".", "@")
@@ -403,99 +405,5 @@ namespace LinqToSitecore
 
 
 
-        private static string ExpressionToStringResolver(Expression expr, string query)
-        {
-            if (expr is BinaryExpression)
-            {
-                var binaryExpr = expr as BinaryExpression;
-                if (binaryExpr.Left.ToString().StartsWith("value(") && binaryExpr.Left is MemberExpression)
-                {
-                    var oldValue = binaryExpr.Left.ToString();
-                    var memberExpr = binaryExpr.Left as MemberExpression;
-                    var path = string.Join(".", MemberExpressionToPath(binaryExpr.Left as MemberExpression).ToArray().Reverse());
-                    var value = SearchConstantExpression(memberExpr)?.Value;
-                    var finalValue = GetConstantExpressionValue(value, path);
-                    query = query.Replace(oldValue, $"'{finalValue}'");
-                }
-
-                if (binaryExpr.Right.ToString().StartsWith("value(") && binaryExpr.Right is MemberExpression)
-                {
-                    var oldValue = binaryExpr.Right.ToString();
-                    var memberExpr = binaryExpr.Right as MemberExpression;
-                    var path = string.Join(".", MemberExpressionToPath(binaryExpr.Right as MemberExpression).ToArray().Reverse());
-                    var value = SearchConstantExpression(memberExpr)?.Value;
-                    var finalValue = GetConstantExpressionValue(value, path);
-                    query = query.Replace(oldValue, $"'{finalValue}'");
-                }
-
-                query = ExpressionToStringResolver(binaryExpr.Left, query);
-                query = ExpressionToStringResolver(binaryExpr.Right, query);
-
-            }
-            return query;
-        }
-
-        private static object GetConstantExpressionValue(object value, string path)
-        {
-            var spl = path.Split('.');
-            foreach (var p in spl)
-            {
-                var t = value.GetType();
-
-                var info = t.GetField(p) ?? t.GetProperty(p) as MemberInfo;
-                if (info is FieldInfo)
-                {
-                    var pt = (FieldInfo)info;
-                    if (spl.Length == 1)
-                    {
-                        return pt.GetValue(value);
-
-                    }
-                    return GetConstantExpressionValue(pt.GetValue(value), string.Join(".", spl.Skip(1).ToArray()));
-                }
-
-                if (info is PropertyInfo)
-                {
-                    var pt = (PropertyInfo)info;
-                    if (spl.Length == 1)
-                    {
-                        return pt.GetValue(value, null);
-
-                    }
-                    return GetConstantExpressionValue(pt.GetValue(value, null), string.Join(".", spl.Skip(1).ToArray()));
-                }
-            }
-            return null;
-        }
-
-        private static ICollection<string> MemberExpressionToPath(MemberExpression expr, ICollection<string> path = null)
-        {
-            if (path == null)
-            {
-                path = new List<string>();
-            }
-
-            path.Add(expr.Member.Name);
-
-            if (expr.Expression is MemberExpression)
-            {
-                path = MemberExpressionToPath(expr.Expression as MemberExpression, path);
-            }
-
-            return path;
-        }
-
-        private static ConstantExpression SearchConstantExpression(MemberExpression expr)
-        {
-            if (expr.Expression is ConstantExpression)
-            {
-                return (ConstantExpression)expr.Expression;
-            }
-            if (expr.Expression is MemberExpression)
-            {
-                return SearchConstantExpression(expr.Expression as MemberExpression);
-            }
-            return null;
-        }
     }
 }
