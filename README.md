@@ -1,3 +1,4 @@
+<img src= "http://s32.postimg.org/eiwhq873p/linqtositecore.png" height="75" style="float:right" />
 # Linq to Sitecore
 ## About
 This is a small library to help a developer to map sitecore items to the code-model.
@@ -24,6 +25,23 @@ yes - means supported
 ReflectTo\<>() method extends Sitecore Item class, and allow you to convert any item to a trongly typed object.
 
 IsOfType\<T>() method extends Sitecore item Class, and returns true if the template of the specific Item is of provided type (T).
+
+## Known Methods in Predicates
+- operators:  >=, <=, <, >, ==, !=, !bool, bool
+- method Contains(string)
+- method StartsWith(string)
+- method EndsWith(string)
+- method Equals(object)
+
+Examples:
+
+```C#
+  var mylinqitems = Sitecore.Data.Context.Database.OfType<MyLinqToSitecore>(x=>x.SingleLine.Contains("Text"));
+  
+  var mylinqitems2 = Sitecore.Data.Context.Database.OfType<MyLinqToSitecore>(x=>x.Date >= DateTime.Now.Date.AddDays(-10));
+  
+  var mylinqitems3 = Sitecore.Data.Context.Database.OfType<MyLinqToSitecore>(x=> !x.Checkbox);
+```
 
 ##Property Types
 The following Sitecore Field Types will be reflected to .NET Class Property Types:
