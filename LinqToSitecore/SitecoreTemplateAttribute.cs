@@ -52,7 +52,26 @@ namespace LinqToSitecore
 
     public enum SitecoreSystemPropertyType
     {
-        Id, Name
+        /// <summary>
+        /// type of Guid
+        /// </summary>
+        Id,
+        /// <summary>
+        /// type of string
+        /// </summary>
+        Name,
+        /// <summary>
+        /// type of string
+        /// </summary>
+        Path,
+        /// <summary>
+        /// type of Guid
+        /// </summary>
+        ParentId,
+        /// <summary>
+        /// type of Guid
+        /// </summary>
+        TemplateId
     }
 
 }

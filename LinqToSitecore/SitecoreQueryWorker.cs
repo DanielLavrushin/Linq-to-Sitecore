@@ -10,7 +10,7 @@ using Sitecore.Data;
 
 namespace LinqToSitecore
 {
-    internal static class SitecoreExpression
+    internal partial class SitecoreQueryWorker
     {
         internal static string ToSitecoreQuery<T>(Expression<Func<T, bool>> query, string path = null) where T : class
         {
@@ -21,12 +21,15 @@ namespace LinqToSitecore
                 var paramName = query.Parameters[0].Name;
                 var paramTypeName = query.Parameters[0].Type.Name;
 
-                expBody = ExpressionEvaluator.PartialEval(query.Body).ToString();
+                expBody = ExpressionEvaluator.EvalToString(query.Body);
 
                 var m = Regex.Replace(expBody.ToString(), @"^.+?=>(?<q1>.+)", "$1", RegexOptions.ExplicitCapture).Trim();
                 m = Regex.Replace(m, @"(\.Contains\(.(?<g1>.+?).\))", " = '%$1%'", RegexOptions.ExplicitCapture);
+                m = Regex.Replace(m, @"(\.Equals\(.(?<g1>.+?).\))", " = '$1'", RegexOptions.ExplicitCapture);
+                m = Regex.Replace(m, @"(\.StartsWith\(.(?<g1>.+?).\))", " = '$1%'", RegexOptions.ExplicitCapture);
+                m = Regex.Replace(m, @"(\.EndsWith\(.(?<g1>.+?).\))", " = '%$1'", RegexOptions.ExplicitCapture);
                 m = Regex.Replace(m, @"Not\((?<g1>[^=]+?)\)", "($1 != 1)", RegexOptions.ExplicitCapture);
-                m = Regex.Replace(m, @"Not\((?<g1>.+?)\)", "($1)", RegexOptions.ExplicitCapture);
+                m = Regex.Replace(m, @"Not\((?<g1>.+?)=(?<g2>.+?)\)", "($1!=$2)", RegexOptions.ExplicitCapture);
                 m = Regex.Replace(m, @"(?<q1>\.[a-zA-Z0-9]+)(:?\)|\s\w+|$)", "$1 = 1", RegexOptions.ExplicitCapture);
 
                 expBody = Regex.Replace(m, @"(?<q1>\.[a-zA-Z0-9]+)(:?\)|\s\w+|$)", "$1 = 1", RegexOptions.ExplicitCapture);
@@ -68,8 +71,8 @@ namespace LinqToSitecore
             expBody = string.IsNullOrEmpty(expBody) ? string.Empty : $"and {expBody}";
             var tempId = GetTemplateIdFromType<T>();
 
-
-            path = !string.IsNullOrEmpty(path) && !path.EndsWith("//") ? $"{path}//" : "/*";
+            path = !string.IsNullOrEmpty(path) ? path : string.Empty;
+            path = !string.IsNullOrEmpty(path) && !path.EndsWith("//*") ? $"{path}//*" : "/*";
 
             var scQuery = $"fast:/{path}[@@templateId='{tempId}' {expBody}]";
             if (tempId == ID.Null)

@@ -26,20 +26,28 @@ namespace LinqToSitecore.Tests
 
 
 
-            var item = new MyTestClass { Prop2 = 123, Prop4 = new MyTestClass() { Prop1 = "dsa" } };
+            var item = new MyTestClass
+            {
+                Prop2 = 123,
+                Prop4 = new MyTestClass { Prop1 = "dsa" },
+                Prop5 = new List<MyTestClass> { new MyTestClass(), new MyTestClass(), new MyTestClass() }
+
+            };
             var prop2 = 23;
             string prop = "abc";
 
-            Expression<Func<MyTestClass, bool>> q5 = x => x.Prop1 == item.Prop4.Prop1;
+            Expression<Func<MyTestClass, bool>> q5 = x => x.Prop6 > DateTime.Now && x.Prop3 == item.Prop3;
 
 
 
-            var query = SitecoreExpression.ToSitecoreQuery(q5);
+
+            var expBody = ExpressionEvaluator.EvalToString(q5);
 
 
-
+            var query = SitecoreQueryWorker.ToSitecoreQuery(q5);
 
             Console.WriteLine(q5.Body.ToString());
+            Console.WriteLine(expBody);
             Console.WriteLine(query);
 
 
@@ -65,5 +73,7 @@ namespace LinqToSitecore.Tests
         public int Prop2 { get; set; }
         public bool Prop3 { get; set; }
         public MyTestClass Prop4 { get; set; }
+        public ICollection<MyTestClass> Prop5 { get; set; }
+        public DateTime Prop6 { get; set; }
     }
 }
