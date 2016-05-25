@@ -1,3 +1,4 @@
+<img src= "http://s32.postimg.org/eiwhq873p/linqtositecore.png" height="75" style="float:right" />
 # Linq to Sitecore
 ## About
 This is a small library to help a developer to map sitecore items to the code-model.
