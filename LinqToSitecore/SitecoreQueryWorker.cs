@@ -58,7 +58,6 @@ namespace LinqToSitecore
                             if (prop.PropertyType == typeof(bool))
                             {
                                 expBody = expBody.Replace($"@!{prop.Name}", $"@{prop.Name} = 0");
-
                             }
 
                             expBody = expBody.Replace($"@{prop.Name}", $"@{scFieldName}");
