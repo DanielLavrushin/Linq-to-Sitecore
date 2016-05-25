@@ -5,16 +5,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Sitecore.Data;
+using Sitecore.FakeDb;
 
 namespace LinqToSitecore.Tests
 {
     [TestClass()]
     public class LinqToSitecoreExtensionsTests
     {
-        [TestMethod()]
-        public void WhereTest()
-        {
-            Assert.Fail();
-        }
+
+     
+
     }
 }

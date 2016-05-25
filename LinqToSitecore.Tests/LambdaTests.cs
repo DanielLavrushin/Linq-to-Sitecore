@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sitecore.FakeDb;
 
 namespace LinqToSitecore.Tests
 {
@@ -33,7 +34,7 @@ namespace LinqToSitecore.Tests
 
 
 
-            var query = LinqToSitecoreExtensions.LambdaToSitecoreQuery(q5);
+            var query = SitecoreExpression.ToSitecoreQuery(q5);
 
 
 
@@ -42,6 +43,16 @@ namespace LinqToSitecore.Tests
             Console.WriteLine(query);
 
 
+        }
+
+        private Db PrepareFakeDb()
+        {
+            var templateId = Sitecore.Data.ID.NewID;
+            var db = new Db("master");
+            db.Add(new DbTemplate("Operation", templateId) { });
+
+
+            return db;
         }
 
     }

@@ -18,56 +18,66 @@ namespace LinqToSitecore
     public static class LinqToSitecoreExtensions
     {
 
-        public static ICollection<T> OfType<T>(this Database database, bool lazyLoading = false) where T : class, new()
+        #region OfType
+        public static ICollection<T> OfType<T>(this Database database) where T : class, new()
         {
-            var items = database.SelectItems(LambdaToSitecoreQuery<T>(null));
+            return OfType<T>(database, null, null, false);
+
+        }
+
+        public static ICollection<T> OfType<T>(this Database database, Expression<Func<T, bool>> query) where T : class, new()
+        {
+            return OfType<T>(database, null, query, false);
+
+        }
+        public static ICollection<T> OfType<T>(this Database database, string path, bool lazyLoading) where T : class, new()
+        {
+            return OfType<T>(database, path, null, lazyLoading);
+        }
+
+        public static ICollection<T> OfType<T>(this Database database, string path, Expression<Func<T, bool>> query, bool lazyLoading) where T : class, new()
+        {
+            var items = database.SelectItems(SitecoreExpression.ToSitecoreQuery(query, path));
 
             var col = items.ToList<T>(lazyLoading);
             return col;
         }
+        #endregion
 
-        public static ICollection<T> OfType<T>(this Database database, Expression<Func<T, bool>> query, bool lazyLoading = false) where T : class, new()
+        #region Any
+        public static bool Any<T>(this Database database, string path) where T : class, new()
         {
-            var items = database.SelectItems(LambdaToSitecoreQuery(query));
-
-            var col = items.ToList<T>(lazyLoading);
-            return col;
+            return Any<T>(database, path, null);
         }
-        public static ICollection<T> OfType<T>(this Database database, string path, Expression<Func<T, bool>> query, bool lazyLoading = false) where T : class, new()
+        public static bool Any<T>(this Database database, Expression<Func<T, bool>> query) where T : class, new()
         {
-            var items = database.SelectItems(LambdaToSitecoreQuery(query, path));
-
-            var col = items.ToList<T>(lazyLoading);
-            return col;
+            return Any<T>(database, null, query);
         }
-
-
-
-        public static bool Any<T>(this Database database, Expression<Func<T, bool>> query = null) where T : class, new()
+        public static bool Any<T>(this Database database, string path, Expression<Func<T, bool>> query) where T : class, new()
         {
-            return database.SelectItems(LambdaToSitecoreQuery(query)).ToList<T>().Any();
+            return database.SelectSingleItem(SitecoreExpression.ToSitecoreQuery(query, path)) == null;
         }
+        #endregion
 
-        public static bool Any<T>(this Database database, string path = null, Expression<Func<T, bool>> query = null) where T : class, new()
-        {
-            return database.SelectItems(LambdaToSitecoreQuery(query, path)).ToList<T>().Any();
-        }
+        #region Count
 
         public static int Count<T>(this Database database) where T : class, new()
         {
-            return database.SelectItems(LambdaToSitecoreQuery<T>(null, null)).Count();
+            return Count<T>(database, null, null);
         }
-
+        public static int Count<T>(this Database database, string path) where T : class, new()
+        {
+            return Count<T>(database, path, null);
+        }
         public static int Count<T>(this Database database, Expression<Func<T, bool>> query) where T : class, new()
         {
-            return database.SelectItems(LambdaToSitecoreQuery(query)).Count();
+            return Count<T>(database, null, query);
         }
-
-
-        public static int Count<T>(this Database database, string path, Expression<Func<T, bool>> query = null) where T : class, new()
+        public static int Count<T>(this Database database, string path, Expression<Func<T, bool>> query) where T : class, new()
         {
-            return database.SelectItems(LambdaToSitecoreQuery(query, path)).Count();
+            return database.SelectItems(SitecoreExpression.ToSitecoreQuery(query, path)).ToList<T>().Count();
         }
+
 
         public static int Count<T>(this Item[] items) where T : class, new()
         {
@@ -86,30 +96,51 @@ namespace LinqToSitecore
         {
             return items.ToList<T>(query).Count;
         }
+        #endregion
 
+
+        #region Where
         public static ICollection<T> Where<T>(this Database database, Expression<Func<T, bool>> query) where T : class, new()
         {
-            return database.SelectItems(LambdaToSitecoreQuery(query)).ToList<T>()
+            return Where<T>(database, null, query);
+        }
+
+        public static ICollection<T> Where<T>(this Database database, string path, Expression<Func<T, bool>> query) where T : class, new()
+        {
+            return database
+                .SelectItems(SitecoreExpression.ToSitecoreQuery(query, path))
+                .ToList<T>()
                 .Where(query.Compile()).ToList();
         }
 
         public static ICollection<T> Where<T>(this Item[] items, Expression<Func<T, bool>> query) where T : class, new()
         {
-            return items.ToList<T>(query).ToList();
+            return items.ToList(query);
         }
         public static ICollection<T> Where<T>(this ChildList items, Expression<Func<T, bool>> query) where T : class, new()
         {
-            return items.ToList<T>(query).ToList();
+            return items.ToList(query);
         }
+        #endregion
 
+
+        #region FirstOrDefault
         public static T FirstOrDefault<T>(this Database database) where T : class, new()
         {
-            return database.SelectSingleItem(LambdaToSitecoreQuery<T>(null))?.ReflectTo<T>();
+            return FirstOrDefault<T>(database, null, null);
         }
 
         public static T FirstOrDefault<T>(this Database database, Expression<Func<T, bool>> query) where T : class, new()
         {
-            return database.SelectSingleItem(LambdaToSitecoreQuery(query))?.ReflectTo<T>();
+            return FirstOrDefault<T>(database, null, query);
+        }
+        public static T FirstOrDefault<T>(this Database database, string path) where T : class, new()
+        {
+            return FirstOrDefault<T>(database, path, null);
+        }
+        public static T FirstOrDefault<T>(this Database database, string path, Expression<Func<T, bool>> query) where T : class, new()
+        {
+            return database.SelectSingleItem(SitecoreExpression.ToSitecoreQuery<T>(query, path))?.ReflectTo<T>();
         }
 
         public static T FirstOrDefault<T>(this Item[] items) where T : class, new()
@@ -132,6 +163,8 @@ namespace LinqToSitecore
             return items.ToList(query)?.FirstOrDefault();
         }
 
+        #endregion
+
         public static decimal Max<T>(this Item[] items, Expression<Func<T, decimal>> query) where T : class, new()
         {
             return items.ToList<T>().Max(query.Compile());
@@ -148,107 +181,17 @@ namespace LinqToSitecore
         {
             return items.ToList<T>().Max(query.Compile());
         }
-        internal static string LambdaToSitecoreQuery<T>(Expression<Func<T, bool>> query, string path = null) where T : class
-        {
 
-            var expBody = query?.Body?.ToString();
-            if (!string.IsNullOrEmpty(expBody))
-            {
-                var paramName = query.Parameters[0].Name;
-                var paramTypeName = query.Parameters[0].Type.Name;
-
-                expBody = ExpressionEvaluator.PartialEval(query.Body).ToString();
-
-                var m = Regex.Replace(expBody.ToString(), @"^.+?=>(?<q1>.+)", "$1", RegexOptions.ExplicitCapture).Trim();
-                m = Regex.Replace(m, @"(\.Contains\(.(?<g1>.+?).\))", " = '%$1%'", RegexOptions.ExplicitCapture);
-                m = Regex.Replace(m, @"Not\((?<g1>[^=]+?)\)", "($1 != 1)", RegexOptions.ExplicitCapture);
-                m = Regex.Replace(m, @"Not\((?<g1>.+?)\)", "($1)", RegexOptions.ExplicitCapture);
-                m = Regex.Replace(m, @"(?<q1>\.[a-zA-Z0-9]+)(:?\)|\s\w+|$)", "$1 = 1", RegexOptions.ExplicitCapture);
-
-                expBody = Regex.Replace(m, @"(?<q1>\.[a-zA-Z0-9]+)(:?\)|\s\w+|$)", "$1 = 1", RegexOptions.ExplicitCapture);
-
-
-                expBody = expBody.Replace(paramName + ".", "@")
-                     .Replace("AndAlso", "and")
-                     .Replace("OrElse", "or")
-                     .Replace("==", "=")
-                     .Replace("\"", "'")
-                     .Replace("True", "1")
-                     .Replace("False", "0");
-
-                expBody = expBody.Replace("@Name", "@@Name").Replace("@Id", "@@Id");
-
-                var props =
-                    typeof(T).GetProperties().Where(s => s.GetCustomAttributes<SitecoreFieldAttribute>().Any()).ToList();
-
-                if (props.Any())
-                {
-                    foreach (var prop in props)
-                    {
-                        var scFieldName = prop.GetCustomAttributes<SitecoreFieldAttribute>().FirstOrDefault()?.Name;
-                        if (!string.IsNullOrEmpty(scFieldName))
-                        {
-                            if (prop.PropertyType == typeof(bool))
-                            {
-                                expBody = expBody.Replace($"@!{prop.Name}", $"@{prop.Name} = 0");
-
-                            }
-
-                            expBody = expBody.Replace($"@{prop.Name}", $"@{scFieldName}");
-                        }
-                    }
-                }
-
-
-            }
-            expBody = string.IsNullOrEmpty(expBody) ? string.Empty : $"and {expBody}";
-            var tempId = GetTemplateIdFromType<T>();
-
-
-
-            if (!string.IsNullOrEmpty(path) && !path.EndsWith("//"))
-            {
-                path = $"{path}//";
-            }
-            var scQuery = $"fast://{path}*[@@templateId='{tempId}' {expBody}]";
-            if (tempId == ID.Null)
-            {
-                scQuery = $"fast://{path}*[@@templatename='{GetTemplateNameFromType<T>()}' {expBody}]";
-            }
-
-            return scQuery;
-        }
-
-        private static ID GetTemplateIdFromType<T>() where T : class
-        {
-            var templateAttr =
-                (SitecoreTemplateAttribute)
-                    typeof(T).GetCustomAttributes(typeof(SitecoreTemplateAttribute), true).FirstOrDefault();
-            return templateAttr?.TemplateId ?? ID.Null;
-        }
-
-        private static string GetTemplateNameFromType<T>() where T : class
-        {
-            var templateAttr = typeof(T).Name;
-            return templateAttr;
-        }
-
-        private static PropertyInfo GetTemplateSystemProperty<T>(SitecoreSystemPropertyType type) where T : class
-        {
-
-            var prop = typeof(T).GetProperties().FirstOrDefault(s => s.GetCustomAttributes<SitecoreSystemPropertyAttribute>().Any(a => a.FieldType == type));
-            return prop;
-        }
 
         public static bool IsOfType<T>(this Item item) where T : class
         {
-            var tid = GetTemplateIdFromType<T>();
+            var tid = SitecoreExpression.GetTemplateIdFromType<T>();
             if (!tid.IsNull)
             {
                 return item.TemplateID == tid;
             }
 
-            var ntname = GetTemplateNameFromType<T>();
+            var ntname = SitecoreExpression.GetTemplateNameFromType<T>();
             return item.TemplateName == ntname;
         }
 
@@ -280,8 +223,8 @@ namespace LinqToSitecore
             var o = new T();
 
 
-            var idProp = GetTemplateSystemProperty<T>(SitecoreSystemPropertyType.Id);
-            var nameProp = GetTemplateSystemProperty<T>(SitecoreSystemPropertyType.Name);
+            var idProp = SitecoreExpression.GetTemplateSystemProperty<T>(SitecoreSystemPropertyType.Id);
+            var nameProp = SitecoreExpression.GetTemplateSystemProperty<T>(SitecoreSystemPropertyType.Name);
 
             idProp?.SetValue(o, item.ID);
             nameProp?.SetValue(o, item.Name);
