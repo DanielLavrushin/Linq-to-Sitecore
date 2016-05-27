@@ -71,7 +71,15 @@ namespace LinqToSitecore
         /// <summary>
         /// type of Guid
         /// </summary>
-        TemplateId
+        TemplateId,
+        /// <summary>
+        /// reflected item
+        /// </summary>
+        Item,
+        /// <summary>
+        /// type of T, parent instance
+        /// </summary>
+        Parent
     }
 
 }
