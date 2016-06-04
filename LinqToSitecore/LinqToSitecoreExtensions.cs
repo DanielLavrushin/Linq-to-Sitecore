@@ -98,17 +98,18 @@ namespace LinqToSitecore
 
         public static T FirstOrDefault<T>(this Database database, string path = null, Expression<Func<T, bool>> query = null, bool lazyLoading = false) where T : class, new()
         {
-            return database.SelectSingleItem(SitecoreQueryWorker.ToSitecoreQuery<T>(query, path))?.ReflectTo<T>(lazyLoading);
+            return database?.SelectSingleItem(SitecoreQueryWorker.ToSitecoreQuery<T>(query, path))?.ReflectTo<T>(lazyLoading);
         }
 
-        public static T FirstOrDefault<T>(this Item[] items, string path = null, Expression<Func<T, bool>> query = null, bool lazyLoading = false) where T : class, new()
+        public static T FirstOrDefault<T>(this Item[] items, Expression<Func<T, bool>> query = null, bool lazyLoading = false) where T : class, new()
         {
-            return items.ToList(query, lazyLoading)?.FirstOrDefault();
+            return items?.ToList(query, lazyLoading)?.FirstOrDefault();
         }
-        public static T FirstOrDefault<T>(this ChildList items, string path = null, Expression<Func<T, bool>> query = null, bool lazyLoading = false) where T : class, new()
+        public static T FirstOrDefault<T>(this ChildList items, Expression<Func<T, bool>> query = null, bool lazyLoading = false) where T : class, new()
         {
-            return items.ToList(query, lazyLoading)?.FirstOrDefault();
+            return items?.ToList(query, lazyLoading)?.FirstOrDefault();
         }
+
         #endregion
 
         public static decimal Max<T>(this Item[] items, Expression<Func<T, decimal>> query, bool lazyLoading = false) where T : class, new()
