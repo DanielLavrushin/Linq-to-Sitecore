@@ -46,7 +46,7 @@ Examples:
 ##Property Types
 The following Sitecore Field Types will be reflected to .NET Class Property Types:
 
-| Sitecore Field  | Net Type | 
+| Sitecore Field  | Net Property Type | 
 | ------------- | ------------- |
 | Singline | string  |
 | Checkbox | bool  |
