@@ -67,6 +67,7 @@ The following Sitecore Field Types will be reflected to .NET Class Property Type
 | Treelist | ICollection\<T> |
 | Checklist | ICollection\<T> |
 | General link | string (url path) |
+| General link | Uri |
 
 For example:
 ```C#
