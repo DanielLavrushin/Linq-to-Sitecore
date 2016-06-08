@@ -21,6 +21,7 @@ namespace LinqToSitecore.TestSite.Controllers
         {
             _db = Sitecore.Context.Database;
             var items = _db.OfType<MyLinqToObject>("/sitecore/content/home").Where(x => x.Parent == null);
+         
             return Json(items, JsonRequestBehavior.AllowGet);
         }
     }
