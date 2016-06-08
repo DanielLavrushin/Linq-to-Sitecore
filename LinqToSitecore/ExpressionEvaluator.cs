@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Sitecore.Data.Query;
+using Sitecore.Data.Serialization.Templates;
 
 namespace LinqToSitecore
 {
@@ -35,14 +38,24 @@ namespace LinqToSitecore
 
             return PathVisitor.GetPath(evalexpression);
         }
+        public static Opcode EvalToSitecore(Expression expression)
+        {
+            var evalexpression = PartialEval(expression, ExpressionEvaluator.CanBeEvaluatedLocally);
 
+            var something = PathVisitor.GetsitecoreQuery(evalexpression);
+
+            return something;
+        }
         class PathVisitor: ExpressionVisitor
         {
             private string _path;
             private Dictionary<string, string> _values;
+            List<Opcode> _codes;
+            private Opcode _code;
 
             protected override Expression VisitLambda<T>(Expression<T> node)
             {
+
                 Visit(node.Body);
                 return node;
             }
@@ -60,6 +73,38 @@ namespace LinqToSitecore
                 {
                     _values.Add(oldvalue, value);
                 }
+
+                _codes.Add(new Literal(value));
+
+                return node;
+            }
+            protected override Expression VisitBinary(BinaryExpression node)
+            {
+                Visit(node.Left);
+                var leftcode = _codes.Last();
+                Visit(node.Right);
+                var rightCode = _codes.Last();
+
+                switch (node.NodeType)
+                {
+                    case ExpressionType.And:
+                        _codes.Add(new AndOperator(leftcode, rightCode));
+                        break;
+                    case ExpressionType.Or:
+                        _codes.Add(new OrOperator(leftcode, rightCode));
+                        break;
+                    case ExpressionType.Equal:
+                        _codes.Add(new EqualsOperator(leftcode, rightCode));
+                        break;
+                }
+
+                return node;
+            }
+
+            protected override Expression VisitMember(MemberExpression node)
+            {
+                base.VisitMember(node);
+                _codes.Add(new Parameter(node.Member.Name));
                 return node;
             }
 
@@ -70,12 +115,23 @@ namespace LinqToSitecore
                 return exp;
             }
 
+            public static Opcode GetsitecoreQuery(Expression expression)
+            {
+                var visitor = new PathVisitor();
+                visitor._values = new Dictionary<string, string>();
+                visitor._codes = new List<Opcode>();
+                visitor.Visit(expression);
+
+                return visitor._codes.Last();
+            }
+
 
 
             public static string GetPath(Expression expression)
             {
                 var visitor = new PathVisitor();
                 visitor._values = new Dictionary<string, string>();
+                visitor._codes = new List<Opcode>();
                 visitor.Visit(expression);
 
                 foreach (var v in visitor._values)
