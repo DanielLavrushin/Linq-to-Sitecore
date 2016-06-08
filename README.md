@@ -7,6 +7,27 @@ This is a small library to help a developer to map sitecore items to the code-mo
 ```
 Install-Package LinqToSitecore
 ```
+## Short Example
+Lets imagine you created a user defined custom item template called 'MyCustomTemplate'. It has 3 fields: checkbox, singleline and integer field.
+
+Create your C# class:
+```C#
+using LinqToSitecore;
+
+public class MyCustomTemplate{
+  public string SingleLine { get; set; }
+  public bool IsChecked { get; set; }
+  public int MyInteger { get; set; }
+}
+```
+
+Write your query:
+```C#
+var myitems = Sitecore.Context.Database.OfType<MyCustomTemplate>();
+var myitemsWtithQuery = Sitecore.Context.Database.Where<MyCustomTemplate>(x=>x.IsChecked);
+```
+Enjoy :)
+
 ## Supports
 ###Supported LINQ Methods
 n/r - meants not relevant for this specific object
@@ -46,7 +67,7 @@ Examples:
 ##Property Types
 The following Sitecore Field Types will be reflected to .NET Class Property Types:
 
-| Sitecore Field  | Net Type | 
+| Sitecore Field  | Net Property Type | 
 | ------------- | ------------- |
 | Singline | string  |
 | Checkbox | bool  |
@@ -66,6 +87,8 @@ The following Sitecore Field Types will be reflected to .NET Class Property Type
 | Multilist w. search | ICollection\<T> |
 | Treelist | ICollection\<T> |
 | Checklist | ICollection\<T> |
+| General link | string (url path) |
+| General link | Uri |
 
 For example:
 ```C#
@@ -179,6 +202,65 @@ using LinqToSitecore;
 
 ```
 
+### Build Parent/Child Hierarchy
+You are also able to build Parent/Child Hierarchy. In fact with LinqToSitecore you could do this within 2 lines of code.
+
+Let say you have this Sitecore Items structure:
+<img src= "http://nordiccrm.com/content/sc1.png" />
+
+And you want to get something like this:
+<img src= "http://nordiccrm.com/content/sc2.png" />
+
+Easy.
+Here is how you could get it in 2 lines of code:
+```C#
+        public ActionResult Index()
+        {
+            _db = Sitecore.Context.Database;
+            var items = _db.OfType<MyLinqToObject>("/sitecore/content/home").Where(x => x.Parent == null);
+            return Json(items, JsonRequestBehavior.AllowGet);
+        }
+```
+
+All you need is to mark your Parent class property by adding the SitecoreSystemProperty with the flag Parent.
+Here is an example of the class:
+```C#
+    public class MyLinqToObject
+    {
+        //tell linqToSitecore to set Id property of the item
+        [SitecoreSystemProperty(SitecoreSystemPropertyType.Id)]
+        public Guid Id { get; set; }
+       
+        //tell linqToSitecore to set Name property of the item
+        [SitecoreSystemProperty(SitecoreSystemPropertyType.Name)]
+        public string Name { get; set; }
+
+        //tell linqToSitecore to set Path property of the item
+        [SitecoreSystemProperty(SitecoreSystemPropertyType.Path)]
+        public string Path { get; set; }
+
+        //tell linqToSitecore to set Item property of the item, be aware to do not output this to the code, add ScriptIgnore or JsonIgnore attribute
+        [ScriptIgnore]
+        [SitecoreSystemProperty(SitecoreSystemPropertyType.Item)]
+        public Item Item { get; set; }
+
+        [ScriptIgnore]
+        //tell linqToSitecore to set Parent property of the item. It automatically converts ParentItem of the item into the generic   class
+        [SitecoreSystemProperty(SitecoreSystemPropertyType.Parent)]
+        public MyLinqToObject Parent { get; set; }
+
+        //tell linqToSitecore to set ParentId property of the item
+        [SitecoreSystemProperty(SitecoreSystemPropertyType.ParentId)]
+        public Guid ParentId { get; set; }
+
+
+        //This is how you could easelly get all children
+        public ICollection<MyLinqToObject> Children
+        {
+            get { return Item.Children<MyLinqToObject>(); }
+        }
+    }
+```
 
 ###Lazy Loading Items
 By default the library reflects only basic fields in order to reduce connections to the database. However, you could force it to load linked items and reflect them into your classes.

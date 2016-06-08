@@ -14,7 +14,14 @@ namespace LinqToSitecore.Tests
     public class LinqToSitecoreExtensionsTests
     {
 
-     
+        [TestMethod]
+        public void QueryBuilderTest()
+        {
+
+            var qb = new Sitecore.Data.Query.QueryParser();
+
+        }
+
 
     }
 }

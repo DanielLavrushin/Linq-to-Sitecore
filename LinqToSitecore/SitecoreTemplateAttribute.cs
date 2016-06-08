@@ -11,19 +11,16 @@ namespace LinqToSitecore
         public SitecoreTemplateAttribute(ID templateId)
         {
             TemplateId = templateId;
-
         }
 
         public SitecoreTemplateAttribute(string templateId)
         {
             TemplateId = ID.Parse(templateId);
-
         }
 
         public SitecoreTemplateAttribute(Guid templateId)
         {
             TemplateId = ID.Parse(templateId);
-
         }
     }
 

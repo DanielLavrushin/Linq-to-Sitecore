@@ -12,16 +12,16 @@ namespace LinqToSitecore
 {
     internal partial class SitecoreQueryWorker
     {
-        internal static string ToSitecoreQuery<T>(Expression<Func<T, bool>> query, string path = null) where T : class
+        internal static string ToSitecoreQuery<T>(Expression query, string path = null)
         {
-
-            var expBody = query?.Body?.ToString();
+            var query2 = (Expression<Func<T, bool>>)query;
+            var expBody = query2?.Body?.ToString();
             if (!string.IsNullOrEmpty(expBody))
             {
-                var paramName = query.Parameters[0].Name;
-                var paramTypeName = query.Parameters[0].Type.Name;
+                var paramName = query2.Parameters[0].Name;
+                var paramTypeName = query2.Parameters[0].Type.Name;
 
-                expBody = ExpressionEvaluator.EvalToString(query.Body);
+                expBody = ExpressionEvaluator.EvalToString(query2.Body);
 
                 var m = Regex.Replace(expBody.ToString(), @"^.+?=>(?<q1>.+)", "$1", RegexOptions.ExplicitCapture).Trim();
                 m = Regex.Replace(m, @"(\.Contains\(.(?<g1>.+?).\))", " = '%$1%'", RegexOptions.ExplicitCapture);
@@ -59,7 +59,10 @@ namespace LinqToSitecore
                             {
                                 expBody = expBody.Replace($"@!{prop.Name}", $"@{prop.Name} = 0");
                             }
-
+                            if (scFieldName.Contains(" "))
+                            {
+                                scFieldName = $"#{scFieldName}#";
+                            }
                             expBody = expBody.Replace($"@{prop.Name}", $"@{scFieldName}");
                         }
                     }
@@ -82,7 +85,7 @@ namespace LinqToSitecore
             return scQuery;
         }
 
-        internal static ID GetTemplateIdFromType<T>() where T : class
+        internal static ID GetTemplateIdFromType<T>()
         {
             var templateAttr =
                 (SitecoreTemplateAttribute)
@@ -90,13 +93,13 @@ namespace LinqToSitecore
             return templateAttr?.TemplateId ?? ID.Null;
         }
 
-        internal static string GetTemplateNameFromType<T>() where T : class
+        internal static string GetTemplateNameFromType<T>()
         {
             var templateAttr = typeof(T).Name;
             return templateAttr;
         }
 
-        internal static PropertyInfo GetTemplateSystemProperty<T>(SitecoreSystemPropertyType type) where T : class
+        internal static PropertyInfo GetTemplateSystemProperty<T>(SitecoreSystemPropertyType type)
         {
 
             var prop = typeof(T).GetProperties().FirstOrDefault(s => s.GetCustomAttributes<SitecoreSystemPropertyAttribute>().Any(a => a.FieldType == type));
