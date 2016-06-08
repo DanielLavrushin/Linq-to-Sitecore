@@ -7,6 +7,27 @@ This is a small library to help a developer to map sitecore items to the code-mo
 ```
 Install-Package LinqToSitecore
 ```
+## Short Example
+Lets imagine you created a user defined custom item template called 'MyCustomTemplate'. It has 3 fields: checkbox, singleline and integer field.
+
+Create your C# class:
+```C#
+using LinqToSitecore;
+
+public class MyCustomTemplate{
+  public string SingleLine { get; set; }
+  public bool IsChecked { get; set; }
+  public int MyInteger { get; set; }
+}
+```
+
+Write your query:
+```C#
+var myitems = Sitecore.Context.Database.OfType<MyCustomTemplate>();
+var myitemsWtithQuery = Sitecore.Context.Database.Where<MyCustomTemplate>(x=>x.IsChecked);
+```
+Enjoy :)
+
 ## Supports
 ###Supported LINQ Methods
 n/r - meants not relevant for this specific object
@@ -46,7 +67,7 @@ Examples:
 ##Property Types
 The following Sitecore Field Types will be reflected to .NET Class Property Types:
 
-| Sitecore Field  | Net Type | 
+| Sitecore Field  | Net Property Type | 
 | ------------- | ------------- |
 | Singline | string  |
 | Checkbox | bool  |
@@ -66,6 +87,8 @@ The following Sitecore Field Types will be reflected to .NET Class Property Type
 | Multilist w. search | ICollection\<T> |
 | Treelist | ICollection\<T> |
 | Checklist | ICollection\<T> |
+| General link | string (url path) |
+| General link | Uri |
 
 For example:
 ```C#
