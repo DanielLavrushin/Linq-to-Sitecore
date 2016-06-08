@@ -8,6 +8,8 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
+using System.Web.UI;
 using Sitecore;
 using Sitecore.Collections;
 using Sitecore.Data;
@@ -30,6 +32,15 @@ namespace LinqToSitecore
 
     public static class LinqToSitecoreExtensions
     {
+        public static string ToQueryString(this Opcode opcode)
+        {
+            var str = new StringBuilder();
+            var myTextWriter = new StringWriter(str);
+            var myWriter = new HtmlTextWriter(myTextWriter);
+            opcode.Print(myWriter);
+            return HttpUtility.HtmlDecode(myTextWriter.ToString());
+        }
+
         private static LinqToSitecoreQueryTranslator GetQueryTranslator(QueryContext contextNode, Database database)
         {
             Assert.ArgumentNotNull(contextNode, nameof(contextNode));
@@ -41,7 +52,7 @@ namespace LinqToSitecore
             {
                 return null;
             }
-            
+
             var field = typeof(SqlDataProvider).GetProperty("Api", BindingFlags.NonPublic | BindingFlags.Instance);
             if (field == null)
             {
@@ -57,15 +68,17 @@ namespace LinqToSitecore
             return new LinqToSitecoreQueryTranslator(api);
         }
 
-        public static string Query<T>(this Database database, Expression<Func<T, bool>> query)
+        public static T Query<T>(this Database database, Expression<Func<T, bool>> query = null)
         {
-            var opcode = ExpressionEvaluator.EvalToSitecore(query);
+            var type = typeof(T);
+            var opcode = ExpressionEvaluator.EvalToSitecore(query, type);
             var context = new QueryContext(database.DataManager);
             var qTranslator = GetQueryTranslator(context, database);
 
 
-            var str = qTranslator.TranslateQuery(opcode, database, null);
-            return str;
+            var contextResult = qTranslator.QueryFast(database, opcode) as QueryContext;
+            var item = contextResult.GetQueryContextItem();
+            return item.ReflectTo<T>();
 
         }
 

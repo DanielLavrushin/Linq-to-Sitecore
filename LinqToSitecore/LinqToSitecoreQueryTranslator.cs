@@ -1,6 +1,8 @@
 ﻿// © 2015-2016 Sitecore Corporation A/S. All rights reserved.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Sitecore;
 using Sitecore.Collections;
@@ -19,7 +21,7 @@ namespace LinqToSitecore
             Assert.ArgumentNotNull(api, nameof(api));
         }
 
-        public IDList QueryFast([NotNull] Database database, [NotNull] Opcode opcode)
+        public object QueryFast([NotNull] Database database, [NotNull] Opcode opcode)
         {
             Assert.ArgumentNotNull(database, nameof(database));
             Assert.ArgumentNotNull(opcode, nameof(opcode));
@@ -32,23 +34,29 @@ namespace LinqToSitecore
                 return null;
             }
 
+
             using (var reader = _api.CreateReader(sql, parameters.ToArray()))
             {
-                var list = new IDList();
+                var idList = new IDList();
+
                 while (reader.Read())
                 {
-                    list.Add(_api.GetId(0, reader));
+                    idList.Add(_api.GetId(0, reader));
                 }
 
-                return list;
+                if (idList.Count == 1)
+                {
+                    return new QueryContext(database.DataManager, idList[0]);
+                }
+
+                return idList.Cast<ID>().Select(id => new QueryContext(database.DataManager, id)).ToArray();
             }
         }
 
-        public virtual string TranslateQuery([NotNull] Opcode opcode, [NotNull] Database database, [NotNull] ParametersList parameters)
+        public virtual string TranslateQuery(Opcode opcode, Database database, ParametersList parameters)
         {
-            if (parameters == null) parameters = new ParametersList();
             var step = opcode as Step;
-            if (step == null || !(step is Root))
+            if (!(step is Root))
             {
                 return null;
             }
@@ -67,7 +75,6 @@ namespace LinqToSitecore
                 var predicate = GetPredicate(step);
                 var name = GetName(step);
 
-                // Dirty hack to overcome problems with numbers in Query
                 if (name.StartsWith("_."))
                 {
                     name = name.Substring(2);
@@ -88,6 +95,8 @@ namespace LinqToSitecore
                 var builder = new StringBuilder();
 
                 AddInitialStatement(builder);
+
+
                 AddFieldJoins(context, builder);
 
                 if (!string.IsNullOrEmpty(sql))
@@ -97,7 +106,6 @@ namespace LinqToSitecore
 
                 AddExtraJoins(context, builder);
 
-                // Add WHERE statement
                 where = where.Trim();
                 var whereAppended = false;
                 if (where.Length > 0)
@@ -106,7 +114,6 @@ namespace LinqToSitecore
                     builder.Append(where);
                 }
 
-                // Add Name filter
                 if (name.Length > 0 && name != "*")
                 {
                     whereAppended = AddConditionJoint(whereAppended, builder);

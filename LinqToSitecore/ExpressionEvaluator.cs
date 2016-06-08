@@ -38,11 +38,11 @@ namespace LinqToSitecore
 
             return PathVisitor.GetPath(evalexpression);
         }
-        public static Opcode EvalToSitecore(Expression expression)
+        public static Opcode EvalToSitecore(Expression expression, Type itemToType)
         {
             var evalexpression = PartialEval(expression, ExpressionEvaluator.CanBeEvaluatedLocally);
 
-            var something = PathVisitor.GetsitecoreQuery(evalexpression);
+            var something = PathVisitor.GetSitecoreQuery(evalexpression, itemToType);
 
             return something;
         }
@@ -52,11 +52,26 @@ namespace LinqToSitecore
             private Dictionary<string, string> _values;
             List<Opcode> _codes;
             private Opcode _code;
-
+            private Opcode _codeBinaryLeft;
+            private Opcode _codeBinaryRight;
+            private Opcode _left;
+            private Opcode _right;
+            private Type _type;
+            private HashSet<Expression> candidates;
             protected override Expression VisitLambda<T>(Expression<T> node)
             {
 
                 Visit(node.Body);
+
+
+                var templateCode =
+                    new AndOperator(new EqualsOperator(new FieldElement("@templatename"), new Literal(_type.Name)),
+                        _code);
+
+                var root = new Root();
+                root.NextStep = new DescendantOrSelf(new ItemElement("*", new Predicate(templateCode)));
+                _code = root;
+
                 return node;
             }
 
@@ -74,27 +89,37 @@ namespace LinqToSitecore
                     _values.Add(oldvalue, value);
                 }
 
-                _codes.Add(new Literal(value));
+                _right = new Literal(value);
 
                 return node;
             }
+
             protected override Expression VisitBinary(BinaryExpression node)
             {
                 Visit(node.Left);
-                var leftcode = _codes.Last();
+                if (node.Left is BinaryExpression)
+                {
+                    _codeBinaryLeft = _code;
+                }
                 Visit(node.Right);
-                var rightCode = _codes.Last();
+                if (node.Right is BinaryExpression)
+                {
+                    _codeBinaryRight = _code;
+                }
 
                 switch (node.NodeType)
                 {
                     case ExpressionType.And:
-                        _codes.Add(new AndOperator(leftcode, rightCode));
+                        _code = new AndOperator(_left, _right);
                         break;
                     case ExpressionType.Or:
-                        _codes.Add(new OrOperator(leftcode, rightCode));
+                        _code = new OrOperator(_left, _right);
+                        break;
+                    case ExpressionType.OrElse:
+                        _code = new OrOperator(_codeBinaryLeft, _codeBinaryRight);
                         break;
                     case ExpressionType.Equal:
-                        _codes.Add(new EqualsOperator(leftcode, rightCode));
+                        _code = new EqualsOperator(_left, _right);
                         break;
                 }
 
@@ -104,7 +129,7 @@ namespace LinqToSitecore
             protected override Expression VisitMember(MemberExpression node)
             {
                 base.VisitMember(node);
-                _codes.Add(new Parameter(node.Member.Name));
+                _left = new FieldElement(node.Member.Name);
                 return node;
             }
 
@@ -115,14 +140,16 @@ namespace LinqToSitecore
                 return exp;
             }
 
-            public static Opcode GetsitecoreQuery(Expression expression)
+            public static Opcode GetSitecoreQuery(Expression expression, Type itemToType)
             {
-                var visitor = new PathVisitor();
-                visitor._values = new Dictionary<string, string>();
-                visitor._codes = new List<Opcode>();
+                var visitor = new PathVisitor
+                {
+                    _type = itemToType,
+                    _values = new Dictionary<string, string>(),
+                    _codes = new List<Opcode>()
+                };
                 visitor.Visit(expression);
-
-                return visitor._codes.Last();
+                return visitor._code;
             }
 
 
@@ -198,8 +225,6 @@ namespace LinqToSitecore
             }
 
         }
-
-
 
         class Nominator: ExpressionVisitor
         {

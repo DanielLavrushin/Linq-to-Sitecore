@@ -20,9 +20,7 @@ namespace LinqToSitecore.Tests
         [TestMethod]
         public void QueryBuilderTest()
         {
-            Expression<Func<MyTestClass, bool>> query = x => x.Prop1 == "test query";
 
-            var scQuery = ExpressionEvaluator.EvalToSitecore(query);
 
         }
 
