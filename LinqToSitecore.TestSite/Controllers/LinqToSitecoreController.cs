@@ -18,10 +18,14 @@ namespace LinqToSitecore.TestSite.Controllers
 
 
 
-        public ActionResult Index()
+        public ActionResult Index(string  param1, string param2, string param3)
         {
             _db = Sitecore.Context.Database;
-            var items = _db.Query<MyLinqToObject>(x => x.Checkbox == false || x.SingleLine == "some string");
+
+            var myLinq = new MyLinqToObject();
+            myLinq.SingleLine =  param1;
+
+            var items = _db.Query<MyLinqToObject>(x => x.Checkbox == true || x.Checkbox);
             
 
             return Json(items, JsonRequestBehavior.AllowGet);

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using LinqToSitecore.Opcodes;
 using Sitecore.Data.Query;
 using Sitecore.Data.Serialization.Templates;
 
@@ -20,7 +22,6 @@ namespace LinqToSitecore
     {
         private readonly Type _type;
         public Opcode CodeTree;
-        public ICollection<Opcode> Codes;
 
         public LinqToSitecoreVisitor(Opcode code, Type type)
         {
@@ -31,37 +32,74 @@ namespace LinqToSitecore
 
         public override Expression Visit(Expression node)
         {
-            EvalOpcodeExpression(node);
             base.Visit(node);
             return node;
         }
 
-
-        public Opcode EvalOpcodeExpression(Expression node)
+        private ConstantExpression EvalMember(Expression node)
         {
-           
+            if (node is ConstantExpression)
+            {
+                return node.Cast<ConstantExpression>();
+            }
+
             if (node is MemberExpression)
             {
-                return new FieldElement(node.Cast<MemberExpression>().Member.Name);
+                return EvalMember(node.Cast<MemberExpression>().Expression);
+            }
+            return null;
+        }
+        private object GetValue(Expression member)
+        {
+            var objectMember = Expression.Convert(member, typeof(object));
+
+            var getterLambda = Expression.Lambda<Func<object>>(objectMember);
+
+            var getter = getterLambda.Compile();
+
+            return getter();
+        }
+        public Opcode EvalOpcodeExpression(Expression node)
+        {
+
+            if (node is MemberExpression)
+            {
+                var mNode = node.Cast<MemberExpression>();
+                var expression = EvalMember(mNode.Expression);
+                if (expression is ConstantExpression)
+                {
+                    var value = GetValue(mNode);
+
+                    if (value is bool)
+                    {
+                        return new BooleanValue((bool)value);
+
+                    }
+                    return new Literal(value?.ToString() ?? string.Empty);
+                }
+
+                return new FieldElement(mNode.Member.Name);
             }
             if (node is MethodCallExpression)
             {
                 var mNode = node.Cast<MethodCallExpression>();
                 var field = ((MemberExpression)mNode.Object).Member.Name;
-                var value = mNode.Arguments[0].ToString();
-                var func = new Function("contains");
-                func.Add(new FieldElement(field));
-                func.Add(new Literal(value));
+
+                object obj = null;
+
+
+                var value = GetValue(mNode.Arguments[0]);
+                var func = new EqualsOperator(EvalOpcodeExpression(mNode.Object), new LinqToSitecoreFunction("contains", field, value));
                 return func;
             }
             if (node is ConstantExpression)
             {
-                if (node.Cast<ConstantExpression>().Value is bool)
+                var value = GetValue(node);
+                if (value is bool)
                 {
-                    return new BooleanValue((bool)node.Cast<ConstantExpression>().Value);
+                    return new BooleanValue((bool)value);
 
                 }
-                return new Literal(node.Cast<ConstantExpression>().Value.ToString());
 
             }
             if (node is BinaryExpression)
@@ -104,9 +142,14 @@ namespace LinqToSitecore
         public static Opcode GetCode(Expression expression, Opcode code, Type type)
         {
             var visitor = new LinqToSitecoreVisitor(code, type);
-            visitor.Codes = new List<Opcode>();
-            visitor.Visit(expression);
+            visitor.EvalOpcodeExpression(expression);
 
+            if (visitor.CodeTree == null)
+            {
+                var templateCode = new EqualsOperator(new FieldElement("@templatename"), new Literal(type.Name));
+                var root = new Root { NextStep = new Descendant(new ItemElement("*", new Predicate(templateCode))) };
+                return root;
+            }
             return visitor.CodeTree;
         }
     }

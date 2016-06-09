@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using LinqToSitecore.Opcodes;
 using Sitecore;
 using Sitecore.Collections;
 using Sitecore.Data;
@@ -85,7 +86,10 @@ namespace LinqToSitecore
                 }
 
                 var context = new BasicTranslationContext(_factory, _api, database, parameters);
-                
+
+
+                ((BasicTranslatorFactory)context.Factory).Register(typeof(LinqToSitecoreFunction), new LinqToSitecoreFunctionTranslator());
+
                 var predicate = GetPredicate(step);
                 var name = GetName(step);
 

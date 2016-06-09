@@ -8,28 +8,48 @@ using Sitecore.Data.Query;
 
 namespace LinqToSitecore.Opcodes
 {
-    public class ContainsFunctionTranslator: IOpcodeTranslator
+    public class LinqToSitecoreFunction: Opcode
+    {
+        public string Type { get; set; }
+        public string FieldName { get; set; }
+        public object[] Parameters { get; set; }
+        public LinqToSitecoreFunction(string type, params object[] parameters)
+        {
+            Type = type;
+            FieldName = parameters[0].ToString();
+            Parameters = parameters.Skip(1).ToArray();
+        }
+        public override object Evaluate(Query query, QueryContext contextNode)
+        {
+            return base.Evaluate(query, contextNode);
+        }
+    }
+
+    public class LinqToSitecoreFunctionTranslator: IOpcodeTranslator
     {
         public string Translate(Opcode opcode, ITranslationContext context)
         {
             var str = string.Empty;
-            if (opcode is Function)
+            if (opcode is LinqToSitecoreFunction)
             {
-                var func = opcode as Function;
-                var name = func.Name;
-                var 
-                switch (func.Name)
+                var func = opcode as LinqToSitecoreFunction;
+                switch (func.Type)
                 {
                     case "contains":
-
+                        string param1 = context.Parameters.AddParameter($"%{func.Parameters[0]}%");
+                        str = context.SqlApi.Format("{2}" + param1 + "{3}");
+                        break;
                     default:
-                        return String.Empty;
-                        
+                        str = string.Empty;
+                        break;
+
                 }
+
+
 
             }
 
-            return string.Empty;
+            return str;
         }
 
 

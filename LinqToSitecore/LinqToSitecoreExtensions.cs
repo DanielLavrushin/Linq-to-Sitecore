@@ -65,11 +65,10 @@ namespace LinqToSitecore
 
         public static T Query<T>(this Database database, Expression<Func<T, bool>> query = null)
         {
-            var type = typeof(T);
             var opcode = LinqToSitecoreVisitor.GetCode(query, null, typeof(T));
             var context = new QueryContext(database.DataManager);
-            var qTranslator = GetQueryTranslator(context, database);
 
+            var qTranslator = GetQueryTranslator(context, database);
 
             var contextResult = qTranslator.QueryFast(database, opcode) as QueryContext;
             var item = contextResult.GetQueryContextItem();
