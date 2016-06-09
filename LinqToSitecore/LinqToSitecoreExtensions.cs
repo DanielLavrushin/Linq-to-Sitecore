@@ -32,15 +32,10 @@ namespace LinqToSitecore
 
     public static class LinqToSitecoreExtensions
     {
-        public static string ToQueryString(this Opcode opcode)
+        public static T Cast<T>(this Expression expr) where T : Expression
         {
-            var str = new StringBuilder();
-            var myTextWriter = new StringWriter(str);
-            var myWriter = new HtmlTextWriter(myTextWriter);
-            opcode.Print(myWriter);
-            return HttpUtility.HtmlDecode(myTextWriter.ToString());
+            return (T)expr;
         }
-
         private static LinqToSitecoreQueryTranslator GetQueryTranslator(QueryContext contextNode, Database database)
         {
             Assert.ArgumentNotNull(contextNode, nameof(contextNode));
@@ -71,7 +66,7 @@ namespace LinqToSitecore
         public static T Query<T>(this Database database, Expression<Func<T, bool>> query = null)
         {
             var type = typeof(T);
-            var opcode = ExpressionEvaluator.EvalToSitecore(query, type);
+            var opcode = LinqToSitecoreVisitor.GetCode(query, null, typeof(T));
             var context = new QueryContext(database.DataManager);
             var qTranslator = GetQueryTranslator(context, database);
 

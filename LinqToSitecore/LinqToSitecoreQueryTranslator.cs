@@ -53,6 +53,19 @@ namespace LinqToSitecore
             }
         }
 
+        private static string NormalizeQuery(string query)
+        {
+            query = query
+                .Replace(" NOT LIKE 1<>1", " = 1")
+                .Replace(" NOT LIKE 1=1", " = 0")
+                .Replace(" LIKE 1=1", " = 1")
+                .Replace(" LIKE 1<>1", " = 0")
+                ;
+
+            return query;
+
+        }
+
         public virtual string TranslateQuery(Opcode opcode, Database database, ParametersList parameters)
         {
             var step = opcode as Step;
@@ -71,7 +84,8 @@ namespace LinqToSitecore
                     throw new Exception("Can navigate only child, parent, descendant, and ancestor axes.");
                 }
 
-                ITranslationContext context = new BasicTranslationContext(_factory, _api, database, parameters);
+                var context = new BasicTranslationContext(_factory, _api, database, parameters);
+                
                 var predicate = GetPredicate(step);
                 var name = GetName(step);
 
@@ -130,7 +144,8 @@ namespace LinqToSitecore
                 step = step.NextStep;
             }
 
-            return sql;
+            return NormalizeQuery(sql);
         }
     }
+
 }

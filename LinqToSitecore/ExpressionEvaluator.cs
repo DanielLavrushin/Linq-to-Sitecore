@@ -11,6 +11,118 @@ using Sitecore.Data.Serialization.Templates;
 
 namespace LinqToSitecore
 {
+    public class OpcodeHelper
+    {
+        public Opcode Code { get; set; }
+    }
+
+    public class LinqToSitecoreVisitor: ExpressionVisitor
+    {
+        private readonly Type _type;
+        public Opcode CodeTree;
+        public ICollection<Opcode> Codes;
+
+        public LinqToSitecoreVisitor(Opcode code, Type type)
+        {
+            CodeTree = code;
+            _type = type;
+        }
+
+
+        public override Expression Visit(Expression node)
+        {
+            EvalOpcodeExpression(node);
+            base.Visit(node);
+            return node;
+        }
+
+
+        public Opcode EvalOpcodeExpression(Expression node)
+        {
+           
+            if (node is MemberExpression)
+            {
+                return new FieldElement(node.Cast<MemberExpression>().Member.Name);
+            }
+            if (node is MethodCallExpression)
+            {
+                var mNode = node.Cast<MethodCallExpression>();
+                var field = ((MemberExpression)mNode.Object).Member.Name;
+                var value = mNode.Arguments[0].ToString();
+                var func = new Function("contains");
+                func.Add(new FieldElement(field));
+                func.Add(new Literal(value));
+                return func;
+            }
+            if (node is ConstantExpression)
+            {
+                if (node.Cast<ConstantExpression>().Value is bool)
+                {
+                    return new BooleanValue((bool)node.Cast<ConstantExpression>().Value);
+
+                }
+                return new Literal(node.Cast<ConstantExpression>().Value.ToString());
+
+            }
+            if (node is BinaryExpression)
+            {
+                var bnode = node.Cast<BinaryExpression>();
+
+                var left = EvalOpcodeExpression(bnode.Left);
+                var right = EvalOpcodeExpression(bnode.Right);
+                switch (node.NodeType)
+                {
+                    case ExpressionType.And:
+                        return new AndOperator(left, right);
+                    case ExpressionType.AndAlso:
+                        return new AndOperator(left, right);
+                    case ExpressionType.Or:
+                        return new OrOperator(left, right);
+                    case ExpressionType.OrElse:
+                        return new OrOperator(left, right);
+                    case ExpressionType.NotEqual:
+                        return new UnequalsOperator(left, right);
+                    case ExpressionType.Equal:
+                        return new EqualsOperator(left, right);
+                    default:
+                        throw new NotImplementedException($"{node.NodeType} is not supported.");
+                }
+            }
+            if (node is LambdaExpression)
+            {
+                var templateCode = new AndOperator(
+               new EqualsOperator(new FieldElement("@templatename"), new Literal(_type.Name)), EvalOpcodeExpression(node.Cast<LambdaExpression>().Body));
+                var root = new Root { NextStep = new DescendantOrSelf(new ItemElement("*", new Predicate(templateCode))) };
+                CodeTree = root;
+            }
+
+            return CodeTree;
+        }
+
+
+
+        public static Opcode GetCode(Expression expression, Opcode code, Type type)
+        {
+            var visitor = new LinqToSitecoreVisitor(code, type);
+            visitor.Codes = new List<Opcode>();
+            visitor.Visit(expression);
+
+            return visitor.CodeTree;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     public static class ExpressionEvaluator
@@ -46,6 +158,7 @@ namespace LinqToSitecore
 
             return something;
         }
+
         class PathVisitor: ExpressionVisitor
         {
             private string _path;
@@ -66,7 +179,7 @@ namespace LinqToSitecore
 
                 var templateCode =
                     new AndOperator(new EqualsOperator(new FieldElement("@templatename"), new Literal(_type.Name)),
-                        _code);
+                        _code ?? _left);
 
                 var root = new Root();
                 root.NextStep = new DescendantOrSelf(new ItemElement("*", new Predicate(templateCode)));
@@ -118,12 +231,26 @@ namespace LinqToSitecore
                     case ExpressionType.OrElse:
                         _code = new OrOperator(_codeBinaryLeft, _codeBinaryRight);
                         break;
+                    case ExpressionType.AndAlso:
+                        _code = new AndOperator(_codeBinaryLeft, _codeBinaryRight);
+                        break;
                     case ExpressionType.Equal:
                         _code = new EqualsOperator(_left, _right);
                         break;
+                    default:
+                        throw new NotImplementedException($"{node.NodeType} is not supported.");
                 }
 
                 return node;
+            }
+
+            protected override Expression VisitMethodCall(MethodCallExpression node)
+            {
+                base.VisitMethodCall(node);
+                _code = new EqualsOperator(_left, _right);
+
+                return node;
+
             }
 
             protected override Expression VisitMember(MemberExpression node)
