@@ -370,16 +370,24 @@ namespace LinqToSitecore
                                     //potential loop
                                     if (dropid != item.ID)
                                     {
-                                    }
-                                    if (f.PropertyType != typeof(ID) && f.PropertyType != typeof(Guid) &&
-                                        f.PropertyType != typeof(string))
-                                    {
-                                        var dropitem = item.Database.GetItem(dropid);
-                                        var result = typeof(LinqToSitecoreExtensions)
-                                            .GetMethod("ReflectTo")
-                                            .MakeGenericMethod(f.PropertyType)
-                                            .Invoke(dropitem, new object[] { dropitem, lazyLoading });
-                                        f.SetValue(o, result);
+                                        if (f.PropertyType != typeof(ID) && f.PropertyType != typeof(Guid) &&
+                                            f.PropertyType != typeof(string))
+                                        {
+                                            var dropitem = item.Database.GetItem(dropid);
+                                            var result = typeof(LinqToSitecoreExtensions)
+                                                .GetMethod("ReflectTo")
+                                                .MakeGenericMethod(f.PropertyType)
+                                                .Invoke(dropitem, new object[] { dropitem, lazyLoading, include });
+                                            f.SetValue(o, result);
+                                        }
+                                        else if (f.PropertyType == typeof(Guid))
+                                        {
+                                            f.SetValue(o, dropid.Guid);
+                                        }
+                                        else if (f.PropertyType == typeof(ID))
+                                        {
+                                            f.SetValue(o, dropid);
+                                        }
                                     }
                                 }
 
@@ -406,7 +414,7 @@ namespace LinqToSitecore
                                     var result = typeof(LinqToSitecoreExtensions).GetMethod("ToList",
                                         new Type[] { typeof(Item[]), typeof(bool) })
                                         .MakeGenericMethod(colgenType)
-                                        .Invoke(subItems, new object[] { subItems, lazyLoading });
+                                        .Invoke(subItems, new object[] { subItems, lazyLoading, include });
                                     f.SetValue(o, result);
                                 }
                             }
