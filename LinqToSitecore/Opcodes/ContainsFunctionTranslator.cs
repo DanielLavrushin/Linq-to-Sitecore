@@ -39,9 +39,20 @@ namespace LinqToSitecore.Opcodes
                         string param1 = context.Parameters.AddParameter($"%{func.Parameters[0]}%");
                         str = context.SqlApi.Format("{2}" + param1 + "{3}");
                         break;
-                    default:
-                        str = string.Empty;
+                    case "startswith":
+                        string param2 = context.Parameters.AddParameter($"{func.Parameters[0]}%");
+                        str = context.SqlApi.Format("{2}" + param2 + "{3}");
                         break;
+                    case "endswith":
+                        string param3 = context.Parameters.AddParameter($"%{func.Parameters[0]}");
+                        str = context.SqlApi.Format("{2}" + param3 + "{3}");
+                        break;
+                    case "equals":
+                        string param4 = context.Parameters.AddParameter($"{func.Parameters[0]}");
+                        str = context.SqlApi.Format("{2}" + param4 + "{3}");
+                        break;
+                    default:
+                        throw new NotImplementedException($"Function type '{func.Type}' is not supported.");
 
                 }
 

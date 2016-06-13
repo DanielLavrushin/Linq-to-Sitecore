@@ -23,18 +23,54 @@ using Sitecore.Diagnostics;
 using Sitecore.Publishing.Explanations;
 using Sitecore.Resources.Media;
 using Convert = System.Convert;
+using IQueryable = System.Linq.IQueryable;
 
 namespace LinqToSitecore
 {
 
 
 
-
     public static class LinqToSitecoreExtensions
     {
+        #region HELPERS
+
+        private static ID GetTemplateIdFromType<T>()
+        {
+            var templateAttr =
+                (SitecoreTemplateAttribute)
+                    typeof(T).GetCustomAttributes(typeof(SitecoreTemplateAttribute), true).FirstOrDefault();
+            return templateAttr?.TemplateId ?? ID.Null;
+        }
+
+        private static string GetTemplateNameFromType<T>()
+        {
+            var templateAttr = typeof(T).Name;
+            return templateAttr;
+        }
+
+        internal static PropertyInfo GetTemplateSystemProperty<T>(SitecoreSystemPropertyType type)
+        {
+
+            var prop = typeof(T).GetProperties().FirstOrDefault(s => s.GetCustomAttributes<SitecoreSystemPropertyAttribute>().Any(a => a.FieldType == type));
+            return prop;
+        }
+
+
         public static T Cast<T>(this Expression expr) where T : Expression
         {
             return (T)expr;
+        }
+
+        public static bool IsOfType<T>(this Item item)
+        {
+            var tid = GetTemplateIdFromType<T>();
+            if (!tid.IsNull)
+            {
+                return item.TemplateID == tid;
+            }
+
+            var ntname = GetTemplateNameFromType<T>();
+            return item.TemplateName == ntname;
         }
         private static LinqToSitecoreQueryTranslator GetQueryTranslator(QueryContext contextNode, Database database)
         {
@@ -49,12 +85,9 @@ namespace LinqToSitecore
             }
 
             var field = typeof(SqlDataProvider).GetProperty("Api", BindingFlags.NonPublic | BindingFlags.Instance);
-            if (field == null)
-            {
-                return null;
-            }
 
-            var api = field.GetValue(dataProvider, null) as SqlDataApi;
+            var api = field?.GetValue(dataProvider, null) as SqlDataApi;
+
             if (api == null)
             {
                 return null;
@@ -63,169 +96,151 @@ namespace LinqToSitecore
             return new LinqToSitecoreQueryTranslator(api);
         }
 
-        public static T Query<T>(this Database database, Expression<Func<T, bool>> query = null)
+
+        private static List<T> Query<T>(Database database, Expression<Func<T, bool>> query, bool lazyLoading, params string[] include)
         {
+            var db = database ?? Context.Database;
+
             var opcode = LinqToSitecoreVisitor.GetCode(query, null, typeof(T));
-            var context = new QueryContext(database.DataManager);
+            var context = new QueryContext(db.DataManager);
 
-            var qTranslator = GetQueryTranslator(context, database);
+            var qTranslator = GetQueryTranslator(context, db);
 
-            var contextResult = qTranslator.QueryFast(database, opcode) as QueryContext;
-            var item = contextResult.GetQueryContextItem();
-            return item.ReflectTo<T>();
+            var contextResult = qTranslator.QueryFast(db, opcode);
 
-        }
+            var data = contextResult;
 
-        #region Any
-
-        public static bool Any<T>(this Database database, string path = null, Expression<Func<T, bool>> query = null, bool lazyLoading = false) where T : class, new()
-        {
-            return database.SelectSingleItem(SitecoreQueryWorker.ToSitecoreQuery<T>(query, path)).ReflectTo<T>(lazyLoading) == null;
-        }
-        #endregion
-
-        #region Count
-
-
-        public static int Count<T>(this Database database, string path = null, Expression<Func<T, bool>> query = null, bool lazyLoading = false) where T : class, new()
-        {
-            return database.SelectItems(SitecoreQueryWorker.ToSitecoreQuery<T>(query, path)).ToList<T>(lazyLoading).Count();
-        }
-
-
-
-        public static int Count<T>(this Item[] items, Expression<Func<T, bool>> query = null, bool lazyLoading = false) where T : class, new()
-        {
-            return items.ToList<T>(query, lazyLoading).Count;
-        }
-
-
-        public static int Count<T>(this ChildList items, Expression<Func<T, bool>> query = null, bool lazyLoading = false) where T : class, new()
-        {
-            return items.ToList<T>(query, lazyLoading).Count;
-        }
-        #endregion
-
-
-        #region Where
-
-        public static List<T> Where<T>(this Database database, Expression<Func<T, bool>> query,
-            string path = null, bool lazyLoading = false, params string[] include) where T : class, new()
-        {
-            return database
-                .SelectItems(SitecoreQueryWorker.ToSitecoreQuery<T>(query, path))
-                .ToList<T>(lazyLoading, include).ToList();
-        }
-
-        public static List<T> Where<T>(this Item[] items, Expression<Func<T, bool>> query, bool lazyLoading = false) where T : class, new()
-        {
-            return items.ToList(query, lazyLoading);
-        }
-
-        public static List<T> Where<T>(this ChildList items, Expression<Func<T, bool>> query) where T : class, new()
-        {
-            return items.ToList(query);
-        }
-        #endregion
-
-
-        #region FirstOrDefault
-
-        public static T FirstOrDefault<T>(this Database database, string path = null, Expression<Func<T, bool>> query = null, bool lazyLoading = false) where T : class, new()
-        {
-            return database?.SelectSingleItem(SitecoreQueryWorker.ToSitecoreQuery<T>(query, path))?.ReflectTo<T>(lazyLoading);
-        }
-
-        public static T FirstOrDefault<T>(this Item[] items, Expression<Func<T, bool>> query = null, bool lazyLoading = false) where T : class, new()
-        {
-            return items?.ToList(query, lazyLoading)?.FirstOrDefault();
-        }
-        public static T FirstOrDefault<T>(this ChildList items, Expression<Func<T, bool>> query = null, bool lazyLoading = false) where T : class, new()
-        {
-            return items?.ToList(query, lazyLoading)?.FirstOrDefault();
-        }
-
-        #endregion
-
-        public static decimal Max<T>(this Item[] items, Expression<Func<T, decimal>> query, bool lazyLoading = false) where T : class, new()
-        {
-            return items.ToList<T>().Max(query.Compile());
-        }
-        public static decimal Max<T>(this ChildList items, Expression<Func<T, decimal>> query) where T : class, new()
-        {
-            return items.ToList<T>().Max(query.Compile());
-        }
-        public static decimal Min<T>(this Item[] items, Expression<Func<T, decimal>> query) where T : class, new()
-        {
-            return items.ToList<T>().Max(query.Compile());
-        }
-        public static decimal Min<T>(this ChildList items, Expression<Func<T, decimal>> query) where T : class, new()
-        {
-            return items.ToList<T>().Max(query.Compile());
-        }
-
-
-        public static bool IsOfType<T>(this Item item)
-        {
-            var tid = SitecoreQueryWorker.GetTemplateIdFromType<T>();
-            if (!tid.IsNull)
+            if (data is QueryContext[])
             {
-                return item.TemplateID == tid;
+                return ((QueryContext[])data).Select(x => x.GetQueryContextItem().ReflectTo<T>(lazyLoading, include))
+                    .Where(query.Compile()).ToList();
             }
 
-            var ntname = SitecoreQueryWorker.GetTemplateNameFromType<T>();
-            return item.TemplateName == ntname;
+            return new List<T> { ((QueryContext)data).GetQueryContextItem().ReflectTo<T>(lazyLoading, include) };
+
         }
 
-        public static List<T> ToList<T>(this Database database, params string[] include)
+        private static ICollection<T> Convert<T>(ICollection<Item> items)
         {
-            return database.SelectItems(SitecoreQueryWorker.ToSitecoreQuery<T>(null))
-                .Select(x => x.ReflectTo<T>(false, include)).ToList();
+            return Convert<T>(items, null, false);
         }
-
-        public static List<T> ToList<T>(this Database database, bool lazyLoading = false, params string[] include)
+        private static List<T> Convert<T>(ICollection<Item> items, bool lazyLoading)
         {
-            return database.SelectItems(SitecoreQueryWorker.ToSitecoreQuery<T>(null))
-                .Select(x => x.ReflectTo<T>(lazyLoading, include)).ToList();
+            return Convert<T>(items, null, lazyLoading);
         }
-
-        public static List<T> ToList<T>(this ChildList items, params string[] include)
+        private static List<T> Convert<T>(ICollection<Item> items, Expression<Func<T, bool>> query)
         {
-            return items.Select(s => s.ReflectTo<T>(false, include)).Where(x => x != null).ToList();
+            return Convert(items, query, false);
         }
-
-        public static List<T> ToList<T>(this ChildList items, bool lazyLoading = false, params string[] include)
+        private static List<T> Convert<T>(ICollection<Item> items, params string[] include)
         {
-            return items.Select(s => s.ReflectTo<T>(lazyLoading, include)).Where(x => x != null).ToList();
+            return Convert<T>(items, null, false, include);
         }
-        public static List<T> ToList<T>(this Item[] items, params string[] include)
+        private static List<T> Convert<T>(ICollection<Item> items, Expression<Func<T, bool>> query, params string[] include)
         {
-            return items.Select(s => s.ReflectTo<T>(false, include)).Where(x => x != null).ToList();
+            return Convert(items, query, false, include);
         }
-        public static List<T> ToList<T>(this Item[] items, bool lazyLoading = false)
+        private static List<T> Convert<T>(ICollection<Item> items, Expression<Func<T, bool>> query, bool lazyLoading, params string[] include)
         {
-            return items.Select(s => s.ReflectTo<T>(lazyLoading)).Where(x => x != null).ToList();
+            var coll = items.Select(x => x.ReflectTo<T>(lazyLoading, include)).Where(x => x != null).ToList();
+            return query == null ? coll : coll.Where(query.Compile()).ToList();
         }
-        public static List<T> ToList<T>(this Item[] items, Expression<Func<T, bool>> query, bool lazyLoading = false, params string[] include)
-        {
-            var q = items.Select(s => s.ReflectTo<T>(lazyLoading, include)).Where(x => x != null);
-
-            if (query != null)
-            {
-                q = q.Where(query.Compile()).ToList();
-            }
-            return q.ToList();
-        }
-        public static List<T> ToList<T>(this Item[] items, bool lazyLoading = false, params string[] include)
-        {
-            return items.Select(s => s.ReflectTo<T>(lazyLoading, include)).Where(x => x != null).ToList();
-        }
+        #endregion
 
 
-        public static List<T> ToList<T>(this ChildList items, Expression<Func<T, bool>> query, bool lazyLoading = false)
+        #region WHERE DATABASE
+        public static ICollection<T> Where<T>(this Database database, Expression<Func<T, bool>> query)
         {
-            return items.Select(s => s.ReflectTo<T>(lazyLoading)).Where(x => x != null).Where(query.Compile()).ToList();
+            return Query(database, query, false, null);
         }
+        public static ICollection<T> Where<T>(this Database database, Expression<Func<T, bool>> query, bool lazyLoading)
+        {
+            return Query(database, query, lazyLoading, null);
+        }
+
+        public static ICollection<T> Where<T>(this Database database, Expression<Func<T, bool>> query, params string[] include)
+        {
+            return Query(database, query, false, include);
+        }
+        #endregion
+
+        #region FIRSTORDEFAULT DATABASE
+        public static T FirstOrDefault<T>(this Database database, Expression<Func<T, bool>> query)
+        {
+            return Query(database, query, false, null).FirstOrDefault();
+        }
+        public static T FirstOrDefault<T>(this Database database, Expression<Func<T, bool>> query, bool lazyLoading)
+        {
+            return Query(database, query, lazyLoading, null).FirstOrDefault();
+        }
+        public static T FirstOrDefault<T>(this Database database, Expression<Func<T, bool>> query, params string[] include)
+        {
+            return Query(database, query, false, include).FirstOrDefault();
+        }
+        #endregion
+
+        #region FIRSTORDEFAULT ITEMS
+
+        public static T FirstOrDefault<T>(this IEnumerable<Item> items)
+        {
+            return Convert<T>(items.ToList()).FirstOrDefault();
+        }
+        public static T FirstOrDefault<T>(this IEnumerable<Item> items, bool lazyLoading)
+        {
+            return Convert<T>(items.ToList(), null, lazyLoading, null).FirstOrDefault();
+        }
+        public static T FirstOrDefault<T>(this IEnumerable<Item> items, params string[] include)
+        {
+            return Convert<T>(items.ToList(), null, false, include).FirstOrDefault();
+        }
+        public static T FirstOrDefault<T>(this IEnumerable<Item> items, Expression<Func<T, bool>> query)
+        {
+            return FirstOrDefault(items, query, false);
+        }
+        public static T FirstOrDefault<T>(this IEnumerable<Item> items, Expression<Func<T, bool>> query, bool lazyLoading)
+        {
+            return Convert(items.ToList(), query, lazyLoading, null).FirstOrDefault();
+        }
+        public static T FirstOrDefault<T>(this IEnumerable<Item> items, Expression<Func<T, bool>> query, params string[] include)
+        {
+            return Convert(items.ToList(), query, false, include).FirstOrDefault();
+        }
+        #endregion
+
+        #region LIST ITEMS
+        public static List<T> ToList<T>(this IEnumerable<Item> items)
+        {
+            return Convert<T>(items.ToList(), null, false, null);
+        }
+        public static ICollection<T> ToList<T>(this IEnumerable<Item> items, bool lazyLoading)
+        {
+            return Convert<T>(items.ToList(), null, lazyLoading, null);
+        }
+        public static ICollection<T> ToList<T>(this IEnumerable<Item> items, params string[] include)
+        {
+            return Convert<T>(items.ToList(), null, false, include);
+        }
+        #endregion
+
+        #region WHERE ITEMS
+        public static ICollection<T> Where<T>(this IEnumerable<Item> items, Expression<Func<T, bool>> query)
+        {
+            return Convert(items.ToList(), query, false, null);
+        }
+        public static ICollection<T> Where<T>(this IEnumerable<Item> items, Expression<Func<T, bool>> query, bool lazyLoading)
+        {
+            return Convert(items.ToList(), query, lazyLoading, null);
+        }
+        public static ICollection<T> Where<T>(this IEnumerable<Item> items, Expression<Func<T, bool>> query, params string[] include)
+        {
+            return Convert(items.ToList(), query, false, include);
+        }
+        #endregion
+
+
+
+
+
 
         public static T Parent<T>(this Item item, bool lazyLoading = false)
         {
@@ -281,13 +296,13 @@ namespace LinqToSitecore
 
             var o = (T)Activator.CreateInstance(typeof(T));
 
-            var itemProp = SitecoreQueryWorker.GetTemplateSystemProperty<T>(SitecoreSystemPropertyType.Item);
-            var idProp = SitecoreQueryWorker.GetTemplateSystemProperty<T>(SitecoreSystemPropertyType.Id);
-            var nameProp = SitecoreQueryWorker.GetTemplateSystemProperty<T>(SitecoreSystemPropertyType.Name);
-            var parentIdProp = SitecoreQueryWorker.GetTemplateSystemProperty<T>(SitecoreSystemPropertyType.ParentId);
-            var pathProp = SitecoreQueryWorker.GetTemplateSystemProperty<T>(SitecoreSystemPropertyType.Path);
-            var templateIdProp = SitecoreQueryWorker.GetTemplateSystemProperty<T>(SitecoreSystemPropertyType.TemplateId);
-            var parentProp = SitecoreQueryWorker.GetTemplateSystemProperty<T>(SitecoreSystemPropertyType.Parent);
+            var itemProp = GetTemplateSystemProperty<T>(SitecoreSystemPropertyType.Item);
+            var idProp = GetTemplateSystemProperty<T>(SitecoreSystemPropertyType.Id);
+            var nameProp = GetTemplateSystemProperty<T>(SitecoreSystemPropertyType.Name);
+            var parentIdProp = GetTemplateSystemProperty<T>(SitecoreSystemPropertyType.ParentId);
+            var pathProp = GetTemplateSystemProperty<T>(SitecoreSystemPropertyType.Path);
+            var templateIdProp = GetTemplateSystemProperty<T>(SitecoreSystemPropertyType.TemplateId);
+            var parentProp = GetTemplateSystemProperty<T>(SitecoreSystemPropertyType.Parent);
 
             idProp?.SetValue(o, item.ID.Guid);
             nameProp?.SetValue(o, item.Name);
@@ -405,8 +420,8 @@ namespace LinqToSitecore
                                 else
                                 {
 
-                                    var convertedObj = Convert.ChangeType(value, f.PropertyType);
-                                    f.SetValue(o, field.Value);
+                                    var convertedObj = System.Convert.ChangeType(value, f.PropertyType);
+                                    f.SetValue(o, convertedObj);
                                 }
                             }
                         }

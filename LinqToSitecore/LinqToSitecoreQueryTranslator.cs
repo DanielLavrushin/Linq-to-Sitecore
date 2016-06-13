@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using LinqToSitecore.Opcodes;
 using Sitecore;
@@ -15,8 +16,12 @@ using Sitecore.Diagnostics;
 
 namespace LinqToSitecore
 {
+
+
     public class LinqToSitecoreQueryTranslator: QueryToSqlTranslator
     {
+       
+
         public LinqToSitecoreQueryTranslator([NotNull] SqlDataApi api) : base(api)
         {
             Assert.ArgumentNotNull(api, nameof(api));
@@ -57,10 +62,10 @@ namespace LinqToSitecore
         private static string NormalizeQuery(string query)
         {
             query = query
-                .Replace(" NOT LIKE 1<>1", " = 1")
-                .Replace(" NOT LIKE 1=1", " = 0")
-                .Replace(" LIKE 1=1", " = 1")
-                .Replace(" LIKE 1<>1", " = 0")
+                .Replace(" NOT LIKE 1<>1", " = '1'")
+                .Replace(" NOT LIKE 1=1", " = '0'")
+                .Replace(" LIKE 1=1", " = '1'")
+                .Replace(" LIKE 1<>1", " = '0'")
                 ;
 
             return query;
