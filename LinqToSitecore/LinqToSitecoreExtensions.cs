@@ -61,6 +61,36 @@ namespace LinqToSitecore
             return (T)expr;
         }
 
+
+        public static T GetField<T>(this Item item, string field)
+        {
+
+            field = field.ToLower();
+            var f = item.Fields[field];
+            if (!string.IsNullOrEmpty(f?.Value))
+            {
+                return (T)System.Convert.ChangeType(f.Value, typeof(T));
+            }
+
+            return default(T);
+
+        }
+
+        public static object GetField(this Item item, string field, Type type)
+        {
+
+            field = field.ToLower();
+            var f = item.Fields[field];
+            if (!string.IsNullOrEmpty(f?.Value))
+            {
+                return System.Convert.ChangeType(f.Value, type);
+            }
+
+            return type.IsValueType ? Activator.CreateInstance(type) : null;
+
+        }
+
+
         public static bool IsOfType<T>(this Item item)
         {
             var tid = GetTemplateIdFromType<T>();
@@ -120,26 +150,6 @@ namespace LinqToSitecore
 
         }
 
-        private static ICollection<T> Convert<T>(ICollection<Item> items)
-        {
-            return Convert<T>(items, null, false);
-        }
-        private static List<T> Convert<T>(ICollection<Item> items, bool lazyLoading)
-        {
-            return Convert<T>(items, null, lazyLoading);
-        }
-        private static List<T> Convert<T>(ICollection<Item> items, Expression<Func<T, bool>> query)
-        {
-            return Convert(items, query, false);
-        }
-        private static List<T> Convert<T>(ICollection<Item> items, params string[] include)
-        {
-            return Convert<T>(items, null, false, include);
-        }
-        private static List<T> Convert<T>(ICollection<Item> items, Expression<Func<T, bool>> query, params string[] include)
-        {
-            return Convert(items, query, false, include);
-        }
         private static List<T> Convert<T>(ICollection<Item> items, Expression<Func<T, bool>> query, bool lazyLoading, params string[] include)
         {
             var coll = items.Select(x => x.ReflectTo<T>(lazyLoading, include)).Where(x => x != null).ToList();
@@ -164,7 +174,35 @@ namespace LinqToSitecore
         }
         #endregion
 
+        #region LIST DATABASE
+        public static ICollection<T> ToList<T>(this Database database)
+        {
+            return Query<T>(database, null, false, null);
+        }
+        public static ICollection<T> ToList<T>(this Database database, bool lazyLoading)
+        {
+            return Query<T>(database, null, lazyLoading, null);
+        }
+
+        public static ICollection<T> ToList<T>(this Database database, params string[] include)
+        {
+            return Query<T>(database, null, false, include);
+        }
+        #endregion
+
         #region FIRSTORDEFAULT DATABASE
+        public static T FirstOrDefault<T>(this Database database)
+        {
+            return Query<T>(database, null, false, null).FirstOrDefault();
+        }
+        public static T FirstOrDefault<T>(this Database database, bool lazyLoading)
+        {
+            return Query<T>(database, null, lazyLoading, null).FirstOrDefault();
+        }
+        public static T FirstOrDefault<T>(this Database database, params string[] include)
+        {
+            return Query<T>(database, null, false, include).FirstOrDefault();
+        }
         public static T FirstOrDefault<T>(this Database database, Expression<Func<T, bool>> query)
         {
             return Query(database, query, false, null).FirstOrDefault();
@@ -183,7 +221,7 @@ namespace LinqToSitecore
 
         public static T FirstOrDefault<T>(this IEnumerable<Item> items)
         {
-            return Convert<T>(items.ToList()).FirstOrDefault();
+            return Convert<T>(items.ToList(), null, false, null).FirstOrDefault();
         }
         public static T FirstOrDefault<T>(this IEnumerable<Item> items, bool lazyLoading)
         {
@@ -205,6 +243,10 @@ namespace LinqToSitecore
         {
             return Convert(items.ToList(), query, false, include).FirstOrDefault();
         }
+        public static T FirstOrDefault<T>(this IEnumerable<Item> items, Expression<Func<T, bool>> query, bool lazyLoading, params string[] include)
+        {
+            return Convert(items.ToList(), query, lazyLoading, include).FirstOrDefault();
+        }
         #endregion
 
         #region LIST ITEMS
@@ -219,6 +261,10 @@ namespace LinqToSitecore
         public static ICollection<T> ToList<T>(this IEnumerable<Item> items, params string[] include)
         {
             return Convert<T>(items.ToList(), null, false, include);
+        }
+        public static ICollection<T> ToList<T>(this IEnumerable<Item> items, bool lazyLoading, params string[] include)
+        {
+            return Convert<T>(items.ToList(), null, lazyLoading, include);
         }
         #endregion
 
@@ -236,9 +282,6 @@ namespace LinqToSitecore
             return Convert(items.ToList(), query, false, include);
         }
         #endregion
-
-
-
 
 
 
@@ -412,7 +455,7 @@ namespace LinqToSitecore
                                 if (subItems.Any())
                                 {
                                     var result = typeof(LinqToSitecoreExtensions).GetMethod("ToList",
-                                        new Type[] { typeof(Item[]), typeof(bool) })
+                                        new Type[] { typeof(Item[]), typeof(bool), typeof(string[]) })
                                         .MakeGenericMethod(colgenType)
                                         .Invoke(subItems, new object[] { subItems, lazyLoading, include });
                                     f.SetValue(o, result);
