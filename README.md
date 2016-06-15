@@ -18,13 +18,24 @@ public class MyCustomTemplate{
   public string SingleLine { get; set; }
   public bool IsChecked { get; set; }
   public int MyInteger { get; set; }
+  public DateTime Date { get; set; }
 }
 ```
 
-Write your query:
+Write your queries:
 ```C#
-var myitems = Sitecore.Context.Database.OfType<MyCustomTemplate>();
+var myItem = Sitecore.Context.Database.ToList<MyCustomTemplate>();
+
 var myitemsWtithQuery = Sitecore.Context.Database.Where<MyCustomTemplate>(x=>x.IsChecked);
+
+var myItem = Sitecore.Context.Database.GetItem("/sitecore/content/myItem").ReflectTo<MyCustomTemplate>();
+
+var myItem = Sitecore.Context.Database.SelectItems("/sitecore/content/myItem").ToList<MyCustomTemplate>();
+
+var typedFieldValue = Sitecore.Context.Database.GetItem("/sitecore/content/myItem").GetFieldValue<DateTime>("Date");
+
+
+
 ```
 Enjoy :)
 
@@ -35,13 +46,10 @@ yes - means supported
 
 | LINQ Method  | Sitecore Database | Sitecore Item | Sitecore ItemList| Item[] collection | 
 | ------------- | ------------- | ------------- | ------------- | ------------- |
-| OfType\<T>(lambda expression) | yes  | n/r | no (use ToList\<T>()) | no (use ToList\<T>()) |
-| ToList\<T>(lambda expression)  | n/r  | yes| yes | yes |
+| ToList\<T>(lambda expression)  | yes  | yes| yes | yes |
 | Where\<T>(lambda expression)  | yes  | yes | yes | yes |
 | FirstOrDefault\<T>(lambda expression)  | yes  | yes | yes | yes |
-| Count\<T>(lambda expression)  | yes  | yes | yes | yes |
-| Max\<T>(lambda expression)  | no  | yes | yes | yes |
-| Min\<T>(lambda expression)  | no  | yes | yes | yes |
+
 
 ReflectTo\<>() method extends Sitecore Item class, and allow you to convert any item to a trongly typed object.
 
