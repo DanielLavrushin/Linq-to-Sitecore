@@ -62,7 +62,7 @@ namespace LinqToSitecore
         }
 
 
-        public static T GetField<T>(this Item item, string field)
+        public static T GetFieldValue<T>(this Item item, string field)
         {
 
             field = field.ToLower();
@@ -76,7 +76,7 @@ namespace LinqToSitecore
 
         }
 
-        public static object GetField(this Item item, string field, Type type)
+        public static object GetFieldValue(this Item item, string field, Type type)
         {
 
             field = field.ToLower();
@@ -152,6 +152,7 @@ namespace LinqToSitecore
 
         private static List<T> Convert<T>(ICollection<Item> items, Expression<Func<T, bool>> query, bool lazyLoading, params string[] include)
         {
+            if(items == null) return new List<T>();
             var coll = items.Select(x => x.ReflectTo<T>(lazyLoading, include)).Where(x => x != null).ToList();
             return query == null ? coll : coll.Where(query.Compile()).ToList();
         }
@@ -385,6 +386,22 @@ namespace LinqToSitecore
                             {
                                 f.SetValue(o, (string)value == "1");
                             }
+                            else if (lazyOrInclude && f.PropertyType.IsGenericType &&
+                                    typeof(List<>).IsAssignableFrom(f.PropertyType.GetGenericTypeDefinition()))
+                            {
+
+                                var multiField = (MultilistField)field;
+                                var colgenType = f.PropertyType.GetGenericArguments().FirstOrDefault();
+                                var subItems = multiField.GetItems();
+                                if (subItems.Any())
+                                {
+                                    var result = typeof(LinqToSitecoreExtensions).GetMethod("ToList",
+                                        new Type[] { typeof(Item[]), typeof(bool), typeof(string[]) })
+                                        .MakeGenericMethod(colgenType)
+                                        .Invoke(subItems, new object[] { subItems, lazyLoading, include });
+                                    f.SetValue(o, result);
+                                }
+                            }
                             else if (f.PropertyType == typeof(DateTime))
                             {
                                 f.SetValue(o, ((DateField)field).DateTime);
@@ -445,28 +462,26 @@ namespace LinqToSitecore
                                 }
 
                             }
-                            else if (lazyOrInclude &&
-                                     typeof(List<>).IsAssignableFrom(f.PropertyType.GetGenericTypeDefinition()))
-                            {
-
-                                var multiField = (MultilistField)field;
-                                var colgenType = f.PropertyType.GetGenericArguments().FirstOrDefault();
-                                var subItems = multiField.GetItems();
-                                if (subItems.Any())
-                                {
-                                    var result = typeof(LinqToSitecoreExtensions).GetMethod("ToList",
-                                        new Type[] { typeof(Item[]), typeof(bool), typeof(string[]) })
-                                        .MakeGenericMethod(colgenType)
-                                        .Invoke(subItems, new object[] { subItems, lazyLoading, include });
-                                    f.SetValue(o, result);
-                                }
-                            }
+                           
                             else
                             {
                                 if (field.TypeKey == "file" || field.TypeKey == "image")
                                 {
                                     var fitem = (FileField)field;
                                     f.SetValue(o, fitem.Src);
+                                }
+                                else if (f.PropertyType.IsEnum)
+                                {
+                                    var intValue = -1;
+                                    if (int.TryParse(value.ToString(), out intValue))
+                                    {
+                                        f.SetValue(o, intValue);
+                                    }
+                                    else
+                                    {
+                                      var enuValue =  Enum.Parse(f.PropertyType, value.ToString().Replace(" ", string.Empty), true);
+                                        f.SetValue(o, enuValue);
+                                    }
                                 }
                                 else
                                 {
