@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
@@ -22,6 +23,7 @@ using Sitecore.Data.SqlServer;
 using Sitecore.Diagnostics;
 using Sitecore.Publishing.Explanations;
 using Sitecore.Resources.Media;
+using Sitecore.Shell.Framework.Commands.TemplateBuilder;
 using Convert = System.Convert;
 using IQueryable = System.Linq.IQueryable;
 
@@ -152,7 +154,7 @@ namespace LinqToSitecore
 
         private static List<T> Convert<T>(ICollection<Item> items, Expression<Func<T, bool>> query, bool lazyLoading, params string[] include)
         {
-            if(items == null) return new List<T>();
+            if (items == null) return new List<T>();
             var coll = items.Select(x => x.ReflectTo<T>(lazyLoading, include)).Where(x => x != null).ToList();
             return query == null ? coll : coll.Where(query.Compile()).ToList();
         }
@@ -462,7 +464,26 @@ namespace LinqToSitecore
                                 }
 
                             }
-                           
+                            else if (field.TypeKey == "name value list")
+                            {
+                                var nmField = (NameValueListField)field;
+                                if (f.GetType() == typeof(NameValueCollection))
+                                {
+                                    f.SetValue(o, nmField.NameValues);
+                                }
+                                else if (f.GetType() == typeof(Dictionary<string, string>))
+                                {
+
+                                    var dic = new Dictionary<string, string>();
+                                    foreach (var nm in nmField.NameValues.AllKeys.SelectMany(nmField.NameValues.GetValues, (k, v) => new { key = k, value = v }))
+                                    {
+                                        if (!dic.ContainsKey(nm.key))
+                                            dic.Add(nm.key, nm.value);
+                                    }
+                                    f.SetValue(o, dic);
+                                }
+
+                            }
                             else
                             {
                                 if (field.TypeKey == "file" || field.TypeKey == "image")
@@ -479,7 +500,7 @@ namespace LinqToSitecore
                                     }
                                     else
                                     {
-                                      var enuValue =  Enum.Parse(f.PropertyType, value.ToString().Replace(" ", string.Empty), true);
+                                        var enuValue = Enum.Parse(f.PropertyType, value.ToString().Replace(" ", string.Empty), true);
                                         f.SetValue(o, enuValue);
                                     }
                                 }
