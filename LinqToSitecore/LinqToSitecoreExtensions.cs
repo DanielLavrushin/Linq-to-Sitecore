@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.UI;
 using Sitecore;
+using Sitecore.ApplicationCenter.Applications;
 using Sitecore.Collections;
 using Sitecore.Data;
 using Sitecore.Data.DataProviders.Sql;
@@ -467,18 +468,23 @@ namespace LinqToSitecore
                             else if (field.TypeKey == "name value list")
                             {
                                 var nmField = (NameValueListField)field;
-                                if (f.GetType() == typeof(NameValueCollection))
+                                if (f.PropertyType == typeof(NameValueCollection))
                                 {
                                     f.SetValue(o, nmField.NameValues);
                                 }
-                                else if (f.GetType() == typeof(Dictionary<string, string>))
+                                else if (f.PropertyType == typeof(Dictionary<string, string>))
                                 {
 
                                     var dic = new Dictionary<string, string>();
-                                    foreach (var nm in nmField.NameValues.AllKeys.SelectMany(nmField.NameValues.GetValues, (k, v) => new { key = k, value = v }))
+                                    foreach (
+                                        var nm in
+                                        nmField.NameValues.AllKeys.SelectMany(nmField.NameValues.GetValues,
+                                            (k, v) => new {key = k, value = v}))
                                     {
                                         if (!dic.ContainsKey(nm.key))
-                                            dic.Add(nm.key, nm.value);
+                                        {
+                                            dic.Add(nm.key, HttpUtility.UrlDecode(nm.value));
+                                        }
                                     }
                                     f.SetValue(o, dic);
                                 }
