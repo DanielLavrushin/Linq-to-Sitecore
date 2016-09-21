@@ -3,12 +3,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C6BF8373-8B16-4E8D-9759-5EDEF283AF1A}</ProjectGuid>
+    <ProjectGuid>{B1FFE5C0-FEB0-4B11-8C4A-3ED8DCA818D7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LinqToSitecore.Tests</RootNamespace>
     <AssemblyName>LinqToSitecore.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -36,15 +36,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Sitecore.FakeDb, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.FakeDb.1.1.1\lib\net45\Sitecore.FakeDb.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Sitecore.Kernel, Version=7.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore.Kernel.dll</HintPath>
+      <HintPath>C:\Sitecore\scdev\Website\bin\Sitecore.Kernel.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -59,19 +57,21 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="LinqToSitecoreExtensionsTests.cs" />
-    <Compile Include="LambdaTests.cs" />
+    <Compile Include="LinqToSitecoreVisualStudioTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LinqToSitecore.VisualStudio\LinqToSitecore.VisualStudio.csproj">
+      <Project>{39b79891-0879-4721-8b64-ae3ec475dd0c}</Project>
+      <Name>LinqToSitecore.VisualStudio</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LinqToSitecore\LinqToSitecore.csproj">
-      <Project>{87D52928-23C6-46DA-BE3C-D8F43B03AC5B}</Project>
+      <Project>{87d52928-23c6-46da-be3c-d8f43b03ac5b}</Project>
       <Name>LinqToSitecore</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
+    <None Include="app.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
