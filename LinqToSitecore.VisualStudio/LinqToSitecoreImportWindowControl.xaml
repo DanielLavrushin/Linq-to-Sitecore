@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:data="clr-namespace:LinqToSitecore.VisualStudio.Data"
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
              mc:Ignorable="d"
@@ -14,6 +15,12 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <TreeView Name="SitecoreItemsTree" />
+        <TreeView Name="SitecoreItemsTree">
+            <TreeView.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type data:Item}" ItemsSource="{Binding Path=Children}">
+                    <TreeViewItem Header="{Binding Path=DisplayName}" MouseDoubleClick="TreeViewItem_MouseDoubleClick"   />
+                </HierarchicalDataTemplate>
+            </TreeView.Resources>
+        </TreeView>
     </Grid>
 </Window>

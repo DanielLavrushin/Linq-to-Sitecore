@@ -54,8 +54,22 @@ namespace LinqToSitecore.VisualStudio
             var xml = Service.GetXML(id.ToString("B"), false, "master", Credentials);
 
             var item = xml.ToItem();
-            item.Fields = GetFields(id);
             return item;
+        }
+
+        public static Item GetRoot()
+        {
+            return GetItem(SitecoreGuids.Root);
+        }
+
+        public static ICollection<Item> GetChildren(Guid id)
+        {
+            var xml = Service.GetChildren(id.ToString("B"), "master", Credentials);
+            var items = xml.ChildNodes.ToItems();
+
+            return items;
+
+
         }
         public static ICollection<Field> GetFields(Guid id)
         {

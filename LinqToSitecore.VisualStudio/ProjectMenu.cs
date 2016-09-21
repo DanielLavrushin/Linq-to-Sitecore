@@ -5,6 +5,7 @@
 //------------------------------------------------------------------------------
 
 using System;
+using System.CodeDom.Compiler;
 using System.ComponentModel.Design;
 using System.Globalization;
 using EnvDTE;
@@ -94,8 +95,8 @@ namespace LinqToSitecore.VisualStudio
         /// <param name="e">Event args.</param>
         private void MenuItemCallback(object sender, EventArgs e)
         {
-            var window = new LinqToSitecoreImportWindowControl();
-            window.Service = (DTE)ServiceProvider.GetService(typeof(DTE));
+            var service = (DTE)ServiceProvider.GetService(typeof(DTE));
+            var window = new LinqToSitecoreImportWindowControl(service);
             window.ShowDialog();
         }
     }
