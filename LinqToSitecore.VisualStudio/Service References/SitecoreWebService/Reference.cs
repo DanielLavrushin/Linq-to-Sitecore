@@ -9,244 +9,74 @@
 //------------------------------------------------------------------------------
 
 namespace LinqToSitecore.VisualStudio.SitecoreWebService {
+    using System.Runtime.Serialization;
+    using System;
     
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(Name="Sitecore Web Service 2Soap", Namespace="http://sitecore.net/visual/", ConfigurationName="SitecoreWebService.SitecoreWebService2Soap")]
-    public interface SitecoreWebService2Soap {
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/CopyTo", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        System.Xml.XmlNode CopyTo(string id, string newParent, string name, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/CopyTo", ReplyAction="*")]
-        System.Threading.Tasks.Task<System.Xml.XmlNode> CopyToAsync(string id, string newParent, string name, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/Duplicate", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        System.Xml.XmlNode Duplicate(string id, string name, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/Duplicate", ReplyAction="*")]
-        System.Threading.Tasks.Task<System.Xml.XmlNode> DuplicateAsync(string id, string name, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/Execute", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        string Execute(string typeName, object[] parameters, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/Execute", ReplyAction="*")]
-        System.Threading.Tasks.Task<string> ExecuteAsync(string typeName, object[] parameters, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/GetChildren", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        System.Xml.XmlNode GetChildren(string id, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/GetChildren", ReplyAction="*")]
-        System.Threading.Tasks.Task<System.Xml.XmlNode> GetChildrenAsync(string id, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/GetDatabases", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        System.Xml.XmlNode GetDatabases(LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/GetDatabases", ReplyAction="*")]
-        System.Threading.Tasks.Task<System.Xml.XmlNode> GetDatabasesAsync(LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/GetItemFields", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        System.Xml.XmlNode GetItemFields(string id, string language, string version, bool allFields, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/GetItemFields", ReplyAction="*")]
-        System.Threading.Tasks.Task<System.Xml.XmlNode> GetItemFieldsAsync(string id, string language, string version, bool allFields, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/GetTemplates", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        System.Xml.XmlNode GetTemplates(string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/GetTemplates", ReplyAction="*")]
-        System.Threading.Tasks.Task<System.Xml.XmlNode> GetTemplatesAsync(string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/Login", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        string Login(LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/Login", ReplyAction="*")]
-        System.Threading.Tasks.Task<string> LoginAsync(LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/Save", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        System.Xml.XmlNode Save(string xml, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/Save", ReplyAction="*")]
-        System.Threading.Tasks.Task<System.Xml.XmlNode> SaveAsync(string xml, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/AddFromMaster", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        System.Xml.XmlNode AddFromMaster(string id, string masterID, string name, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/AddFromMaster", ReplyAction="*")]
-        System.Threading.Tasks.Task<System.Xml.XmlNode> AddFromMasterAsync(string id, string masterID, string name, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/AddFromTemplate", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        System.Xml.XmlNode AddFromTemplate(string id, string templateID, string name, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/AddFromTemplate", ReplyAction="*")]
-        System.Threading.Tasks.Task<System.Xml.XmlNode> AddFromTemplateAsync(string id, string templateID, string name, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/AddVersion", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        System.Xml.XmlNode AddVersion(string id, string language, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/AddVersion", ReplyAction="*")]
-        System.Threading.Tasks.Task<System.Xml.XmlNode> AddVersionAsync(string id, string language, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/Delete", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        System.Xml.XmlNode Delete(string id, bool recycle, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/Delete", ReplyAction="*")]
-        System.Threading.Tasks.Task<System.Xml.XmlNode> DeleteAsync(string id, bool recycle, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/DeleteChildren", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        System.Xml.XmlNode DeleteChildren(string id, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/DeleteChildren", ReplyAction="*")]
-        System.Threading.Tasks.Task<System.Xml.XmlNode> DeleteChildrenAsync(string id, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/GetItemMasters", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        System.Xml.XmlNode GetItemMasters(string id, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/GetItemMasters", ReplyAction="*")]
-        System.Threading.Tasks.Task<System.Xml.XmlNode> GetItemMastersAsync(string id, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/GetLanguages", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        System.Xml.XmlNode GetLanguages(string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/GetLanguages", ReplyAction="*")]
-        System.Threading.Tasks.Task<System.Xml.XmlNode> GetLanguagesAsync(string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/GetMasters", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        System.Xml.XmlNode GetMasters(string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/GetMasters", ReplyAction="*")]
-        System.Threading.Tasks.Task<System.Xml.XmlNode> GetMastersAsync(string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/GetXML", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        System.Xml.XmlNode GetXML(string id, bool deep, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/GetXML", ReplyAction="*")]
-        System.Threading.Tasks.Task<System.Xml.XmlNode> GetXMLAsync(string id, bool deep, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/InsertXML", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        System.Xml.XmlNode InsertXML(string id, string xml, bool changeIDs, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/InsertXML", ReplyAction="*")]
-        System.Threading.Tasks.Task<System.Xml.XmlNode> InsertXMLAsync(string id, string xml, bool changeIDs, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/MoveTo", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        System.Xml.XmlNode MoveTo(string id, string newParent, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/MoveTo", ReplyAction="*")]
-        System.Threading.Tasks.Task<System.Xml.XmlNode> MoveToAsync(string id, string newParent, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/RemoveVersion", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        System.Xml.XmlNode RemoveVersion(string id, string language, string version, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/RemoveVersion", ReplyAction="*")]
-        System.Threading.Tasks.Task<System.Xml.XmlNode> RemoveVersionAsync(string id, string language, string version, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/Rename", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        System.Xml.XmlNode Rename(string id, string newName, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/Rename", ReplyAction="*")]
-        System.Threading.Tasks.Task<System.Xml.XmlNode> RenameAsync(string id, string newName, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/VerifyCredentials", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        System.Xml.XmlNode VerifyCredentials(LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/VerifyCredentials", ReplyAction="*")]
-        System.Threading.Tasks.Task<System.Xml.XmlNode> VerifyCredentialsAsync(LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials);
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1067.0")]
-    [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://sitecore.net/visual/")]
-    public partial class Credentials : object, System.ComponentModel.INotifyPropertyChanged {
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Credentials", Namespace="http://sitecore.net/visual/")]
+    [System.SerializableAttribute()]
+    public partial class Credentials : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
-        private string customDataField;
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
-        private string passwordField;
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string CustomDataField;
         
-        private string userNameField;
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string PasswordField;
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string UserNameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false)]
         public string CustomData {
             get {
-                return this.customDataField;
+                return this.CustomDataField;
             }
             set {
-                this.customDataField = value;
-                this.RaisePropertyChanged("CustomData");
+                if ((object.ReferenceEquals(this.CustomDataField, value) != true)) {
+                    this.CustomDataField = value;
+                    this.RaisePropertyChanged("CustomData");
+                }
             }
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false)]
         public string Password {
             get {
-                return this.passwordField;
+                return this.PasswordField;
             }
             set {
-                this.passwordField = value;
-                this.RaisePropertyChanged("Password");
+                if ((object.ReferenceEquals(this.PasswordField, value) != true)) {
+                    this.PasswordField = value;
+                    this.RaisePropertyChanged("Password");
+                }
             }
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false)]
         public string UserName {
             get {
-                return this.userNameField;
+                return this.UserNameField;
             }
             set {
-                this.userNameField = value;
-                this.RaisePropertyChanged("UserName");
+                if ((object.ReferenceEquals(this.UserNameField, value) != true)) {
+                    this.UserNameField = value;
+                    this.RaisePropertyChanged("UserName");
+                }
             }
         }
         
@@ -261,214 +91,2459 @@ namespace LinqToSitecore.VisualStudio.SitecoreWebService {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface SitecoreWebService2SoapChannel : LinqToSitecore.VisualStudio.SitecoreWebService.SitecoreWebService2Soap, System.ServiceModel.IClientChannel {
+    [System.ServiceModel.ServiceContractAttribute(Name="Visual Sitecore ServiceSoap", Namespace="http://sitecore.net/visual/", ConfigurationName="SitecoreWebService.VisualSitecoreServiceSoap")]
+    public interface VisualSitecoreServiceSoap {
+        
+        // CODEGEN: Generating message contract since element name id from namespace http://sitecore.net/visual/ is not marked nillable
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/AddFromMaster", ReplyAction="*")]
+        LinqToSitecore.VisualStudio.SitecoreWebService.AddFromMasterResponse AddFromMaster(LinqToSitecore.VisualStudio.SitecoreWebService.AddFromMasterRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/AddFromMaster", ReplyAction="*")]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.AddFromMasterResponse> AddFromMasterAsync(LinqToSitecore.VisualStudio.SitecoreWebService.AddFromMasterRequest request);
+        
+        // CODEGEN: Generating message contract since element name id from namespace http://sitecore.net/visual/ is not marked nillable
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/AddFromTemplate", ReplyAction="*")]
+        LinqToSitecore.VisualStudio.SitecoreWebService.AddFromTemplateResponse AddFromTemplate(LinqToSitecore.VisualStudio.SitecoreWebService.AddFromTemplateRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/AddFromTemplate", ReplyAction="*")]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.AddFromTemplateResponse> AddFromTemplateAsync(LinqToSitecore.VisualStudio.SitecoreWebService.AddFromTemplateRequest request);
+        
+        // CODEGEN: Generating message contract since element name id from namespace http://sitecore.net/visual/ is not marked nillable
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/AddVersion", ReplyAction="*")]
+        LinqToSitecore.VisualStudio.SitecoreWebService.AddVersionResponse AddVersion(LinqToSitecore.VisualStudio.SitecoreWebService.AddVersionRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/AddVersion", ReplyAction="*")]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.AddVersionResponse> AddVersionAsync(LinqToSitecore.VisualStudio.SitecoreWebService.AddVersionRequest request);
+        
+        // CODEGEN: Generating message contract since element name id from namespace http://sitecore.net/visual/ is not marked nillable
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/CopyTo", ReplyAction="*")]
+        LinqToSitecore.VisualStudio.SitecoreWebService.CopyToResponse CopyTo(LinqToSitecore.VisualStudio.SitecoreWebService.CopyToRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/CopyTo", ReplyAction="*")]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.CopyToResponse> CopyToAsync(LinqToSitecore.VisualStudio.SitecoreWebService.CopyToRequest request);
+        
+        // CODEGEN: Generating message contract since element name id from namespace http://sitecore.net/visual/ is not marked nillable
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/Delete", ReplyAction="*")]
+        LinqToSitecore.VisualStudio.SitecoreWebService.DeleteResponse Delete(LinqToSitecore.VisualStudio.SitecoreWebService.DeleteRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/Delete", ReplyAction="*")]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.DeleteResponse> DeleteAsync(LinqToSitecore.VisualStudio.SitecoreWebService.DeleteRequest request);
+        
+        // CODEGEN: Generating message contract since element name id from namespace http://sitecore.net/visual/ is not marked nillable
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/DeleteChildren", ReplyAction="*")]
+        LinqToSitecore.VisualStudio.SitecoreWebService.DeleteChildrenResponse DeleteChildren(LinqToSitecore.VisualStudio.SitecoreWebService.DeleteChildrenRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/DeleteChildren", ReplyAction="*")]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.DeleteChildrenResponse> DeleteChildrenAsync(LinqToSitecore.VisualStudio.SitecoreWebService.DeleteChildrenRequest request);
+        
+        // CODEGEN: Generating message contract since element name id from namespace http://sitecore.net/visual/ is not marked nillable
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/Duplicate", ReplyAction="*")]
+        LinqToSitecore.VisualStudio.SitecoreWebService.DuplicateResponse Duplicate(LinqToSitecore.VisualStudio.SitecoreWebService.DuplicateRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/Duplicate", ReplyAction="*")]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.DuplicateResponse> DuplicateAsync(LinqToSitecore.VisualStudio.SitecoreWebService.DuplicateRequest request);
+        
+        // CODEGEN: Generating message contract since element name id from namespace http://sitecore.net/visual/ is not marked nillable
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/GetChildren", ReplyAction="*")]
+        LinqToSitecore.VisualStudio.SitecoreWebService.GetChildrenResponse GetChildren(LinqToSitecore.VisualStudio.SitecoreWebService.GetChildrenRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/GetChildren", ReplyAction="*")]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.GetChildrenResponse> GetChildrenAsync(LinqToSitecore.VisualStudio.SitecoreWebService.GetChildrenRequest request);
+        
+        // CODEGEN: Generating message contract since element name credentials from namespace http://sitecore.net/visual/ is not marked nillable
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/GetDatabases", ReplyAction="*")]
+        LinqToSitecore.VisualStudio.SitecoreWebService.GetDatabasesResponse GetDatabases(LinqToSitecore.VisualStudio.SitecoreWebService.GetDatabasesRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/GetDatabases", ReplyAction="*")]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.GetDatabasesResponse> GetDatabasesAsync(LinqToSitecore.VisualStudio.SitecoreWebService.GetDatabasesRequest request);
+        
+        // CODEGEN: Generating message contract since element name id from namespace http://sitecore.net/visual/ is not marked nillable
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/GetItemMasters", ReplyAction="*")]
+        LinqToSitecore.VisualStudio.SitecoreWebService.GetItemMastersResponse GetItemMasters(LinqToSitecore.VisualStudio.SitecoreWebService.GetItemMastersRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/GetItemMasters", ReplyAction="*")]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.GetItemMastersResponse> GetItemMastersAsync(LinqToSitecore.VisualStudio.SitecoreWebService.GetItemMastersRequest request);
+        
+        // CODEGEN: Generating message contract since element name id from namespace http://sitecore.net/visual/ is not marked nillable
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/GetItemFields", ReplyAction="*")]
+        LinqToSitecore.VisualStudio.SitecoreWebService.GetItemFieldsResponse GetItemFields(LinqToSitecore.VisualStudio.SitecoreWebService.GetItemFieldsRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/GetItemFields", ReplyAction="*")]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.GetItemFieldsResponse> GetItemFieldsAsync(LinqToSitecore.VisualStudio.SitecoreWebService.GetItemFieldsRequest request);
+        
+        // CODEGEN: Generating message contract since element name databaseName from namespace http://sitecore.net/visual/ is not marked nillable
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/GetLanguages", ReplyAction="*")]
+        LinqToSitecore.VisualStudio.SitecoreWebService.GetLanguagesResponse GetLanguages(LinqToSitecore.VisualStudio.SitecoreWebService.GetLanguagesRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/GetLanguages", ReplyAction="*")]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.GetLanguagesResponse> GetLanguagesAsync(LinqToSitecore.VisualStudio.SitecoreWebService.GetLanguagesRequest request);
+        
+        // CODEGEN: Generating message contract since element name databaseName from namespace http://sitecore.net/visual/ is not marked nillable
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/GetMasters", ReplyAction="*")]
+        LinqToSitecore.VisualStudio.SitecoreWebService.GetMastersResponse GetMasters(LinqToSitecore.VisualStudio.SitecoreWebService.GetMastersRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/GetMasters", ReplyAction="*")]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.GetMastersResponse> GetMastersAsync(LinqToSitecore.VisualStudio.SitecoreWebService.GetMastersRequest request);
+        
+        // CODEGEN: Generating message contract since element name databaseName from namespace http://sitecore.net/visual/ is not marked nillable
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/GetTemplates", ReplyAction="*")]
+        LinqToSitecore.VisualStudio.SitecoreWebService.GetTemplatesResponse GetTemplates(LinqToSitecore.VisualStudio.SitecoreWebService.GetTemplatesRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/GetTemplates", ReplyAction="*")]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.GetTemplatesResponse> GetTemplatesAsync(LinqToSitecore.VisualStudio.SitecoreWebService.GetTemplatesRequest request);
+        
+        // CODEGEN: Generating message contract since element name id from namespace http://sitecore.net/visual/ is not marked nillable
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/GetXML", ReplyAction="*")]
+        LinqToSitecore.VisualStudio.SitecoreWebService.GetXMLResponse GetXML(LinqToSitecore.VisualStudio.SitecoreWebService.GetXMLRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/GetXML", ReplyAction="*")]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.GetXMLResponse> GetXMLAsync(LinqToSitecore.VisualStudio.SitecoreWebService.GetXMLRequest request);
+        
+        // CODEGEN: Generating message contract since element name id from namespace http://sitecore.net/visual/ is not marked nillable
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/InsertXML", ReplyAction="*")]
+        LinqToSitecore.VisualStudio.SitecoreWebService.InsertXMLResponse InsertXML(LinqToSitecore.VisualStudio.SitecoreWebService.InsertXMLRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/InsertXML", ReplyAction="*")]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.InsertXMLResponse> InsertXMLAsync(LinqToSitecore.VisualStudio.SitecoreWebService.InsertXMLRequest request);
+        
+        // CODEGEN: Generating message contract since element name id from namespace http://sitecore.net/visual/ is not marked nillable
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/MoveTo", ReplyAction="*")]
+        LinqToSitecore.VisualStudio.SitecoreWebService.MoveToResponse MoveTo(LinqToSitecore.VisualStudio.SitecoreWebService.MoveToRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/MoveTo", ReplyAction="*")]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.MoveToResponse> MoveToAsync(LinqToSitecore.VisualStudio.SitecoreWebService.MoveToRequest request);
+        
+        // CODEGEN: Generating message contract since element name id from namespace http://sitecore.net/visual/ is not marked nillable
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/RemoveVersion", ReplyAction="*")]
+        LinqToSitecore.VisualStudio.SitecoreWebService.RemoveVersionResponse RemoveVersion(LinqToSitecore.VisualStudio.SitecoreWebService.RemoveVersionRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/RemoveVersion", ReplyAction="*")]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.RemoveVersionResponse> RemoveVersionAsync(LinqToSitecore.VisualStudio.SitecoreWebService.RemoveVersionRequest request);
+        
+        // CODEGEN: Generating message contract since element name id from namespace http://sitecore.net/visual/ is not marked nillable
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/Rename", ReplyAction="*")]
+        LinqToSitecore.VisualStudio.SitecoreWebService.RenameResponse Rename(LinqToSitecore.VisualStudio.SitecoreWebService.RenameRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/Rename", ReplyAction="*")]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.RenameResponse> RenameAsync(LinqToSitecore.VisualStudio.SitecoreWebService.RenameRequest request);
+        
+        // CODEGEN: Generating message contract since element name xml from namespace http://sitecore.net/visual/ is not marked nillable
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/Save", ReplyAction="*")]
+        LinqToSitecore.VisualStudio.SitecoreWebService.SaveResponse Save(LinqToSitecore.VisualStudio.SitecoreWebService.SaveRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/Save", ReplyAction="*")]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.SaveResponse> SaveAsync(LinqToSitecore.VisualStudio.SitecoreWebService.SaveRequest request);
+        
+        // CODEGEN: Generating message contract since element name credentials from namespace http://sitecore.net/visual/ is not marked nillable
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/VerifyCredentials", ReplyAction="*")]
+        LinqToSitecore.VisualStudio.SitecoreWebService.VerifyCredentialsResponse VerifyCredentials(LinqToSitecore.VisualStudio.SitecoreWebService.VerifyCredentialsRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://sitecore.net/visual/VerifyCredentials", ReplyAction="*")]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.VerifyCredentialsResponse> VerifyCredentialsAsync(LinqToSitecore.VisualStudio.SitecoreWebService.VerifyCredentialsRequest request);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class SitecoreWebService2SoapClient : System.ServiceModel.ClientBase<LinqToSitecore.VisualStudio.SitecoreWebService.SitecoreWebService2Soap>, LinqToSitecore.VisualStudio.SitecoreWebService.SitecoreWebService2Soap {
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class AddFromMasterRequest {
         
-        public SitecoreWebService2SoapClient() {
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="AddFromMaster", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.AddFromMasterRequestBody Body;
+        
+        public AddFromMasterRequest() {
         }
         
-        public SitecoreWebService2SoapClient(string endpointConfigurationName) : 
+        public AddFromMasterRequest(LinqToSitecore.VisualStudio.SitecoreWebService.AddFromMasterRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class AddFromMasterRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string id;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
+        public string masterID;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=2)]
+        public string name;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=3)]
+        public string databaseName;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=4)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials;
+        
+        public AddFromMasterRequestBody() {
+        }
+        
+        public AddFromMasterRequestBody(string id, string masterID, string name, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            this.id = id;
+            this.masterID = masterID;
+            this.name = name;
+            this.databaseName = databaseName;
+            this.credentials = credentials;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class AddFromMasterResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="AddFromMasterResponse", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.AddFromMasterResponseBody Body;
+        
+        public AddFromMasterResponse() {
+        }
+        
+        public AddFromMasterResponse(LinqToSitecore.VisualStudio.SitecoreWebService.AddFromMasterResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class AddFromMasterResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public System.Xml.XmlElement AddFromMasterResult;
+        
+        public AddFromMasterResponseBody() {
+        }
+        
+        public AddFromMasterResponseBody(System.Xml.XmlElement AddFromMasterResult) {
+            this.AddFromMasterResult = AddFromMasterResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class AddFromTemplateRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="AddFromTemplate", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.AddFromTemplateRequestBody Body;
+        
+        public AddFromTemplateRequest() {
+        }
+        
+        public AddFromTemplateRequest(LinqToSitecore.VisualStudio.SitecoreWebService.AddFromTemplateRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class AddFromTemplateRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string id;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
+        public string templateID;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=2)]
+        public string name;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=3)]
+        public string databaseName;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=4)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials;
+        
+        public AddFromTemplateRequestBody() {
+        }
+        
+        public AddFromTemplateRequestBody(string id, string templateID, string name, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            this.id = id;
+            this.templateID = templateID;
+            this.name = name;
+            this.databaseName = databaseName;
+            this.credentials = credentials;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class AddFromTemplateResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="AddFromTemplateResponse", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.AddFromTemplateResponseBody Body;
+        
+        public AddFromTemplateResponse() {
+        }
+        
+        public AddFromTemplateResponse(LinqToSitecore.VisualStudio.SitecoreWebService.AddFromTemplateResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class AddFromTemplateResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public System.Xml.XmlElement AddFromTemplateResult;
+        
+        public AddFromTemplateResponseBody() {
+        }
+        
+        public AddFromTemplateResponseBody(System.Xml.XmlElement AddFromTemplateResult) {
+            this.AddFromTemplateResult = AddFromTemplateResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class AddVersionRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="AddVersion", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.AddVersionRequestBody Body;
+        
+        public AddVersionRequest() {
+        }
+        
+        public AddVersionRequest(LinqToSitecore.VisualStudio.SitecoreWebService.AddVersionRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class AddVersionRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string id;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
+        public string language;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=2)]
+        public string databaseName;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=3)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials;
+        
+        public AddVersionRequestBody() {
+        }
+        
+        public AddVersionRequestBody(string id, string language, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            this.id = id;
+            this.language = language;
+            this.databaseName = databaseName;
+            this.credentials = credentials;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class AddVersionResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="AddVersionResponse", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.AddVersionResponseBody Body;
+        
+        public AddVersionResponse() {
+        }
+        
+        public AddVersionResponse(LinqToSitecore.VisualStudio.SitecoreWebService.AddVersionResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class AddVersionResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public System.Xml.XmlElement AddVersionResult;
+        
+        public AddVersionResponseBody() {
+        }
+        
+        public AddVersionResponseBody(System.Xml.XmlElement AddVersionResult) {
+            this.AddVersionResult = AddVersionResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class CopyToRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="CopyTo", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.CopyToRequestBody Body;
+        
+        public CopyToRequest() {
+        }
+        
+        public CopyToRequest(LinqToSitecore.VisualStudio.SitecoreWebService.CopyToRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class CopyToRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string id;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
+        public string newParent;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=2)]
+        public string name;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=3)]
+        public string databaseName;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=4)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials;
+        
+        public CopyToRequestBody() {
+        }
+        
+        public CopyToRequestBody(string id, string newParent, string name, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            this.id = id;
+            this.newParent = newParent;
+            this.name = name;
+            this.databaseName = databaseName;
+            this.credentials = credentials;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class CopyToResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="CopyToResponse", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.CopyToResponseBody Body;
+        
+        public CopyToResponse() {
+        }
+        
+        public CopyToResponse(LinqToSitecore.VisualStudio.SitecoreWebService.CopyToResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class CopyToResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public System.Xml.XmlElement CopyToResult;
+        
+        public CopyToResponseBody() {
+        }
+        
+        public CopyToResponseBody(System.Xml.XmlElement CopyToResult) {
+            this.CopyToResult = CopyToResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class DeleteRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="Delete", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.DeleteRequestBody Body;
+        
+        public DeleteRequest() {
+        }
+        
+        public DeleteRequest(LinqToSitecore.VisualStudio.SitecoreWebService.DeleteRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class DeleteRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string id;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=1)]
+        public bool recycle;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=2)]
+        public string databaseName;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=3)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials;
+        
+        public DeleteRequestBody() {
+        }
+        
+        public DeleteRequestBody(string id, bool recycle, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            this.id = id;
+            this.recycle = recycle;
+            this.databaseName = databaseName;
+            this.credentials = credentials;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class DeleteResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="DeleteResponse", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.DeleteResponseBody Body;
+        
+        public DeleteResponse() {
+        }
+        
+        public DeleteResponse(LinqToSitecore.VisualStudio.SitecoreWebService.DeleteResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class DeleteResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public System.Xml.XmlElement DeleteResult;
+        
+        public DeleteResponseBody() {
+        }
+        
+        public DeleteResponseBody(System.Xml.XmlElement DeleteResult) {
+            this.DeleteResult = DeleteResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class DeleteChildrenRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="DeleteChildren", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.DeleteChildrenRequestBody Body;
+        
+        public DeleteChildrenRequest() {
+        }
+        
+        public DeleteChildrenRequest(LinqToSitecore.VisualStudio.SitecoreWebService.DeleteChildrenRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class DeleteChildrenRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string id;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
+        public string databaseName;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=2)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials;
+        
+        public DeleteChildrenRequestBody() {
+        }
+        
+        public DeleteChildrenRequestBody(string id, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            this.id = id;
+            this.databaseName = databaseName;
+            this.credentials = credentials;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class DeleteChildrenResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="DeleteChildrenResponse", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.DeleteChildrenResponseBody Body;
+        
+        public DeleteChildrenResponse() {
+        }
+        
+        public DeleteChildrenResponse(LinqToSitecore.VisualStudio.SitecoreWebService.DeleteChildrenResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class DeleteChildrenResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public System.Xml.XmlElement DeleteChildrenResult;
+        
+        public DeleteChildrenResponseBody() {
+        }
+        
+        public DeleteChildrenResponseBody(System.Xml.XmlElement DeleteChildrenResult) {
+            this.DeleteChildrenResult = DeleteChildrenResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class DuplicateRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="Duplicate", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.DuplicateRequestBody Body;
+        
+        public DuplicateRequest() {
+        }
+        
+        public DuplicateRequest(LinqToSitecore.VisualStudio.SitecoreWebService.DuplicateRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class DuplicateRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string id;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
+        public string name;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=2)]
+        public string databaseName;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=3)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials;
+        
+        public DuplicateRequestBody() {
+        }
+        
+        public DuplicateRequestBody(string id, string name, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            this.id = id;
+            this.name = name;
+            this.databaseName = databaseName;
+            this.credentials = credentials;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class DuplicateResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="DuplicateResponse", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.DuplicateResponseBody Body;
+        
+        public DuplicateResponse() {
+        }
+        
+        public DuplicateResponse(LinqToSitecore.VisualStudio.SitecoreWebService.DuplicateResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class DuplicateResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public System.Xml.XmlElement DuplicateResult;
+        
+        public DuplicateResponseBody() {
+        }
+        
+        public DuplicateResponseBody(System.Xml.XmlElement DuplicateResult) {
+            this.DuplicateResult = DuplicateResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetChildrenRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetChildren", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.GetChildrenRequestBody Body;
+        
+        public GetChildrenRequest() {
+        }
+        
+        public GetChildrenRequest(LinqToSitecore.VisualStudio.SitecoreWebService.GetChildrenRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class GetChildrenRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string id;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
+        public string databaseName;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=2)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials;
+        
+        public GetChildrenRequestBody() {
+        }
+        
+        public GetChildrenRequestBody(string id, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            this.id = id;
+            this.databaseName = databaseName;
+            this.credentials = credentials;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetChildrenResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetChildrenResponse", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.GetChildrenResponseBody Body;
+        
+        public GetChildrenResponse() {
+        }
+        
+        public GetChildrenResponse(LinqToSitecore.VisualStudio.SitecoreWebService.GetChildrenResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class GetChildrenResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public System.Xml.XmlElement GetChildrenResult;
+        
+        public GetChildrenResponseBody() {
+        }
+        
+        public GetChildrenResponseBody(System.Xml.XmlElement GetChildrenResult) {
+            this.GetChildrenResult = GetChildrenResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetDatabasesRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetDatabases", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.GetDatabasesRequestBody Body;
+        
+        public GetDatabasesRequest() {
+        }
+        
+        public GetDatabasesRequest(LinqToSitecore.VisualStudio.SitecoreWebService.GetDatabasesRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class GetDatabasesRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials;
+        
+        public GetDatabasesRequestBody() {
+        }
+        
+        public GetDatabasesRequestBody(LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            this.credentials = credentials;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetDatabasesResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetDatabasesResponse", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.GetDatabasesResponseBody Body;
+        
+        public GetDatabasesResponse() {
+        }
+        
+        public GetDatabasesResponse(LinqToSitecore.VisualStudio.SitecoreWebService.GetDatabasesResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class GetDatabasesResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public System.Xml.XmlElement GetDatabasesResult;
+        
+        public GetDatabasesResponseBody() {
+        }
+        
+        public GetDatabasesResponseBody(System.Xml.XmlElement GetDatabasesResult) {
+            this.GetDatabasesResult = GetDatabasesResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetItemMastersRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetItemMasters", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.GetItemMastersRequestBody Body;
+        
+        public GetItemMastersRequest() {
+        }
+        
+        public GetItemMastersRequest(LinqToSitecore.VisualStudio.SitecoreWebService.GetItemMastersRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class GetItemMastersRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string id;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
+        public string databaseName;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=2)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials;
+        
+        public GetItemMastersRequestBody() {
+        }
+        
+        public GetItemMastersRequestBody(string id, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            this.id = id;
+            this.databaseName = databaseName;
+            this.credentials = credentials;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetItemMastersResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetItemMastersResponse", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.GetItemMastersResponseBody Body;
+        
+        public GetItemMastersResponse() {
+        }
+        
+        public GetItemMastersResponse(LinqToSitecore.VisualStudio.SitecoreWebService.GetItemMastersResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class GetItemMastersResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public System.Xml.XmlElement GetItemMastersResult;
+        
+        public GetItemMastersResponseBody() {
+        }
+        
+        public GetItemMastersResponseBody(System.Xml.XmlElement GetItemMastersResult) {
+            this.GetItemMastersResult = GetItemMastersResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetItemFieldsRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetItemFields", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.GetItemFieldsRequestBody Body;
+        
+        public GetItemFieldsRequest() {
+        }
+        
+        public GetItemFieldsRequest(LinqToSitecore.VisualStudio.SitecoreWebService.GetItemFieldsRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class GetItemFieldsRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string id;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
+        public string language;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=2)]
+        public string version;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=3)]
+        public bool allFields;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=4)]
+        public string databaseName;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=5)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials;
+        
+        public GetItemFieldsRequestBody() {
+        }
+        
+        public GetItemFieldsRequestBody(string id, string language, string version, bool allFields, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            this.id = id;
+            this.language = language;
+            this.version = version;
+            this.allFields = allFields;
+            this.databaseName = databaseName;
+            this.credentials = credentials;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetItemFieldsResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetItemFieldsResponse", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.GetItemFieldsResponseBody Body;
+        
+        public GetItemFieldsResponse() {
+        }
+        
+        public GetItemFieldsResponse(LinqToSitecore.VisualStudio.SitecoreWebService.GetItemFieldsResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class GetItemFieldsResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public System.Xml.XmlElement GetItemFieldsResult;
+        
+        public GetItemFieldsResponseBody() {
+        }
+        
+        public GetItemFieldsResponseBody(System.Xml.XmlElement GetItemFieldsResult) {
+            this.GetItemFieldsResult = GetItemFieldsResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetLanguagesRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetLanguages", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.GetLanguagesRequestBody Body;
+        
+        public GetLanguagesRequest() {
+        }
+        
+        public GetLanguagesRequest(LinqToSitecore.VisualStudio.SitecoreWebService.GetLanguagesRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class GetLanguagesRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string databaseName;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials;
+        
+        public GetLanguagesRequestBody() {
+        }
+        
+        public GetLanguagesRequestBody(string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            this.databaseName = databaseName;
+            this.credentials = credentials;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetLanguagesResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetLanguagesResponse", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.GetLanguagesResponseBody Body;
+        
+        public GetLanguagesResponse() {
+        }
+        
+        public GetLanguagesResponse(LinqToSitecore.VisualStudio.SitecoreWebService.GetLanguagesResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class GetLanguagesResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public System.Xml.XmlElement GetLanguagesResult;
+        
+        public GetLanguagesResponseBody() {
+        }
+        
+        public GetLanguagesResponseBody(System.Xml.XmlElement GetLanguagesResult) {
+            this.GetLanguagesResult = GetLanguagesResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetMastersRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetMasters", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.GetMastersRequestBody Body;
+        
+        public GetMastersRequest() {
+        }
+        
+        public GetMastersRequest(LinqToSitecore.VisualStudio.SitecoreWebService.GetMastersRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class GetMastersRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string databaseName;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials;
+        
+        public GetMastersRequestBody() {
+        }
+        
+        public GetMastersRequestBody(string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            this.databaseName = databaseName;
+            this.credentials = credentials;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetMastersResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetMastersResponse", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.GetMastersResponseBody Body;
+        
+        public GetMastersResponse() {
+        }
+        
+        public GetMastersResponse(LinqToSitecore.VisualStudio.SitecoreWebService.GetMastersResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class GetMastersResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public System.Xml.XmlElement GetMastersResult;
+        
+        public GetMastersResponseBody() {
+        }
+        
+        public GetMastersResponseBody(System.Xml.XmlElement GetMastersResult) {
+            this.GetMastersResult = GetMastersResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetTemplatesRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetTemplates", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.GetTemplatesRequestBody Body;
+        
+        public GetTemplatesRequest() {
+        }
+        
+        public GetTemplatesRequest(LinqToSitecore.VisualStudio.SitecoreWebService.GetTemplatesRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class GetTemplatesRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string databaseName;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials;
+        
+        public GetTemplatesRequestBody() {
+        }
+        
+        public GetTemplatesRequestBody(string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            this.databaseName = databaseName;
+            this.credentials = credentials;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetTemplatesResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetTemplatesResponse", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.GetTemplatesResponseBody Body;
+        
+        public GetTemplatesResponse() {
+        }
+        
+        public GetTemplatesResponse(LinqToSitecore.VisualStudio.SitecoreWebService.GetTemplatesResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class GetTemplatesResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public System.Xml.XmlElement GetTemplatesResult;
+        
+        public GetTemplatesResponseBody() {
+        }
+        
+        public GetTemplatesResponseBody(System.Xml.XmlElement GetTemplatesResult) {
+            this.GetTemplatesResult = GetTemplatesResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetXMLRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetXML", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.GetXMLRequestBody Body;
+        
+        public GetXMLRequest() {
+        }
+        
+        public GetXMLRequest(LinqToSitecore.VisualStudio.SitecoreWebService.GetXMLRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class GetXMLRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string id;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=1)]
+        public bool deep;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=2)]
+        public string databaseName;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=3)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials;
+        
+        public GetXMLRequestBody() {
+        }
+        
+        public GetXMLRequestBody(string id, bool deep, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            this.id = id;
+            this.deep = deep;
+            this.databaseName = databaseName;
+            this.credentials = credentials;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetXMLResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetXMLResponse", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.GetXMLResponseBody Body;
+        
+        public GetXMLResponse() {
+        }
+        
+        public GetXMLResponse(LinqToSitecore.VisualStudio.SitecoreWebService.GetXMLResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class GetXMLResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public System.Xml.XmlElement GetXMLResult;
+        
+        public GetXMLResponseBody() {
+        }
+        
+        public GetXMLResponseBody(System.Xml.XmlElement GetXMLResult) {
+            this.GetXMLResult = GetXMLResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class InsertXMLRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="InsertXML", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.InsertXMLRequestBody Body;
+        
+        public InsertXMLRequest() {
+        }
+        
+        public InsertXMLRequest(LinqToSitecore.VisualStudio.SitecoreWebService.InsertXMLRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class InsertXMLRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string id;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
+        public string xml;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=2)]
+        public bool changeIDs;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=3)]
+        public string databaseName;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=4)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials;
+        
+        public InsertXMLRequestBody() {
+        }
+        
+        public InsertXMLRequestBody(string id, string xml, bool changeIDs, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            this.id = id;
+            this.xml = xml;
+            this.changeIDs = changeIDs;
+            this.databaseName = databaseName;
+            this.credentials = credentials;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class InsertXMLResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="InsertXMLResponse", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.InsertXMLResponseBody Body;
+        
+        public InsertXMLResponse() {
+        }
+        
+        public InsertXMLResponse(LinqToSitecore.VisualStudio.SitecoreWebService.InsertXMLResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class InsertXMLResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public System.Xml.XmlElement InsertXMLResult;
+        
+        public InsertXMLResponseBody() {
+        }
+        
+        public InsertXMLResponseBody(System.Xml.XmlElement InsertXMLResult) {
+            this.InsertXMLResult = InsertXMLResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class MoveToRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="MoveTo", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.MoveToRequestBody Body;
+        
+        public MoveToRequest() {
+        }
+        
+        public MoveToRequest(LinqToSitecore.VisualStudio.SitecoreWebService.MoveToRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class MoveToRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string id;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
+        public string newParent;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=2)]
+        public string databaseName;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=3)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials;
+        
+        public MoveToRequestBody() {
+        }
+        
+        public MoveToRequestBody(string id, string newParent, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            this.id = id;
+            this.newParent = newParent;
+            this.databaseName = databaseName;
+            this.credentials = credentials;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class MoveToResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="MoveToResponse", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.MoveToResponseBody Body;
+        
+        public MoveToResponse() {
+        }
+        
+        public MoveToResponse(LinqToSitecore.VisualStudio.SitecoreWebService.MoveToResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class MoveToResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public System.Xml.XmlElement MoveToResult;
+        
+        public MoveToResponseBody() {
+        }
+        
+        public MoveToResponseBody(System.Xml.XmlElement MoveToResult) {
+            this.MoveToResult = MoveToResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class RemoveVersionRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="RemoveVersion", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.RemoveVersionRequestBody Body;
+        
+        public RemoveVersionRequest() {
+        }
+        
+        public RemoveVersionRequest(LinqToSitecore.VisualStudio.SitecoreWebService.RemoveVersionRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class RemoveVersionRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string id;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
+        public string language;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=2)]
+        public string version;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=3)]
+        public string databaseName;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=4)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials;
+        
+        public RemoveVersionRequestBody() {
+        }
+        
+        public RemoveVersionRequestBody(string id, string language, string version, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            this.id = id;
+            this.language = language;
+            this.version = version;
+            this.databaseName = databaseName;
+            this.credentials = credentials;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class RemoveVersionResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="RemoveVersionResponse", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.RemoveVersionResponseBody Body;
+        
+        public RemoveVersionResponse() {
+        }
+        
+        public RemoveVersionResponse(LinqToSitecore.VisualStudio.SitecoreWebService.RemoveVersionResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class RemoveVersionResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public System.Xml.XmlElement RemoveVersionResult;
+        
+        public RemoveVersionResponseBody() {
+        }
+        
+        public RemoveVersionResponseBody(System.Xml.XmlElement RemoveVersionResult) {
+            this.RemoveVersionResult = RemoveVersionResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class RenameRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="Rename", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.RenameRequestBody Body;
+        
+        public RenameRequest() {
+        }
+        
+        public RenameRequest(LinqToSitecore.VisualStudio.SitecoreWebService.RenameRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class RenameRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string id;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
+        public string newName;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=2)]
+        public string databaseName;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=3)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials;
+        
+        public RenameRequestBody() {
+        }
+        
+        public RenameRequestBody(string id, string newName, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            this.id = id;
+            this.newName = newName;
+            this.databaseName = databaseName;
+            this.credentials = credentials;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class RenameResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="RenameResponse", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.RenameResponseBody Body;
+        
+        public RenameResponse() {
+        }
+        
+        public RenameResponse(LinqToSitecore.VisualStudio.SitecoreWebService.RenameResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class RenameResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public System.Xml.XmlElement RenameResult;
+        
+        public RenameResponseBody() {
+        }
+        
+        public RenameResponseBody(System.Xml.XmlElement RenameResult) {
+            this.RenameResult = RenameResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class SaveRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="Save", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.SaveRequestBody Body;
+        
+        public SaveRequest() {
+        }
+        
+        public SaveRequest(LinqToSitecore.VisualStudio.SitecoreWebService.SaveRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class SaveRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string xml;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
+        public string databaseName;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=2)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials;
+        
+        public SaveRequestBody() {
+        }
+        
+        public SaveRequestBody(string xml, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            this.xml = xml;
+            this.databaseName = databaseName;
+            this.credentials = credentials;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class SaveResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="SaveResponse", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.SaveResponseBody Body;
+        
+        public SaveResponse() {
+        }
+        
+        public SaveResponse(LinqToSitecore.VisualStudio.SitecoreWebService.SaveResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class SaveResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public System.Xml.XmlElement SaveResult;
+        
+        public SaveResponseBody() {
+        }
+        
+        public SaveResponseBody(System.Xml.XmlElement SaveResult) {
+            this.SaveResult = SaveResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class VerifyCredentialsRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="VerifyCredentials", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.VerifyCredentialsRequestBody Body;
+        
+        public VerifyCredentialsRequest() {
+        }
+        
+        public VerifyCredentialsRequest(LinqToSitecore.VisualStudio.SitecoreWebService.VerifyCredentialsRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class VerifyCredentialsRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials;
+        
+        public VerifyCredentialsRequestBody() {
+        }
+        
+        public VerifyCredentialsRequestBody(LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            this.credentials = credentials;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class VerifyCredentialsResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="VerifyCredentialsResponse", Namespace="http://sitecore.net/visual/", Order=0)]
+        public LinqToSitecore.VisualStudio.SitecoreWebService.VerifyCredentialsResponseBody Body;
+        
+        public VerifyCredentialsResponse() {
+        }
+        
+        public VerifyCredentialsResponse(LinqToSitecore.VisualStudio.SitecoreWebService.VerifyCredentialsResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://sitecore.net/visual/")]
+    public partial class VerifyCredentialsResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public System.Xml.XmlElement VerifyCredentialsResult;
+        
+        public VerifyCredentialsResponseBody() {
+        }
+        
+        public VerifyCredentialsResponseBody(System.Xml.XmlElement VerifyCredentialsResult) {
+            this.VerifyCredentialsResult = VerifyCredentialsResult;
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public interface VisualSitecoreServiceSoapChannel : LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap, System.ServiceModel.IClientChannel {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class VisualSitecoreServiceSoapClient : System.ServiceModel.ClientBase<LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap>, LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap {
+        
+        public VisualSitecoreServiceSoapClient() {
+        }
+        
+        public VisualSitecoreServiceSoapClient(string endpointConfigurationName) : 
                 base(endpointConfigurationName) {
         }
         
-        public SitecoreWebService2SoapClient(string endpointConfigurationName, string remoteAddress) : 
+        public VisualSitecoreServiceSoapClient(string endpointConfigurationName, string remoteAddress) : 
                 base(endpointConfigurationName, remoteAddress) {
         }
         
-        public SitecoreWebService2SoapClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+        public VisualSitecoreServiceSoapClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(endpointConfigurationName, remoteAddress) {
         }
         
-        public SitecoreWebService2SoapClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+        public VisualSitecoreServiceSoapClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
         }
         
-        public System.Xml.XmlNode CopyTo(string id, string newParent, string name, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.CopyTo(id, newParent, name, databaseName, credentials);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        LinqToSitecore.VisualStudio.SitecoreWebService.AddFromMasterResponse LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.AddFromMaster(LinqToSitecore.VisualStudio.SitecoreWebService.AddFromMasterRequest request) {
+            return base.Channel.AddFromMaster(request);
         }
         
-        public System.Threading.Tasks.Task<System.Xml.XmlNode> CopyToAsync(string id, string newParent, string name, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.CopyToAsync(id, newParent, name, databaseName, credentials);
+        public System.Xml.XmlElement AddFromMaster(string id, string masterID, string name, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.AddFromMasterRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.AddFromMasterRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.AddFromMasterRequestBody();
+            inValue.Body.id = id;
+            inValue.Body.masterID = masterID;
+            inValue.Body.name = name;
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            LinqToSitecore.VisualStudio.SitecoreWebService.AddFromMasterResponse retVal = ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).AddFromMaster(inValue);
+            return retVal.Body.AddFromMasterResult;
         }
         
-        public System.Xml.XmlNode Duplicate(string id, string name, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.Duplicate(id, name, databaseName, credentials);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.AddFromMasterResponse> LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.AddFromMasterAsync(LinqToSitecore.VisualStudio.SitecoreWebService.AddFromMasterRequest request) {
+            return base.Channel.AddFromMasterAsync(request);
         }
         
-        public System.Threading.Tasks.Task<System.Xml.XmlNode> DuplicateAsync(string id, string name, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.DuplicateAsync(id, name, databaseName, credentials);
+        public System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.AddFromMasterResponse> AddFromMasterAsync(string id, string masterID, string name, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.AddFromMasterRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.AddFromMasterRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.AddFromMasterRequestBody();
+            inValue.Body.id = id;
+            inValue.Body.masterID = masterID;
+            inValue.Body.name = name;
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            return ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).AddFromMasterAsync(inValue);
         }
         
-        public string Execute(string typeName, object[] parameters, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.Execute(typeName, parameters, credentials);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        LinqToSitecore.VisualStudio.SitecoreWebService.AddFromTemplateResponse LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.AddFromTemplate(LinqToSitecore.VisualStudio.SitecoreWebService.AddFromTemplateRequest request) {
+            return base.Channel.AddFromTemplate(request);
         }
         
-        public System.Threading.Tasks.Task<string> ExecuteAsync(string typeName, object[] parameters, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.ExecuteAsync(typeName, parameters, credentials);
+        public System.Xml.XmlElement AddFromTemplate(string id, string templateID, string name, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.AddFromTemplateRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.AddFromTemplateRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.AddFromTemplateRequestBody();
+            inValue.Body.id = id;
+            inValue.Body.templateID = templateID;
+            inValue.Body.name = name;
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            LinqToSitecore.VisualStudio.SitecoreWebService.AddFromTemplateResponse retVal = ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).AddFromTemplate(inValue);
+            return retVal.Body.AddFromTemplateResult;
         }
         
-        public System.Xml.XmlNode GetChildren(string id, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.GetChildren(id, databaseName, credentials);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.AddFromTemplateResponse> LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.AddFromTemplateAsync(LinqToSitecore.VisualStudio.SitecoreWebService.AddFromTemplateRequest request) {
+            return base.Channel.AddFromTemplateAsync(request);
         }
         
-        public System.Threading.Tasks.Task<System.Xml.XmlNode> GetChildrenAsync(string id, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.GetChildrenAsync(id, databaseName, credentials);
+        public System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.AddFromTemplateResponse> AddFromTemplateAsync(string id, string templateID, string name, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.AddFromTemplateRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.AddFromTemplateRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.AddFromTemplateRequestBody();
+            inValue.Body.id = id;
+            inValue.Body.templateID = templateID;
+            inValue.Body.name = name;
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            return ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).AddFromTemplateAsync(inValue);
         }
         
-        public System.Xml.XmlNode GetDatabases(LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.GetDatabases(credentials);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        LinqToSitecore.VisualStudio.SitecoreWebService.AddVersionResponse LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.AddVersion(LinqToSitecore.VisualStudio.SitecoreWebService.AddVersionRequest request) {
+            return base.Channel.AddVersion(request);
         }
         
-        public System.Threading.Tasks.Task<System.Xml.XmlNode> GetDatabasesAsync(LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.GetDatabasesAsync(credentials);
+        public System.Xml.XmlElement AddVersion(string id, string language, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.AddVersionRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.AddVersionRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.AddVersionRequestBody();
+            inValue.Body.id = id;
+            inValue.Body.language = language;
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            LinqToSitecore.VisualStudio.SitecoreWebService.AddVersionResponse retVal = ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).AddVersion(inValue);
+            return retVal.Body.AddVersionResult;
         }
         
-        public System.Xml.XmlNode GetItemFields(string id, string language, string version, bool allFields, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.GetItemFields(id, language, version, allFields, databaseName, credentials);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.AddVersionResponse> LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.AddVersionAsync(LinqToSitecore.VisualStudio.SitecoreWebService.AddVersionRequest request) {
+            return base.Channel.AddVersionAsync(request);
         }
         
-        public System.Threading.Tasks.Task<System.Xml.XmlNode> GetItemFieldsAsync(string id, string language, string version, bool allFields, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.GetItemFieldsAsync(id, language, version, allFields, databaseName, credentials);
+        public System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.AddVersionResponse> AddVersionAsync(string id, string language, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.AddVersionRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.AddVersionRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.AddVersionRequestBody();
+            inValue.Body.id = id;
+            inValue.Body.language = language;
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            return ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).AddVersionAsync(inValue);
         }
         
-        public System.Xml.XmlNode GetTemplates(string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.GetTemplates(databaseName, credentials);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        LinqToSitecore.VisualStudio.SitecoreWebService.CopyToResponse LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.CopyTo(LinqToSitecore.VisualStudio.SitecoreWebService.CopyToRequest request) {
+            return base.Channel.CopyTo(request);
         }
         
-        public System.Threading.Tasks.Task<System.Xml.XmlNode> GetTemplatesAsync(string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.GetTemplatesAsync(databaseName, credentials);
+        public System.Xml.XmlElement CopyTo(string id, string newParent, string name, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.CopyToRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.CopyToRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.CopyToRequestBody();
+            inValue.Body.id = id;
+            inValue.Body.newParent = newParent;
+            inValue.Body.name = name;
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            LinqToSitecore.VisualStudio.SitecoreWebService.CopyToResponse retVal = ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).CopyTo(inValue);
+            return retVal.Body.CopyToResult;
         }
         
-        public string Login(LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.Login(credentials);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.CopyToResponse> LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.CopyToAsync(LinqToSitecore.VisualStudio.SitecoreWebService.CopyToRequest request) {
+            return base.Channel.CopyToAsync(request);
         }
         
-        public System.Threading.Tasks.Task<string> LoginAsync(LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.LoginAsync(credentials);
+        public System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.CopyToResponse> CopyToAsync(string id, string newParent, string name, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.CopyToRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.CopyToRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.CopyToRequestBody();
+            inValue.Body.id = id;
+            inValue.Body.newParent = newParent;
+            inValue.Body.name = name;
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            return ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).CopyToAsync(inValue);
         }
         
-        public System.Xml.XmlNode Save(string xml, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.Save(xml, databaseName, credentials);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        LinqToSitecore.VisualStudio.SitecoreWebService.DeleteResponse LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.Delete(LinqToSitecore.VisualStudio.SitecoreWebService.DeleteRequest request) {
+            return base.Channel.Delete(request);
         }
         
-        public System.Threading.Tasks.Task<System.Xml.XmlNode> SaveAsync(string xml, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.SaveAsync(xml, databaseName, credentials);
+        public System.Xml.XmlElement Delete(string id, bool recycle, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.DeleteRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.DeleteRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.DeleteRequestBody();
+            inValue.Body.id = id;
+            inValue.Body.recycle = recycle;
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            LinqToSitecore.VisualStudio.SitecoreWebService.DeleteResponse retVal = ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).Delete(inValue);
+            return retVal.Body.DeleteResult;
         }
         
-        public System.Xml.XmlNode AddFromMaster(string id, string masterID, string name, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.AddFromMaster(id, masterID, name, databaseName, credentials);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.DeleteResponse> LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.DeleteAsync(LinqToSitecore.VisualStudio.SitecoreWebService.DeleteRequest request) {
+            return base.Channel.DeleteAsync(request);
         }
         
-        public System.Threading.Tasks.Task<System.Xml.XmlNode> AddFromMasterAsync(string id, string masterID, string name, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.AddFromMasterAsync(id, masterID, name, databaseName, credentials);
+        public System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.DeleteResponse> DeleteAsync(string id, bool recycle, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.DeleteRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.DeleteRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.DeleteRequestBody();
+            inValue.Body.id = id;
+            inValue.Body.recycle = recycle;
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            return ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).DeleteAsync(inValue);
         }
         
-        public System.Xml.XmlNode AddFromTemplate(string id, string templateID, string name, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.AddFromTemplate(id, templateID, name, databaseName, credentials);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        LinqToSitecore.VisualStudio.SitecoreWebService.DeleteChildrenResponse LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.DeleteChildren(LinqToSitecore.VisualStudio.SitecoreWebService.DeleteChildrenRequest request) {
+            return base.Channel.DeleteChildren(request);
         }
         
-        public System.Threading.Tasks.Task<System.Xml.XmlNode> AddFromTemplateAsync(string id, string templateID, string name, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.AddFromTemplateAsync(id, templateID, name, databaseName, credentials);
+        public System.Xml.XmlElement DeleteChildren(string id, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.DeleteChildrenRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.DeleteChildrenRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.DeleteChildrenRequestBody();
+            inValue.Body.id = id;
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            LinqToSitecore.VisualStudio.SitecoreWebService.DeleteChildrenResponse retVal = ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).DeleteChildren(inValue);
+            return retVal.Body.DeleteChildrenResult;
         }
         
-        public System.Xml.XmlNode AddVersion(string id, string language, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.AddVersion(id, language, databaseName, credentials);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.DeleteChildrenResponse> LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.DeleteChildrenAsync(LinqToSitecore.VisualStudio.SitecoreWebService.DeleteChildrenRequest request) {
+            return base.Channel.DeleteChildrenAsync(request);
         }
         
-        public System.Threading.Tasks.Task<System.Xml.XmlNode> AddVersionAsync(string id, string language, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.AddVersionAsync(id, language, databaseName, credentials);
+        public System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.DeleteChildrenResponse> DeleteChildrenAsync(string id, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.DeleteChildrenRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.DeleteChildrenRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.DeleteChildrenRequestBody();
+            inValue.Body.id = id;
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            return ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).DeleteChildrenAsync(inValue);
         }
         
-        public System.Xml.XmlNode Delete(string id, bool recycle, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.Delete(id, recycle, databaseName, credentials);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        LinqToSitecore.VisualStudio.SitecoreWebService.DuplicateResponse LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.Duplicate(LinqToSitecore.VisualStudio.SitecoreWebService.DuplicateRequest request) {
+            return base.Channel.Duplicate(request);
         }
         
-        public System.Threading.Tasks.Task<System.Xml.XmlNode> DeleteAsync(string id, bool recycle, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.DeleteAsync(id, recycle, databaseName, credentials);
+        public System.Xml.XmlElement Duplicate(string id, string name, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.DuplicateRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.DuplicateRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.DuplicateRequestBody();
+            inValue.Body.id = id;
+            inValue.Body.name = name;
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            LinqToSitecore.VisualStudio.SitecoreWebService.DuplicateResponse retVal = ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).Duplicate(inValue);
+            return retVal.Body.DuplicateResult;
         }
         
-        public System.Xml.XmlNode DeleteChildren(string id, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.DeleteChildren(id, databaseName, credentials);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.DuplicateResponse> LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.DuplicateAsync(LinqToSitecore.VisualStudio.SitecoreWebService.DuplicateRequest request) {
+            return base.Channel.DuplicateAsync(request);
         }
         
-        public System.Threading.Tasks.Task<System.Xml.XmlNode> DeleteChildrenAsync(string id, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.DeleteChildrenAsync(id, databaseName, credentials);
+        public System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.DuplicateResponse> DuplicateAsync(string id, string name, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.DuplicateRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.DuplicateRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.DuplicateRequestBody();
+            inValue.Body.id = id;
+            inValue.Body.name = name;
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            return ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).DuplicateAsync(inValue);
         }
         
-        public System.Xml.XmlNode GetItemMasters(string id, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.GetItemMasters(id, databaseName, credentials);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        LinqToSitecore.VisualStudio.SitecoreWebService.GetChildrenResponse LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.GetChildren(LinqToSitecore.VisualStudio.SitecoreWebService.GetChildrenRequest request) {
+            return base.Channel.GetChildren(request);
         }
         
-        public System.Threading.Tasks.Task<System.Xml.XmlNode> GetItemMastersAsync(string id, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.GetItemMastersAsync(id, databaseName, credentials);
+        public System.Xml.XmlElement GetChildren(string id, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.GetChildrenRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.GetChildrenRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.GetChildrenRequestBody();
+            inValue.Body.id = id;
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            LinqToSitecore.VisualStudio.SitecoreWebService.GetChildrenResponse retVal = ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).GetChildren(inValue);
+            return retVal.Body.GetChildrenResult;
         }
         
-        public System.Xml.XmlNode GetLanguages(string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.GetLanguages(databaseName, credentials);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.GetChildrenResponse> LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.GetChildrenAsync(LinqToSitecore.VisualStudio.SitecoreWebService.GetChildrenRequest request) {
+            return base.Channel.GetChildrenAsync(request);
         }
         
-        public System.Threading.Tasks.Task<System.Xml.XmlNode> GetLanguagesAsync(string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.GetLanguagesAsync(databaseName, credentials);
+        public System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.GetChildrenResponse> GetChildrenAsync(string id, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.GetChildrenRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.GetChildrenRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.GetChildrenRequestBody();
+            inValue.Body.id = id;
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            return ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).GetChildrenAsync(inValue);
         }
         
-        public System.Xml.XmlNode GetMasters(string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.GetMasters(databaseName, credentials);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        LinqToSitecore.VisualStudio.SitecoreWebService.GetDatabasesResponse LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.GetDatabases(LinqToSitecore.VisualStudio.SitecoreWebService.GetDatabasesRequest request) {
+            return base.Channel.GetDatabases(request);
         }
         
-        public System.Threading.Tasks.Task<System.Xml.XmlNode> GetMastersAsync(string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.GetMastersAsync(databaseName, credentials);
+        public System.Xml.XmlElement GetDatabases(LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.GetDatabasesRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.GetDatabasesRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.GetDatabasesRequestBody();
+            inValue.Body.credentials = credentials;
+            LinqToSitecore.VisualStudio.SitecoreWebService.GetDatabasesResponse retVal = ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).GetDatabases(inValue);
+            return retVal.Body.GetDatabasesResult;
         }
         
-        public System.Xml.XmlNode GetXML(string id, bool deep, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.GetXML(id, deep, databaseName, credentials);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.GetDatabasesResponse> LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.GetDatabasesAsync(LinqToSitecore.VisualStudio.SitecoreWebService.GetDatabasesRequest request) {
+            return base.Channel.GetDatabasesAsync(request);
         }
         
-        public System.Threading.Tasks.Task<System.Xml.XmlNode> GetXMLAsync(string id, bool deep, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.GetXMLAsync(id, deep, databaseName, credentials);
+        public System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.GetDatabasesResponse> GetDatabasesAsync(LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.GetDatabasesRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.GetDatabasesRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.GetDatabasesRequestBody();
+            inValue.Body.credentials = credentials;
+            return ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).GetDatabasesAsync(inValue);
         }
         
-        public System.Xml.XmlNode InsertXML(string id, string xml, bool changeIDs, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.InsertXML(id, xml, changeIDs, databaseName, credentials);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        LinqToSitecore.VisualStudio.SitecoreWebService.GetItemMastersResponse LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.GetItemMasters(LinqToSitecore.VisualStudio.SitecoreWebService.GetItemMastersRequest request) {
+            return base.Channel.GetItemMasters(request);
         }
         
-        public System.Threading.Tasks.Task<System.Xml.XmlNode> InsertXMLAsync(string id, string xml, bool changeIDs, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.InsertXMLAsync(id, xml, changeIDs, databaseName, credentials);
+        public System.Xml.XmlElement GetItemMasters(string id, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.GetItemMastersRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.GetItemMastersRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.GetItemMastersRequestBody();
+            inValue.Body.id = id;
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            LinqToSitecore.VisualStudio.SitecoreWebService.GetItemMastersResponse retVal = ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).GetItemMasters(inValue);
+            return retVal.Body.GetItemMastersResult;
         }
         
-        public System.Xml.XmlNode MoveTo(string id, string newParent, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.MoveTo(id, newParent, databaseName, credentials);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.GetItemMastersResponse> LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.GetItemMastersAsync(LinqToSitecore.VisualStudio.SitecoreWebService.GetItemMastersRequest request) {
+            return base.Channel.GetItemMastersAsync(request);
         }
         
-        public System.Threading.Tasks.Task<System.Xml.XmlNode> MoveToAsync(string id, string newParent, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.MoveToAsync(id, newParent, databaseName, credentials);
+        public System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.GetItemMastersResponse> GetItemMastersAsync(string id, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.GetItemMastersRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.GetItemMastersRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.GetItemMastersRequestBody();
+            inValue.Body.id = id;
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            return ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).GetItemMastersAsync(inValue);
         }
         
-        public System.Xml.XmlNode RemoveVersion(string id, string language, string version, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.RemoveVersion(id, language, version, databaseName, credentials);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        LinqToSitecore.VisualStudio.SitecoreWebService.GetItemFieldsResponse LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.GetItemFields(LinqToSitecore.VisualStudio.SitecoreWebService.GetItemFieldsRequest request) {
+            return base.Channel.GetItemFields(request);
         }
         
-        public System.Threading.Tasks.Task<System.Xml.XmlNode> RemoveVersionAsync(string id, string language, string version, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.RemoveVersionAsync(id, language, version, databaseName, credentials);
+        public System.Xml.XmlElement GetItemFields(string id, string language, string version, bool allFields, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.GetItemFieldsRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.GetItemFieldsRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.GetItemFieldsRequestBody();
+            inValue.Body.id = id;
+            inValue.Body.language = language;
+            inValue.Body.version = version;
+            inValue.Body.allFields = allFields;
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            LinqToSitecore.VisualStudio.SitecoreWebService.GetItemFieldsResponse retVal = ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).GetItemFields(inValue);
+            return retVal.Body.GetItemFieldsResult;
         }
         
-        public System.Xml.XmlNode Rename(string id, string newName, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.Rename(id, newName, databaseName, credentials);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.GetItemFieldsResponse> LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.GetItemFieldsAsync(LinqToSitecore.VisualStudio.SitecoreWebService.GetItemFieldsRequest request) {
+            return base.Channel.GetItemFieldsAsync(request);
         }
         
-        public System.Threading.Tasks.Task<System.Xml.XmlNode> RenameAsync(string id, string newName, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.RenameAsync(id, newName, databaseName, credentials);
+        public System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.GetItemFieldsResponse> GetItemFieldsAsync(string id, string language, string version, bool allFields, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.GetItemFieldsRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.GetItemFieldsRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.GetItemFieldsRequestBody();
+            inValue.Body.id = id;
+            inValue.Body.language = language;
+            inValue.Body.version = version;
+            inValue.Body.allFields = allFields;
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            return ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).GetItemFieldsAsync(inValue);
         }
         
-        public System.Xml.XmlNode VerifyCredentials(LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.VerifyCredentials(credentials);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        LinqToSitecore.VisualStudio.SitecoreWebService.GetLanguagesResponse LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.GetLanguages(LinqToSitecore.VisualStudio.SitecoreWebService.GetLanguagesRequest request) {
+            return base.Channel.GetLanguages(request);
         }
         
-        public System.Threading.Tasks.Task<System.Xml.XmlNode> VerifyCredentialsAsync(LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
-            return base.Channel.VerifyCredentialsAsync(credentials);
+        public System.Xml.XmlElement GetLanguages(string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.GetLanguagesRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.GetLanguagesRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.GetLanguagesRequestBody();
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            LinqToSitecore.VisualStudio.SitecoreWebService.GetLanguagesResponse retVal = ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).GetLanguages(inValue);
+            return retVal.Body.GetLanguagesResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.GetLanguagesResponse> LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.GetLanguagesAsync(LinqToSitecore.VisualStudio.SitecoreWebService.GetLanguagesRequest request) {
+            return base.Channel.GetLanguagesAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.GetLanguagesResponse> GetLanguagesAsync(string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.GetLanguagesRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.GetLanguagesRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.GetLanguagesRequestBody();
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            return ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).GetLanguagesAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        LinqToSitecore.VisualStudio.SitecoreWebService.GetMastersResponse LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.GetMasters(LinqToSitecore.VisualStudio.SitecoreWebService.GetMastersRequest request) {
+            return base.Channel.GetMasters(request);
+        }
+        
+        public System.Xml.XmlElement GetMasters(string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.GetMastersRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.GetMastersRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.GetMastersRequestBody();
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            LinqToSitecore.VisualStudio.SitecoreWebService.GetMastersResponse retVal = ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).GetMasters(inValue);
+            return retVal.Body.GetMastersResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.GetMastersResponse> LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.GetMastersAsync(LinqToSitecore.VisualStudio.SitecoreWebService.GetMastersRequest request) {
+            return base.Channel.GetMastersAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.GetMastersResponse> GetMastersAsync(string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.GetMastersRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.GetMastersRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.GetMastersRequestBody();
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            return ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).GetMastersAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        LinqToSitecore.VisualStudio.SitecoreWebService.GetTemplatesResponse LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.GetTemplates(LinqToSitecore.VisualStudio.SitecoreWebService.GetTemplatesRequest request) {
+            return base.Channel.GetTemplates(request);
+        }
+        
+        public System.Xml.XmlElement GetTemplates(string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.GetTemplatesRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.GetTemplatesRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.GetTemplatesRequestBody();
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            LinqToSitecore.VisualStudio.SitecoreWebService.GetTemplatesResponse retVal = ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).GetTemplates(inValue);
+            return retVal.Body.GetTemplatesResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.GetTemplatesResponse> LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.GetTemplatesAsync(LinqToSitecore.VisualStudio.SitecoreWebService.GetTemplatesRequest request) {
+            return base.Channel.GetTemplatesAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.GetTemplatesResponse> GetTemplatesAsync(string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.GetTemplatesRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.GetTemplatesRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.GetTemplatesRequestBody();
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            return ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).GetTemplatesAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        LinqToSitecore.VisualStudio.SitecoreWebService.GetXMLResponse LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.GetXML(LinqToSitecore.VisualStudio.SitecoreWebService.GetXMLRequest request) {
+            return base.Channel.GetXML(request);
+        }
+        
+        public System.Xml.XmlElement GetXML(string id, bool deep, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.GetXMLRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.GetXMLRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.GetXMLRequestBody();
+            inValue.Body.id = id;
+            inValue.Body.deep = deep;
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            LinqToSitecore.VisualStudio.SitecoreWebService.GetXMLResponse retVal = ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).GetXML(inValue);
+            return retVal.Body.GetXMLResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.GetXMLResponse> LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.GetXMLAsync(LinqToSitecore.VisualStudio.SitecoreWebService.GetXMLRequest request) {
+            return base.Channel.GetXMLAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.GetXMLResponse> GetXMLAsync(string id, bool deep, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.GetXMLRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.GetXMLRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.GetXMLRequestBody();
+            inValue.Body.id = id;
+            inValue.Body.deep = deep;
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            return ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).GetXMLAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        LinqToSitecore.VisualStudio.SitecoreWebService.InsertXMLResponse LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.InsertXML(LinqToSitecore.VisualStudio.SitecoreWebService.InsertXMLRequest request) {
+            return base.Channel.InsertXML(request);
+        }
+        
+        public System.Xml.XmlElement InsertXML(string id, string xml, bool changeIDs, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.InsertXMLRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.InsertXMLRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.InsertXMLRequestBody();
+            inValue.Body.id = id;
+            inValue.Body.xml = xml;
+            inValue.Body.changeIDs = changeIDs;
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            LinqToSitecore.VisualStudio.SitecoreWebService.InsertXMLResponse retVal = ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).InsertXML(inValue);
+            return retVal.Body.InsertXMLResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.InsertXMLResponse> LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.InsertXMLAsync(LinqToSitecore.VisualStudio.SitecoreWebService.InsertXMLRequest request) {
+            return base.Channel.InsertXMLAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.InsertXMLResponse> InsertXMLAsync(string id, string xml, bool changeIDs, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.InsertXMLRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.InsertXMLRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.InsertXMLRequestBody();
+            inValue.Body.id = id;
+            inValue.Body.xml = xml;
+            inValue.Body.changeIDs = changeIDs;
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            return ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).InsertXMLAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        LinqToSitecore.VisualStudio.SitecoreWebService.MoveToResponse LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.MoveTo(LinqToSitecore.VisualStudio.SitecoreWebService.MoveToRequest request) {
+            return base.Channel.MoveTo(request);
+        }
+        
+        public System.Xml.XmlElement MoveTo(string id, string newParent, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.MoveToRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.MoveToRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.MoveToRequestBody();
+            inValue.Body.id = id;
+            inValue.Body.newParent = newParent;
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            LinqToSitecore.VisualStudio.SitecoreWebService.MoveToResponse retVal = ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).MoveTo(inValue);
+            return retVal.Body.MoveToResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.MoveToResponse> LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.MoveToAsync(LinqToSitecore.VisualStudio.SitecoreWebService.MoveToRequest request) {
+            return base.Channel.MoveToAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.MoveToResponse> MoveToAsync(string id, string newParent, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.MoveToRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.MoveToRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.MoveToRequestBody();
+            inValue.Body.id = id;
+            inValue.Body.newParent = newParent;
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            return ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).MoveToAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        LinqToSitecore.VisualStudio.SitecoreWebService.RemoveVersionResponse LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.RemoveVersion(LinqToSitecore.VisualStudio.SitecoreWebService.RemoveVersionRequest request) {
+            return base.Channel.RemoveVersion(request);
+        }
+        
+        public System.Xml.XmlElement RemoveVersion(string id, string language, string version, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.RemoveVersionRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.RemoveVersionRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.RemoveVersionRequestBody();
+            inValue.Body.id = id;
+            inValue.Body.language = language;
+            inValue.Body.version = version;
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            LinqToSitecore.VisualStudio.SitecoreWebService.RemoveVersionResponse retVal = ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).RemoveVersion(inValue);
+            return retVal.Body.RemoveVersionResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.RemoveVersionResponse> LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.RemoveVersionAsync(LinqToSitecore.VisualStudio.SitecoreWebService.RemoveVersionRequest request) {
+            return base.Channel.RemoveVersionAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.RemoveVersionResponse> RemoveVersionAsync(string id, string language, string version, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.RemoveVersionRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.RemoveVersionRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.RemoveVersionRequestBody();
+            inValue.Body.id = id;
+            inValue.Body.language = language;
+            inValue.Body.version = version;
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            return ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).RemoveVersionAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        LinqToSitecore.VisualStudio.SitecoreWebService.RenameResponse LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.Rename(LinqToSitecore.VisualStudio.SitecoreWebService.RenameRequest request) {
+            return base.Channel.Rename(request);
+        }
+        
+        public System.Xml.XmlElement Rename(string id, string newName, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.RenameRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.RenameRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.RenameRequestBody();
+            inValue.Body.id = id;
+            inValue.Body.newName = newName;
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            LinqToSitecore.VisualStudio.SitecoreWebService.RenameResponse retVal = ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).Rename(inValue);
+            return retVal.Body.RenameResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.RenameResponse> LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.RenameAsync(LinqToSitecore.VisualStudio.SitecoreWebService.RenameRequest request) {
+            return base.Channel.RenameAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.RenameResponse> RenameAsync(string id, string newName, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.RenameRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.RenameRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.RenameRequestBody();
+            inValue.Body.id = id;
+            inValue.Body.newName = newName;
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            return ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).RenameAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        LinqToSitecore.VisualStudio.SitecoreWebService.SaveResponse LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.Save(LinqToSitecore.VisualStudio.SitecoreWebService.SaveRequest request) {
+            return base.Channel.Save(request);
+        }
+        
+        public System.Xml.XmlElement Save(string xml, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.SaveRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.SaveRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.SaveRequestBody();
+            inValue.Body.xml = xml;
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            LinqToSitecore.VisualStudio.SitecoreWebService.SaveResponse retVal = ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).Save(inValue);
+            return retVal.Body.SaveResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.SaveResponse> LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.SaveAsync(LinqToSitecore.VisualStudio.SitecoreWebService.SaveRequest request) {
+            return base.Channel.SaveAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.SaveResponse> SaveAsync(string xml, string databaseName, LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.SaveRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.SaveRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.SaveRequestBody();
+            inValue.Body.xml = xml;
+            inValue.Body.databaseName = databaseName;
+            inValue.Body.credentials = credentials;
+            return ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).SaveAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        LinqToSitecore.VisualStudio.SitecoreWebService.VerifyCredentialsResponse LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.VerifyCredentials(LinqToSitecore.VisualStudio.SitecoreWebService.VerifyCredentialsRequest request) {
+            return base.Channel.VerifyCredentials(request);
+        }
+        
+        public System.Xml.XmlElement VerifyCredentials(LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.VerifyCredentialsRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.VerifyCredentialsRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.VerifyCredentialsRequestBody();
+            inValue.Body.credentials = credentials;
+            LinqToSitecore.VisualStudio.SitecoreWebService.VerifyCredentialsResponse retVal = ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).VerifyCredentials(inValue);
+            return retVal.Body.VerifyCredentialsResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.VerifyCredentialsResponse> LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap.VerifyCredentialsAsync(LinqToSitecore.VisualStudio.SitecoreWebService.VerifyCredentialsRequest request) {
+            return base.Channel.VerifyCredentialsAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<LinqToSitecore.VisualStudio.SitecoreWebService.VerifyCredentialsResponse> VerifyCredentialsAsync(LinqToSitecore.VisualStudio.SitecoreWebService.Credentials credentials) {
+            LinqToSitecore.VisualStudio.SitecoreWebService.VerifyCredentialsRequest inValue = new LinqToSitecore.VisualStudio.SitecoreWebService.VerifyCredentialsRequest();
+            inValue.Body = new LinqToSitecore.VisualStudio.SitecoreWebService.VerifyCredentialsRequestBody();
+            inValue.Body.credentials = credentials;
+            return ((LinqToSitecore.VisualStudio.SitecoreWebService.VisualSitecoreServiceSoap)(this)).VerifyCredentialsAsync(inValue);
         }
     }
 }

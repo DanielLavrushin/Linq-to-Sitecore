@@ -35,11 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Sitecore.Kernel, Version=7.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Sitecore\scdev\Website\bin\Sitecore.Kernel.dll</HintPath>
+    <Reference Include="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
@@ -62,7 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LinqToSitecore.VisualStudio\LinqToSitecore.VisualStudio.csproj">
-      <Project>{39b79891-0879-4721-8b64-ae3ec475dd0c}</Project>
+      <Project>{b4c0c972-4085-437e-b08a-af7cb64e3e20}</Project>
       <Name>LinqToSitecore.VisualStudio</Name>
     </ProjectReference>
     <ProjectReference Include="..\LinqToSitecore\LinqToSitecore.csproj">

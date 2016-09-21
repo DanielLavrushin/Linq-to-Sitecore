@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="77d0973a-f917-415f-9657-677efbb85582" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="4a49727f-6727-4f31-827b-ab88715de3b9" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -19,11 +19,10 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://scdev/sitecore/shell/WebService/Service2.asmx" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://scdev8/sitecore/shell/webservice/service.asmx?WSDL" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="Service2.disco" MetadataType="Disco" ID="02ff3f94-9643-4c32-b12b-99830ebeba6c" SourceId="1" SourceUrl="http://scdev/sitecore/shell/WebService/Service2.asmx?disco" />
-    <MetadataFile FileName="Service2.wsdl" MetadataType="Wsdl" ID="b9e26b07-0202-4977-87f3-c9349b1d83bf" SourceId="1" SourceUrl="http://scdev/sitecore/shell/WebService/Service2.asmx?wsdl" />
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="0688bb56-3c32-40ec-b66c-81e257f13371" SourceId="1" SourceUrl="http://scdev8/sitecore/shell/webservice/service.asmx?WSDL" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

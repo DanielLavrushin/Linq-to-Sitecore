@@ -70,6 +70,24 @@ namespace LinqToSitecore.VisualStudio.Data
         public string Type { get; set; }
         public XmlNode Node { get; set; }
 
+        public Type FromSitecoreFieldToType()
+        {
+            var stringType = typeof(string);
+
+
+            switch (Type)
+            {
+                case "Single-Line Text":
+                    return stringType;
+                case "Multi-Line Text":
+                    return stringType;
+                case "Checkbox Text":
+                    return typeof(bool);
+                default:
+                    return stringType;
+            }
+           
+        }
         public static Field Parse(XmlNode fieldnode)
         {
           return ParseField(new Field(), fieldnode);

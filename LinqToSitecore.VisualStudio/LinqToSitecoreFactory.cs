@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -12,10 +13,27 @@ namespace LinqToSitecore.VisualStudio
 {
     public static class LinqToSitecoreFactory
     {
-        private static SitecoreWebService2SoapClient _service;
-        public static SitecoreWebService2SoapClient Service
+        private static VisualSitecoreServiceSoapClient _service;
+        public static VisualSitecoreServiceSoapClient Service
         {
-            get { return _service ?? (_service = new SitecoreWebService2SoapClient()); }
+            get
+            {
+
+                if (_service == null)
+                {
+                    var binding = new BasicHttpBinding();
+                    binding.TransferMode = TransferMode.Buffered;
+                    binding.MaxBufferPoolSize = 524288;
+                    binding.MaxBufferSize = 16777216;
+                    binding.MaxReceivedMessageSize = 16777216;
+                    binding.ReaderQuotas.MaxStringContentLength = 16777216;
+
+                    var endpoint = new EndpointAddress("http://scdev8/sitecore/shell/WebService/Service.asmx");
+
+                    _service = new VisualSitecoreServiceSoapClient(binding, endpoint);
+                }
+                return _service;
+            }
         }
 
         private static Credentials Credentials

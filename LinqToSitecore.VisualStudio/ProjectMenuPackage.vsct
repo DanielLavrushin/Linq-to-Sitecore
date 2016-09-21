@@ -75,16 +75,16 @@
 
   <Symbols>
     <!-- This is the package guid. -->
-    <GuidSymbol name="guidProjectMenuPackage" value="{7faaf88a-9dfe-42a8-9ad6-26a65298f8a4}" />
+    <GuidSymbol name="guidProjectMenuPackage" value="{639516f3-855b-4a86-8470-5cea921bd82c}" />
 
     <!-- This is the guid used to group the menu commands together -->
-    <GuidSymbol name="guidProjectMenuPackageCmdSet" value="{9279968f-2233-445c-be33-4a72681d52cf}">
+    <GuidSymbol name="guidProjectMenuPackageCmdSet" value="{ea90eaaa-0ad0-47d4-a8e3-38a68a3fd32d}">
       <IDSymbol name="MyMenuGroup" value="0x1020" />
       <IDSymbol name="ProjectMenuId" value="0x0100" />
       <IDSymbol value="4129" name="cmdidLinqToSitecoreImportWindowCommand" />
     </GuidSymbol>
 
-    <GuidSymbol name="guidImages" value="{33ffca67-189b-4cec-b80c-04eca9c8635d}">
+    <GuidSymbol name="guidImages" value="{e8002c7d-7a0f-4814-a61e-73c74330decf}">
       <IDSymbol name="bmpPic1" value="1" />
       <IDSymbol name="bmpPic2" value="2" />
       <IDSymbol name="bmpPicSearch" value="3" />
@@ -93,7 +93,7 @@
       <IDSymbol name="bmpPicStrikethrough" value="6" />
     </GuidSymbol>
   
-    <GuidSymbol value="{71e2c681-55d1-455b-9f8f-d3c3954bfbaf}" name="guidImages1">
+    <GuidSymbol value="{d018c185-0792-495b-a6c9-67382853705b}" name="guidImages1">
       <IDSymbol name="bmpPic1" value="1" />
       <IDSymbol name="bmpPic2" value="2" />
       <IDSymbol name="bmpPicSearch" value="3" />

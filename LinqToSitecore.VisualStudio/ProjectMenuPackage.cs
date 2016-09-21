@@ -1,6 +1,6 @@
 ﻿//------------------------------------------------------------------------------
-// <copyright file="ProjectMenuPackage.cs" company="Microsoft">
-//     Copyright (c) Microsoft.  All rights reserved.
+// <copyright file="ProjectMenuPackage.cs" company="Company">
+//     Copyright (c) Company.  All rights reserved.
 // </copyright>
 //------------------------------------------------------------------------------
 
@@ -45,7 +45,7 @@ namespace LinqToSitecore.VisualStudio
         /// <summary>
         /// ProjectMenuPackage GUID string.
         /// </summary>
-        public const string PackageGuidString = "7faaf88a-9dfe-42a8-9ad6-26a65298f8a4";
+        public const string PackageGuidString = "639516f3-855b-4a86-8470-5cea921bd82c";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProjectMenu"/> class.

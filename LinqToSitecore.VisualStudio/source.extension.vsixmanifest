@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="LinqToSitecore.VisualStudio.4d78303f-7370-4023-8ad4-5edf920ff6dc" Version="1.0" Language="en-US" Publisher="Daniel V. Lavrushin" />
-    <DisplayName>LinqToSitecore Plugin for Visual Studion</DisplayName>
-    <Description xml:space="preserve"></Description>
+    <Identity Id="LinqToSitecore.VisualStudio.Daniel V. Lavrushin.94b131b8-0df2-446b-a4c6-24aaeb635a49" Version="1.1" Language="en-US" Publisher="Daniel V. Lavrushin" />
+    <DisplayName>LinqToSitecore.VisualStudio</DisplayName>
+    <Description>Empty VSIX Project.</Description>
   </Metadata>
   <Installation>
     <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[14.0]" />
