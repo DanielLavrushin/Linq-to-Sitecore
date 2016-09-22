@@ -1,9 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="LinqToSitecore.VisualStudio.Daniel V. Lavrushin.94b131b8-0df2-446b-a4c6-24aaeb635a49" Version="1.1" Language="en-US" Publisher="Daniel V. Lavrushin" />
-    <DisplayName>LinqToSitecore.VisualStudio</DisplayName>
-    <Description>Empty VSIX Project.</Description>
+    <Identity Id="LinqToSitecore.VisualStudio.Daniel V. Lavrushin.94b131b8-0df2-446b-a4c6-24aaeb635a49" Version="1.2" Language="en-US" Publisher="Daniel V. Lavrushin" />
+    <DisplayName>LinqToSitecore Templates To Code Generator</DisplayName>
+    <Description xml:space="preserve">This is a small and quick tool to generate your Sitecore Templates into strongly typed classes. Moreover you will able to use LINQ in order to retrieve content from a Sitecore databses.
+Enjoy.</Description>
+    <MoreInfo>https://github.com/DanielLavrushin/Linq-to-Sitecore</MoreInfo>
   </Metadata>
   <Installation>
     <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[14.0]" />
