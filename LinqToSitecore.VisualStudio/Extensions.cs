@@ -72,6 +72,12 @@ namespace LinqToSitecore.VisualStudio
             {
                 return default(T);
             }
+
+            if ((attribute.Value == "1" || attribute.Value == "0" ) && typeof(T) == typeof(bool))
+            {
+            return (T) TypeDescriptor.GetConverter(typeof(T)).ConvertFromInvariantString(attribute.Value == "1" ? bool.TrueString : bool.FalseString);
+            }
+
             return (T) TypeDescriptor.GetConverter(typeof(T)).ConvertFromInvariantString(attribute.Value);
         }
 

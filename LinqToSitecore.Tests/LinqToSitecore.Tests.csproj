@@ -64,10 +64,6 @@
       <Project>{b4c0c972-4085-437e-b08a-af7cb64e3e20}</Project>
       <Name>LinqToSitecore.VisualStudio</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LinqToSitecore\LinqToSitecore.csproj">
-      <Project>{87d52928-23c6-46da-be3c-d8f43b03ac5b}</Project>
-      <Name>LinqToSitecore</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -14,6 +14,8 @@ namespace LinqToSitecore.VisualStudio
     public static class LinqToSitecoreFactory
     {
         private static VisualSitecoreServiceSoapClient _service;
+        private static AppSettings _settings = AppSettings.Instance();
+
         public static VisualSitecoreServiceSoapClient Service
         {
             get
@@ -21,14 +23,16 @@ namespace LinqToSitecore.VisualStudio
 
                 if (_service == null)
                 {
-                    var binding = new BasicHttpBinding();
-                    binding.TransferMode = TransferMode.Buffered;
-                    binding.MaxBufferPoolSize = 524288;
-                    binding.MaxBufferSize = 16777216;
-                    binding.MaxReceivedMessageSize = 16777216;
-                    binding.ReaderQuotas.MaxStringContentLength = 16777216;
+                    var binding = new BasicHttpBinding
+                    {
+                        TransferMode = TransferMode.Buffered,
+                        MaxBufferPoolSize = 524288,
+                        MaxBufferSize = 16777216,
+                        MaxReceivedMessageSize = 16777216,
+                        ReaderQuotas = {MaxStringContentLength = 16777216}
+                    };
 
-                    var endpoint = new EndpointAddress("http://scdev8/sitecore/shell/WebService/Service.asmx");
+                    var endpoint = new EndpointAddress($"{_settings.SitecoreUrl}/sitecore/shell/WebService/Service.asmx");
 
                     _service = new VisualSitecoreServiceSoapClient(binding, endpoint);
                 }
@@ -42,8 +46,8 @@ namespace LinqToSitecore.VisualStudio
             {
                 var credentials = new Credentials
                 {
-                    UserName = @"sitecore\admin",
-                    Password = "b"
+                    UserName = _settings.SitecoreLogin,
+                    Password = _settings.SitecorePassword
                 };
                 return credentials;
             }
@@ -56,7 +60,13 @@ namespace LinqToSitecore.VisualStudio
             var item = xml.ToItem();
             return item;
         }
+        public static Item GetItem(Guid id, bool loadAll)
+        {
+            var xml = Service.GetXML(id.ToString("B"), loadAll, "master", Credentials);
 
+            var item = xml.ToItem();
+            return item;
+        }
         public static Item GetRoot()
         {
             return GetItem(SitecoreGuids.Root);

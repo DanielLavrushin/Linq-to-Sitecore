@@ -4,10 +4,13 @@
 // </copyright>
 //------------------------------------------------------------------------------
 
+using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Configuration;
 using System.Linq;
+using System.Windows.Input;
 using EnvDTE;
 using LinqToSitecore.VisualStudio.Data;
 
@@ -43,6 +46,51 @@ namespace LinqToSitecore.VisualStudio
         {
             var item = LinqToSitecoreFactory.GetItem(SitecoreGuids.Site8MyLinqToSitecore);
 
+
+        }
+
+        private void TreeViewItem_MouseClick(object sender, MouseButtonEventArgs e)
+        {
+            StackPanelItem.Visibility = Visibility.Hidden;
+            var tvit = sender as StackPanel;
+            var item = tvit.DataContext as Item;
+
+            if (item != null)
+            {
+                var detailedItem = LinqToSitecoreFactory.GetItem(item.Id);
+                var items = LinqToSitecoreFactory.GetChildren(item.Id);
+                item.Children.Clear();
+                foreach (var i in items)
+                {
+                    item.Children.Add(i);
+                }
+
+             item.IsExpanded = true;
+                if (detailedItem.TemplateKey == "template")
+                {
+                    StackPanelItem.DataContext = detailedItem;
+                    StackPanelItem.Visibility = Visibility.Visible;
+                }
+            }
+
+        }
+
+        private void SettingsButton_OnMouseUp(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            var settingsWindow = new LinqToSitecoreSettings();
+            settingsWindow.ShowDialog();
+
+        }
+
+        private void GenerateButton_Click(object sender, RoutedEventArgs e)
+        {
+            var item = (Item) StackPanelItem.DataContext;
+
             var generator = new LinqToSitecoreFileGenerator(item, CodeDomProvider.CreateProvider("C#"));
             var code = generator.GenerateCode();
             var doc = Service.ItemOperations.NewFile(@"General\Visual C# Class", item.Name,
@@ -52,26 +100,9 @@ namespace LinqToSitecore.VisualStudio
             txtSel.SelectAll();
             txtSel.Delete();
             txtSel.Insert(code);
-            txtSel.MoveTo(0, 0);
+            txtSel.MoveTo(1, 1);
         }
 
-        private void TreeViewItem_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            var tvit = sender as TreeViewItem;
-            var item = tvit.DataContext as Item;
-
-            if (item != null)
-            {
-                var items = LinqToSitecoreFactory.GetChildren(item.Id);
-                item.Children.Clear();
-                foreach (var i in items)
-                {
-                    item.Children.Add(i);
-                }
-                tvit.IsExpanded = true;
-                MessageBox.Show("found items : " + item.Children.Count);
-            }
-
-        }
+    
     }
 }

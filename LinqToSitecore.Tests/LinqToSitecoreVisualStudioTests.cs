@@ -17,7 +17,8 @@ namespace LinqToSitecore.Tests
         [TestMethod]
         public void GetItemsFromServiceTest()
         {
-            var item = LinqToSitecoreFactory.GetItem(SitecoreGuids.Site8MyLinqToSitecore);
+            var id = new Guid("{6B229418-DB30-4875-A721-6D0AAD0D8DE2}");
+            var item = LinqToSitecoreFactory.GetChildren(id);
 
 
 

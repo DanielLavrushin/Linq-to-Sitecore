@@ -7,20 +7,71 @@
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300"
-             Name="MyToolWindow" Loaded="Window_Loaded">
+             d:DesignHeight="700" d:DesignWidth="800"
+             Name="MyToolWindow" Loaded="Window_Loaded" Title="LinqToSitecore Template Import">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="300"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-
-        <TreeView Name="SitecoreItemsTree">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Button Name="SettingsButton" Grid.Row="0" Grid.Column="1" HorizontalAlignment="right" MouseUp="SettingsButton_OnMouseUp" Margin="2" Padding="5,2,5,2" Content="Settings" FontSize="8" Foreground="White" BorderBrush="#FF9D9D9D" Background="Red" Click="SettingsButton_Click" />
+        <TreeView Name="SitecoreItemsTree" Grid.Row="1" Grid.Column="0" Margin="10">
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsExpanded" Value="true" />
+                    <Setter Property="FontWeight" Value="Normal" />
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="FontWeight" Value="Bold" />
+                        </Trigger>
+                    </Style.Triggers>
+                  
+                </Style>
+            </TreeView.ItemContainerStyle>
+            
             <TreeView.Resources>
                 <HierarchicalDataTemplate DataType="{x:Type data:Item}" ItemsSource="{Binding Path=Children}">
-                    <TreeViewItem Header="{Binding Path=DisplayName}" MouseDoubleClick="TreeViewItem_MouseDoubleClick"   />
+                    <StackPanel Orientation="Horizontal" MouseUp="TreeViewItem_MouseClick" >
+                        <Image Name="img" Width="16" Height="16" Stretch="Fill" Source="{Binding Path=IconUrl}" Margin="5,2,10,2"  />
+                        <TextBlock Text="{Binding Path=DisplayName}" Margin="5,0,5,0"  />
+                      
+                    </StackPanel>
                 </HierarchicalDataTemplate>
             </TreeView.Resources>
         </TreeView>
+
+        <Grid Grid.Row="1" Grid.Column="1" Name="StackPanelItem" Visibility="Hidden">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="70"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="50"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0">
+                <TextBlock Height="20" Margin="10,5,0,0" >Class Name</TextBlock>
+                <TextBox Name="TextBoxClassName" Text="{Binding Name}" Height="30" Margin="10,0,10,10" ></TextBox>
+            </StackPanel>
+            <ListBox  ItemsSource="{Binding Fields}"  Margin="10" Name="ListFields" Grid.Row="1" >
+                <ListBox.ItemTemplate>
+                    <HierarchicalDataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}" Width="200"/>
+                            <TextBlock Text="{Binding Type}" Width="150"></TextBlock>
+                            <ComboBox IsEditable="True" ItemsSource="{Binding Path=NetTypes}" Text="{Binding NetType.NetTypeName}" >
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <ComboBoxItem IsSelected="{Binding IsSelected}"   />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Button Grid.Row="2" Name="GenerateButton"  HorizontalAlignment="right"  Margin="10" Padding="10,5,10,5" Content="Generate" FontSize="12" Foreground="White" BorderBrush="#FF9D9D9D" Background="Red" Click="GenerateButton_Click" />
+        </Grid>
     </Grid>
 </Window>

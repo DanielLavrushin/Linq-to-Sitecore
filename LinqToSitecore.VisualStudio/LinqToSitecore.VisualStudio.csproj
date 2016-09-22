@@ -51,11 +51,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Data\AppSettings.cs" />
     <Compile Include="Data\Item.cs" />
     <Compile Include="Data\SitecoreGuids.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="LinqToSitecoreFactory.cs" />
     <Compile Include="LinqToSitecoreFileGenerator.cs" />
+    <Compile Include="LinqToSitecoreSettings.xaml.cs">
+      <DependentUpon>LinqToSitecoreSettings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LinqToSitecoreImportWindowControl.xaml.cs">
       <DependentUpon>LinqToSitecoreImportWindowControl.xaml</DependentUpon>
     </Compile>
@@ -266,6 +270,9 @@
     <Content Include="Resources\LinqToSitecoreImportWindowCommand.png" />
     <Content Include="Resources\ProjectMenu.png" />
     <Content Include="Resources\ProjectMenuPackage.ico" />
+    <Content Include="Resources\settings.ico">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <None Include="Service References\SitecoreWebService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -280,6 +287,10 @@
     <WCFMetadataStorage Include="Service References\SitecoreWebService\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="LinqToSitecoreSettings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="LinqToSitecoreImportWindowControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

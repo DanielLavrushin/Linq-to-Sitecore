@@ -33,9 +33,19 @@ namespace LinqToSitecore.VisualStudio
             var typeDeclaration = new CodeTypeDeclaration(_item.Name);
             typeDeclaration.TypeAttributes = TypeAttributes.Public | TypeAttributes.Class;
 
-            foreach (var field in _item.Fields)
+
+
+
+            foreach (var field in _item.Fields.Where(x=> x.IsChecked))
             {
                 typeDeclaration.Members.Add(CreateProperty(field));
+            }
+
+            if (_item.ClassName != _item.Name)
+            {
+                var attrParam = new CodeAttributeArgument(new CodePrimitiveExpression(_item.Id.ToString("B")));
+                var attr = new CodeAttributeDeclaration("SitecoreTemplate", attrParam);
+                typeDeclaration.CustomAttributes.Add(attr);
             }
 
             return typeDeclaration;
@@ -43,15 +53,15 @@ namespace LinqToSitecore.VisualStudio
 
         private CodeMemberField CreateProperty(Field field)
         {
-            var mField = new CodeMemberField(field.FromSitecoreFieldToType(), field.Name.Replace(" ", string.Empty));
+            var mField = new CodeMemberField(field.NetType.Type, field.Name.Replace(" ", string.Empty));
             mField.Attributes = MemberAttributes.Public;
-            mField.Name += " { get; set; }";
 
             if (field.Name != mField.Name)
             {
                 mField.CustomAttributes.Add(CreateLinqToSitecoreAttribute(field.Name));
             }
 
+            mField.Name += " { get; set; }";
             return mField;
 
         }
@@ -59,8 +69,7 @@ namespace LinqToSitecore.VisualStudio
         private CodeAttributeDeclaration CreateLinqToSitecoreAttribute(string fieldName)
         {
             var attrParam = new CodeAttributeArgument(new CodePrimitiveExpression(fieldName));
-
-            var attr = new CodeAttributeDeclaration("LinqToSitecore.SitecoreField", attrParam);
+            var attr = new CodeAttributeDeclaration("SitecoreField", attrParam);
             return attr;
         }
 
