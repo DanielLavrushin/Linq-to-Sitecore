@@ -21,7 +21,7 @@ namespace LinqToSitecore.VisualStudio
             get
             {
 
-                if (_service == null)
+                if (_service == null && !string.IsNullOrEmpty(_settings.SitecoreUrl))
                 {
                     var binding = new BasicHttpBinding
                     {
@@ -40,6 +40,12 @@ namespace LinqToSitecore.VisualStudio
             }
         }
 
+
+        public static void Refresh()
+        {
+            _service = null;
+            
+        }
         private static Credentials Credentials
         {
             get
@@ -50,6 +56,26 @@ namespace LinqToSitecore.VisualStudio
                     Password = _settings.SitecorePassword
                 };
                 return credentials;
+            }
+        }
+
+        public static bool IsValidConnection()
+        {
+
+            if (Service == null) return false;
+
+            if (string.IsNullOrEmpty(_settings.SitecoreUrl)) return false;
+
+
+            try
+            {
+                var test = Service.VerifyCredentials(Credentials);
+                return test.FirstChild.InnerText != "failed";
+            }
+            catch (Exception ex)
+            {
+                return false;
+
             }
         }
 

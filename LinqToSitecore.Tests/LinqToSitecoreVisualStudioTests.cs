@@ -23,5 +23,15 @@ namespace LinqToSitecore.Tests
 
 
         }
+
+
+        [TestMethod]
+        public void TestConnection()
+        {
+            var item = LinqToSitecoreFactory.IsValidConnection();
+
+
+
+        }
     }
 }

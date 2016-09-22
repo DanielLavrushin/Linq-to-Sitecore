@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,6 +36,8 @@ namespace LinqToSitecore.VisualStudio.Data
             get { return string.IsNullOrEmpty(Name) ? Id.ToString() : Name; }
         }
 
+        public string Namespace { get;  set; }
+        public bool IsSystemIncluded { get; set; }
 
         public Item()
         {
@@ -163,45 +166,44 @@ namespace LinqToSitecore.VisualStudio.Data
         public string Value { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
-        public NetType NetType { get; set; }
+        public string NetType { get; set; }
+        public string PropertyName { get; set; }
         public XmlNode Node { get; set; }
 
         public bool IsChecked { get; set; }
 
-        public ICollection<NetType> NetTypes
-        {
-            get { return GetNetTypes(); }
-        }
-        private ICollection<NetType> GetNetTypes()
-        {
-            var types = new List<NetType>();
+        public ObservableCollection<Type> NetTypes { get; set; }
 
-            var sitecoreTypes = new[]
-            {
-                "Single-Line Text",
-                "Multi-Line Text",
-                "Checkbox",
-                "File",
-                "Image",
-                "Date",
-                "Datetime",
-                "Number",
-                "Multilist",
-                "Treelist",
-                "Checklist",
-                "Multilist w. search",
-                "General link",
-                "Droplist",
-                "Name Value List"
-            };
-            foreach (var t in sitecoreTypes)
-            {
-               var net = NetType.GetTypeInstance(t);
-                net.IsSelected = net.SitecoreTypeName == Type;
+        public static ObservableCollection<Type> GetNetTypes(string sitecoreType)
+        {
 
+            var sitecoreTypes = new Dictionary<string, ICollection<Type>>();
+            sitecoreTypes.Add("Single-Line Text", new List<Type> {typeof(string)});
+            sitecoreTypes.Add("Multi-Line Text", new List<Type> {typeof(string)});
+            sitecoreTypes.Add("RichText", new List<Type> {typeof(string)});
+            sitecoreTypes.Add("Checkbox", new List<Type> {typeof(bool), typeof(string), typeof(int)});
+            sitecoreTypes.Add("File", new List<Type> {typeof(string), typeof(byte[])});
+            sitecoreTypes.Add("Image", new List<Type> {typeof(string)});
+            sitecoreTypes.Add("Date", new List<Type> {typeof(DateTime), typeof(string)});
+            sitecoreTypes.Add("Datetime", new List<Type> {typeof(DateTime), typeof(string)});
+            sitecoreTypes.Add("Number", new List<Type> {typeof(decimal), typeof(float), typeof(double), typeof(string)});
+            sitecoreTypes.Add("Integer", new List<Type> {typeof(int), typeof(string)});
+            sitecoreTypes.Add("Multilist", new List<Type> {typeof(string)});
+            sitecoreTypes.Add("Treelist", new List<Type> {typeof(string)});
+            sitecoreTypes.Add("Multilist w. search", new List<Type> {typeof(string)});
+            sitecoreTypes.Add("Droplist", new List<Type> {typeof(string)});
+            sitecoreTypes.Add("Name Value List",
+                new List<Type> {typeof(NameValueCollection), typeof(Dictionary<string, string>), typeof(string)});
+            sitecoreTypes.Add("General link", new List<Type> {typeof(Uri), typeof(string)});
+
+
+
+            if (sitecoreTypes.ContainsKey(sitecoreType))
+            {
+
+                return new ObservableCollection<Type>(sitecoreTypes.FirstOrDefault(x => x.Key == sitecoreType).Value);
             }
-
-            return types.Where(x=>x.SitecoreTypeName == Type).ToList();
+            return new ObservableCollection<Type>(new List<Type> {typeof(string)});
         }
 
         public static Field Parse(XmlNode fieldnode)
@@ -219,13 +221,16 @@ namespace LinqToSitecore.VisualStudio.Data
             field.Name = fieldnode.GetAttributeValue<string>("name");
             field.Node = fieldnode;
             field.IsChecked = true;
-          var content = fieldnode.SelectSingleNode(@".//field[@key='type']/content");
+            field.PropertyName = field.Name;
+
+            var content = fieldnode.SelectSingleNode(@".//field[@key='type']/content");
             if (content != null)
             {
                 field.Type = content.InnerText;
-                field.NetType = NetType.GetTypeInstance(field.Type);
+                field.NetType = GetNetTypes(field.Type).FirstOrDefault().Name;
+                field.NetTypes = GetNetTypes(field.Type);
             }
-                return field;
+            return field;
         }
     }
 

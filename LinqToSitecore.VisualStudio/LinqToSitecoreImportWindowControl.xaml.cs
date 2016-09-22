@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using EnvDTE;
@@ -25,6 +26,12 @@ namespace LinqToSitecore.VisualStudio
     /// </summary>
     public partial class LinqToSitecoreImportWindowControl
     {
+        private const string unable_to_connect =
+            "Unable to connect to a local Sitecore instance. Ensure you correctly entered your credentials in the Settings.";
+
+        private string _projectNamespace;
+        private Project _project;
+
         public LinqToSitecoreImportWindowControl(DTE service)
         {
             Service = service;
@@ -35,19 +42,43 @@ namespace LinqToSitecore.VisualStudio
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            var root = LinqToSitecoreFactory.GetRoot();
+            StackPanelItem.Visibility = Visibility.Hidden;
+            if (!LinqToSitecoreFactory.IsValidConnection())
+            {
+                MessageBox.Show(unable_to_connect);
+                var settingsWindow = new LinqToSitecoreSettings();
+                settingsWindow.Closed += SettingsWindow_Closed;
+                settingsWindow.ShowDialog();
+            }
+            else
+            {
 
-            SitecoreItemsTree.ItemsSource = new ObservableCollection<Item>() {root};
+                _project = ((object[]) Service.ActiveSolutionProjects)[0] as Project;
+                var properties = _project.Properties.Cast<Property>().ToDictionary(x => x.Name);
+                _projectNamespace = properties["DefaultNamespace"].Value.ToString();
 
+                GetRoot();
+            }
         }
 
-
-        private void LoadItemData()
+        protected void SettingsWindow_Closed(object sender, EventArgs e)
         {
-            var item = LinqToSitecoreFactory.GetItem(SitecoreGuids.Site8MyLinqToSitecore);
-
-
+            if (LinqToSitecoreFactory.IsValidConnection())
+            {
+                GetRoot();
+            }
+            else
+            {
+                MessageBox.Show(unable_to_connect);
+            }
         }
+
+        private void GetRoot()
+        {
+            var root = LinqToSitecoreFactory.GetChildren(SitecoreGuids.Root);
+            SitecoreItemsTree.ItemsSource = new ObservableCollection<Item>(root);
+        }
+
 
         private void TreeViewItem_MouseClick(object sender, MouseButtonEventArgs e)
         {
@@ -60,12 +91,14 @@ namespace LinqToSitecore.VisualStudio
                 var detailedItem = LinqToSitecoreFactory.GetItem(item.Id);
                 var items = LinqToSitecoreFactory.GetChildren(item.Id);
                 item.Children.Clear();
+                detailedItem.Namespace = _projectNamespace;
                 foreach (var i in items)
                 {
                     item.Children.Add(i);
                 }
 
-             item.IsExpanded = true;
+                item.IsExpanded = true;
+                item.Namespace = _projectNamespace;
                 if (detailedItem.TemplateKey == "template")
                 {
                     StackPanelItem.DataContext = detailedItem;
@@ -75,14 +108,11 @@ namespace LinqToSitecore.VisualStudio
 
         }
 
-        private void SettingsButton_OnMouseUp(object sender, MouseButtonEventArgs e)
-        {
-
-        }
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             var settingsWindow = new LinqToSitecoreSettings();
+            settingsWindow.Closed += SettingsWindow_Closed;
             settingsWindow.ShowDialog();
 
         }
@@ -91,9 +121,12 @@ namespace LinqToSitecore.VisualStudio
         {
             var item = (Item) StackPanelItem.DataContext;
 
+
+            item.IsSystemIncluded = GenerateSystemProperties.IsChecked.GetValueOrDefault();
+
             var generator = new LinqToSitecoreFileGenerator(item, CodeDomProvider.CreateProvider("C#"));
             var code = generator.GenerateCode();
-            var doc = Service.ItemOperations.NewFile(@"General\Visual C# Class", item.Name,
+            Service.ItemOperations.NewFile(@"General\Visual C# Class", item.Name,
                 Constants.vsProjectItemKindPhysicalFile);
 
             var txtSel = (TextSelection) Service.ActiveDocument.Selection;
@@ -101,8 +134,33 @@ namespace LinqToSitecore.VisualStudio
             txtSel.Delete();
             txtSel.Insert(code);
             txtSel.MoveTo(1, 1);
+
+            var projectDir = new FileInfo(_project.FullName).Directory.FullName;
+
+            var namespacepath = item.Namespace.Replace($"{_projectNamespace}.", string.Empty).Replace(".", "\\") + "\\";
+            if (!Directory.Exists(projectDir + namespacepath))
+            {
+                Directory.CreateDirectory(projectDir + namespacepath);
+            }
+
+            var codeFilePath = $@"{projectDir}\{namespacepath}{item.ClassName}.cs";
+
+
+            try
+            {
+
+                Service.ActiveDocument.Save(codeFilePath);
+                _project.ProjectItems.AddFromFile(codeFilePath);
+                MessageBox.Show("Wow! Generation was... perfect! Time to check this out!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Unable to add generated template to the current project. Ensure that the file does not exists physically on your drive.");
+            }
+
         }
 
-    
+
     }
 }

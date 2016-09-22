@@ -82,6 +82,7 @@ namespace LinqToSitecore.VisualStudio.Data
             {
                 serializer.Serialize(writer, this);
             }
+            _settings = this;
         }
     }
 

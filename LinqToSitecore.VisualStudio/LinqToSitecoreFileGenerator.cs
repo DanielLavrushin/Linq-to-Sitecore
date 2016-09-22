@@ -20,11 +20,13 @@ namespace LinqToSitecore.VisualStudio
 
         private Item _item;
         private CodeDomProvider _provider;
-
+        private string projectNamespace;
         public LinqToSitecoreFileGenerator(Item item, CodeDomProvider provider) : base()
         {
             _item = item;
             _provider = provider;
+
+
         }
 
         private CodeTypeDeclaration CreateClass()
@@ -33,8 +35,14 @@ namespace LinqToSitecore.VisualStudio
             var typeDeclaration = new CodeTypeDeclaration(_item.Name);
             typeDeclaration.TypeAttributes = TypeAttributes.Public | TypeAttributes.Class;
 
-
-
+            if (_item.IsSystemIncluded)
+            {
+                typeDeclaration.Members.Add(CreateSystemProperty("Id", "Guid", "SitecoreSystemPropertyType.Id"));
+                typeDeclaration.Members.Add(CreateSystemProperty("ParentId", "Guid", "SitecoreSystemPropertyType.ParentId"));
+                typeDeclaration.Members.Add(CreateSystemProperty("Item","Item", "SitecoreSystemPropertyType.Item"));
+                typeDeclaration.Members.Add(CreateSystemProperty("Path","System.String", "SitecoreSystemPropertyType.Path"));
+                typeDeclaration.Members.Add(CreateSystemProperty("TemplateId", "Guid", "SitecoreSystemPropertyType.TemplateId"));
+            }
 
             foreach (var field in _item.Fields.Where(x=> x.IsChecked))
             {
@@ -51,9 +59,22 @@ namespace LinqToSitecore.VisualStudio
             return typeDeclaration;
         }
 
+        private CodeMemberField CreateSystemProperty(string name, string typeName, string attrType)
+        {
+            var mField = new CodeMemberField(typeName, name);
+
+
+
+            var attrParam = new CodeAttributeArgument(new CodeTypeReferenceExpression(attrType));
+            var attr = new CodeAttributeDeclaration("SitecoreSystemProperty", attrParam);
+            mField.Name += " { get; set; }";
+            mField.CustomAttributes.Add(attr);
+            return mField;
+        }
+
         private CodeMemberField CreateProperty(Field field)
         {
-            var mField = new CodeMemberField(field.NetType.Type, field.Name.Replace(" ", string.Empty));
+            var mField = new CodeMemberField(field.NetType, field.PropertyName.Replace(" ", string.Empty));
             mField.Attributes = MemberAttributes.Public;
 
             if (field.Name != mField.Name)
@@ -73,18 +94,24 @@ namespace LinqToSitecore.VisualStudio
             return attr;
         }
 
-        private CodeCompileUnit CreateCodeCompileUnit()
+        private CodeCompileUnit CreateCodeCompileUnit(string codenamespace)
         {
             var code = new CodeCompileUnit();
         
-            var codeNamespace = new CodeNamespace();
+
+
+            var codeNamespace = string.IsNullOrEmpty(codenamespace) ?  new CodeNamespace() : new CodeNamespace(codenamespace);
             codeNamespace.Imports.Add(new CodeNamespaceImport("System"));
             codeNamespace.Imports.Add(new CodeNamespaceImport("System.Linq"));
             codeNamespace.Imports.Add(new CodeNamespaceImport("System.Collections.Generic"));
             codeNamespace.Imports.Add(new CodeNamespaceImport("LinqToSitecore"));
 
-            codeNamespace.Types.Add(CreateClass());
+            if (_item.IsSystemIncluded)
+            {
+                codeNamespace.Imports.Add(new CodeNamespaceImport("Sitecore.Data.Items"));
+            }
 
+            codeNamespace.Types.Add(CreateClass());
             code.Namespaces.Add(codeNamespace);
 
             return code;
@@ -99,7 +126,7 @@ namespace LinqToSitecore.VisualStudio
                 options.BracingStyle = "Block";
 
 
-                _provider.GenerateCodeFromCompileUnit(CreateCodeCompileUnit(), writer, options);
+                _provider.GenerateCodeFromCompileUnit(CreateCodeCompileUnit(_item.Namespace), writer, options);
 
                 writer.Flush();
                 var enc = Encoding.GetEncoding(writer.Encoding.WindowsCodePage);

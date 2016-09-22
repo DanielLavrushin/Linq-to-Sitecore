@@ -35,6 +35,7 @@ namespace LinqToSitecore.VisualStudio
             Settings.SitecoreUrl = SettingSitecoreUrl.Text;
             Settings.SitecorePassword = SettingPassword.Text;
             Settings.Save();
+            LinqToSitecoreFactory.Refresh();
             Close();
         }
     }

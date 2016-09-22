@@ -54,9 +54,9 @@
           If you do not want an image next to your command, remove the Icon node /> -->
       <Button guid="guidProjectMenuPackageCmdSet" id="ProjectMenuId" priority="0x0100" type="Button">
         <Parent guid="guidProjectMenuPackageCmdSet" id="MyMenuGroup" />
-        <Icon guid="guidImages" id="bmpPic1" />
+        <Icon guid="linqLogoIcon" id="linqLogoIcon1" />
         <Strings>
-          <ButtonText>Import Sitecore Types</ButtonText>
+          <ButtonText>LinqToSitecore: Import Templates</ButtonText>
         </Strings>
       </Button>
     </Buttons>
@@ -68,14 +68,17 @@
             bitmap strip containing the bitmaps and then there are the numeric ids of the elements used
             inside a button definition. An important aspect of this declaration is that the element id
             must be the actual index (1-based) of the bitmap inside the bitmap strip. -->
-      <Bitmap guid="guidImages" href="Resources\ProjectMenu.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
-      <Bitmap guid="guidImages1" href="Resources\LinqToSitecoreImportWindowCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
+      <Bitmap guid="linqLogoIcon" href="Resources\linqtositecore16x16.png" usedList="linqLogoIcon1" />
     </Bitmaps>
   </Commands>
 
   <Symbols>
     <!-- This is the package guid. -->
     <GuidSymbol name="guidProjectMenuPackage" value="{639516f3-855b-4a86-8470-5cea921bd82c}" />
+   
+    <GuidSymbol name="linqLogoIcon" value="{709B38B6-7A92-410C-A8B3-6198607C8677}">
+      <IDSymbol name="linqLogoIcon1" value="1" />
+    </GuidSymbol>
 
     <!-- This is the guid used to group the menu commands together -->
     <GuidSymbol name="guidProjectMenuPackageCmdSet" value="{ea90eaaa-0ad0-47d4-a8e3-38a68a3fd32d}">
@@ -84,22 +87,7 @@
       <IDSymbol value="4129" name="cmdidLinqToSitecoreImportWindowCommand" />
     </GuidSymbol>
 
-    <GuidSymbol name="guidImages" value="{e8002c7d-7a0f-4814-a61e-73c74330decf}">
-      <IDSymbol name="bmpPic1" value="1" />
-      <IDSymbol name="bmpPic2" value="2" />
-      <IDSymbol name="bmpPicSearch" value="3" />
-      <IDSymbol name="bmpPicX" value="4" />
-      <IDSymbol name="bmpPicArrows" value="5" />
-      <IDSymbol name="bmpPicStrikethrough" value="6" />
-    </GuidSymbol>
+   
   
-    <GuidSymbol value="{d018c185-0792-495b-a6c9-67382853705b}" name="guidImages1">
-      <IDSymbol name="bmpPic1" value="1" />
-      <IDSymbol name="bmpPic2" value="2" />
-      <IDSymbol name="bmpPicSearch" value="3" />
-      <IDSymbol name="bmpPicX" value="4" />
-      <IDSymbol name="bmpPicArrows" value="5" />
-      <IDSymbol name="bmpPicStrikethrough" value="6" />
-    </GuidSymbol>
   </Symbols>
 </CommandTable>
