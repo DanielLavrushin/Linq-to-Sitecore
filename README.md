@@ -4,14 +4,15 @@
 This is a small library to help a developer to map sitecore items to the code-model.
 ## Nuget
 <a href="https://www.nuget.org/packages/LinqToSitecore/">nuget project</a>
+```
+Install-Package LinqToSitecore
+```
 
 ##Visual Studio LinqToSitecore Template Generator
 <a href="https://visualstudiogallery.msdn.microsoft.com/2513cf32-c7f3-4a45-8d12-c375dbee67c8">visualstudiogallery</a>
 <img src="https://i1.visualstudiogallery.msdn.s-msft.com/2513cf32-c7f3-4a45-8d12-c375dbee67c8/image/file/229121/1/capture.png" />
 
-```
-Install-Package LinqToSitecore
-```
+
 ## Short Example
 Lets imagine you created a user defined custom item template called 'MyCustomTemplate'. It has 3 fields: checkbox, singleline and integer field.
 
