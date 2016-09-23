@@ -274,7 +274,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\linqtositecore.png" />
+    <Content Include="Resources\linqtositecore.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Resource Include="Resources\linqtositecore16x16.png" />
     <Content Include="Resources\LinqToSitecoreImportWindowCommand.png" />
     <Content Include="Resources\ProjectMenu.png" />

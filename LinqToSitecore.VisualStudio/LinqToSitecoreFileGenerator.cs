@@ -67,8 +67,8 @@ namespace LinqToSitecore.VisualStudio
 
             var attrParam = new CodeAttributeArgument(new CodeTypeReferenceExpression(attrType));
             var attr = new CodeAttributeDeclaration("SitecoreSystemProperty", attrParam);
-            mField.Name += " { get; set; }";
             mField.CustomAttributes.Add(attr);
+            mField.Name += " { get; set; }";
             return mField;
         }
 

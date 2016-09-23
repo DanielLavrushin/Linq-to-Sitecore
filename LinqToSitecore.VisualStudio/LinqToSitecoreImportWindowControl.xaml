@@ -76,7 +76,7 @@
                             <TextBox Text="{Binding PropertyName}" Width="200"></TextBox>
                             <TextBlock Text="{Binding Type}" Width="150"></TextBlock>
                             <ComboBox Width="200" IsEditable="True" ItemsSource="{Binding Path=NetTypes}" Text="{Binding NetType}" 
-                                   DisplayMemberPath="Name"  SelectedValue="{Binding Path=Name}">
+                                   DisplayMemberPath="Name"  SelectedValue="{Binding Path=NetType}">
                             </ComboBox>
                         </StackPanel>
                     </HierarchicalDataTemplate>
