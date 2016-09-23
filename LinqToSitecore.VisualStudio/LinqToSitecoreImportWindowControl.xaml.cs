@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Input;
 using EnvDTE;
 using LinqToSitecore.VisualStudio.Data;
@@ -126,7 +127,7 @@ namespace LinqToSitecore.VisualStudio
 
             var generator = new LinqToSitecoreFileGenerator(item, CodeDomProvider.CreateProvider("C#"));
             var code = generator.GenerateCode();
-            Service.ItemOperations.NewFile(@"General\Visual C# Class", item.Name,
+            Service.ItemOperations.NewFile(@"General\Visual C# Class", item.DisplayName,
                 Constants.vsProjectItemKindPhysicalFile);
 
             var txtSel = (TextSelection) Service.ActiveDocument.Selection;
@@ -136,15 +137,23 @@ namespace LinqToSitecore.VisualStudio
             txtSel.MoveTo(1, 1);
 
             var projectDir = new FileInfo(_project.FullName).Directory.FullName;
+            var namespacepath = item.Namespace.EndsWith(".") ? item.Namespace : item.Namespace + '.';
 
-            var namespacepath = item.Namespace.Replace($"{_projectNamespace}.", string.Empty).Replace(".", "\\") + "\\";
+
+            string pattern = $@"^(?<project>{_projectNamespace}\.)(?<sub>.*)";
+            var regexOptions = RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.CultureInvariant;
+            var regex = new Regex(pattern, regexOptions);
+
+            namespacepath = regex.Replace(namespacepath, @"${sub}");
+            namespacepath = namespacepath.Replace('.', '\\');
+           
+
             if (!Directory.Exists(projectDir + namespacepath))
             {
                 Directory.CreateDirectory(projectDir + namespacepath);
             }
 
-            var codeFilePath = $@"{projectDir}\{namespacepath}{item.ClassName}.cs";
-
+            var codeFilePath = $@"{projectDir}\{namespacepath}{item.DisplayName}.cs";
 
             try
             {

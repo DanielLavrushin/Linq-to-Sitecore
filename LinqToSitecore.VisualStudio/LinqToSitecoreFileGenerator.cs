@@ -74,7 +74,7 @@ namespace LinqToSitecore.VisualStudio
 
         private CodeMemberField CreateProperty(Field field)
         {
-            var mField = new CodeMemberField(field.NetType, field.PropertyName.Replace(" ", string.Empty));
+            var mField = new CodeMemberField(NormalizeTypeName(field.NetType), field.PropertyName.Replace(" ", string.Empty));
             mField.Attributes = MemberAttributes.Public;
 
             if (field.Name != mField.Name)
@@ -84,6 +84,27 @@ namespace LinqToSitecore.VisualStudio
 
             mField.Name += " { get; set; }";
             return mField;
+
+        }
+
+        private string NormalizeTypeName(string fieldNetType)
+        {
+          
+            switch (fieldNetType)
+            {
+                case "String"  :
+                    return typeof(string).Name;
+                case "Int32":
+                    return typeof(int).Name;
+                case "Decimal":
+                    return typeof(decimal).Name;
+                case "Boolean":
+                    return typeof(bool).Name;
+                case "Float":
+                    return typeof(float).Name;
+                default:
+                    return fieldNetType;
+            }
 
         }
 

@@ -4,12 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:data="clr-namespace:LinqToSitecore.VisualStudio.Data"
-             Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
         Icon="pack://application:,,,/LinqToSitecore.VisualStudio;component/Resources/linqtositecore16x16.png"
              mc:Ignorable="d"
              d:DesignHeight="700" d:DesignWidth="800"
-             Name="MyToolWindow" Loaded="Window_Loaded" Title="LinqToSitecore Template Import" WindowStartupLocation="CenterOwner">
+             Name="MyToolWindow" Loaded="Window_Loaded" Title="LinqToSitecore Template Import" WindowStartupLocation="CenterOwner" Background="#FFF7F7F7">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300"></ColumnDefinition>
@@ -30,16 +29,16 @@
                             <Setter Property="FontWeight" Value="Bold" />
                         </Trigger>
                     </Style.Triggers>
-                  
+
                 </Style>
             </TreeView.ItemContainerStyle>
-            
+
             <TreeView.Resources>
                 <HierarchicalDataTemplate DataType="{x:Type data:Item}" ItemsSource="{Binding Path=Children}">
                     <StackPanel Orientation="Horizontal" MouseUp="TreeViewItem_MouseClick" >
                         <Image Name="img" Width="16" Height="16" Stretch="Fill" Source="{Binding Path=IconUrl}" Margin="5,2,10,2"  />
                         <TextBlock Text="{Binding Path=DisplayName}" Margin="5,0,5,0"  />
-                      
+
                     </StackPanel>
                 </HierarchicalDataTemplate>
             </TreeView.Resources>
@@ -51,9 +50,9 @@
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="50"></RowDefinition>
             </Grid.RowDefinitions>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                    </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Height="20" Margin="10,5,0,0" Width="200" >Namespace</TextBlock>
@@ -61,11 +60,11 @@
                         <TextBlock Height="20" Margin="10,5,0,0" Width="200">Class Name</TextBlock>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <TextBox Name="TextBoxNamespace" Text="{Binding Namespace}" Height="30" Margin="10,0,10,0" Width="200" ></TextBox>
+                        <TextBox Name="TextBoxNamespace" VerticalContentAlignment="Center" Text="{Binding Namespace}" Height="30" Margin="10,0,10,0" Width="200" ></TextBox>
                         <TextBlock Height="20" Margin="0" >.</TextBlock>
-                        <TextBox Name="TextBoxClassName" Text="{Binding Name}" Height="30" Margin="10,0,10,0" Width="200" ></TextBox>
+                        <TextBox VerticalContentAlignment="Center"  Name="TextBoxClassName" Text="{Binding Name}" Height="30" Margin="10,0,10,0" Width="200" ></TextBox>
                     </StackPanel>
-                    <CheckBox Margin="10,5,0,0" Name="GenerateSystemProperties" Content="Plese, don't forget to add the System Properties (Id, Name, Item reference)... thank you"></CheckBox>
+                    <CheckBox Margin="10,5,0,0" Name="GenerateSystemProperties" Content="Generate System Properties (Id, Item itself, Path, ParentId)"></CheckBox>
                 </StackPanel>
             </Grid>
             <ListBox  ItemsSource="{Binding Fields}"  Margin="10" Name="ListFields" Grid.Row="1" >
@@ -73,10 +72,10 @@
                     <HierarchicalDataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <CheckBox IsChecked="{Binding IsChecked}" Width="20"/>
-                            <TextBox Text="{Binding PropertyName}" Width="200"></TextBox>
-                            <TextBlock Text="{Binding Type}" Width="150"></TextBlock>
-                            <ComboBox Width="200" IsEditable="True" ItemsSource="{Binding Path=NetTypes}" Text="{Binding NetType}" 
-                                   DisplayMemberPath="Name"  SelectedValue="{Binding Path=NetType}">
+                            <TextBox  VerticalContentAlignment="Center" Text="{Binding PropertyName}" Width="200" Margin="2"></TextBox>
+                            <TextBlock Text="{Binding Type}" Width="150" Margin="2"></TextBlock>
+                            <ComboBox Width="200" IsEditable="True" ItemsSource="{Binding Path=NetTypes}" Text="{Binding NetType}"   Margin="2"
+                                   DisplayMemberPath="Name" >
                             </ComboBox>
                         </StackPanel>
                     </HierarchicalDataTemplate>
