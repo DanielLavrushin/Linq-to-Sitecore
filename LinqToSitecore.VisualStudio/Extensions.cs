@@ -81,45 +81,5 @@ namespace LinqToSitecore.VisualStudio
             return (T) TypeDescriptor.GetConverter(typeof(T)).ConvertFromInvariantString(attribute.Value);
         }
 
-        public static List<dynamic> ToDynamicList(this XElement elements, List<dynamic> data = null)
-        {
-            if (data == null)
-            {
-                data = new List<dynamic>();
-            }
-
-            foreach (XElement element in elements.Elements())
-            {
-                dynamic person = new ExpandoObject();
-
-                if (element.HasAttributes)
-                {
-                    foreach (var attribute in element.Attributes())
-                    {
-                        ((IDictionary<string, object>) person).Add(attribute.Name.LocalName, attribute.Value);
-                    }
-                }
-
-                if (element.HasElements)
-                {
-                    foreach (XElement subElement in element.Elements())
-                    {
-                        if (subElement.HasElements)
-                        {
-                            ((IDictionary<string, object>) person).Add(subElement.Name.LocalName,
-                                subElement.ToDynamicList());
-                        }
-                        else
-                        {
-                            ((IDictionary<string, object>) person).Add(subElement.Name.LocalName, subElement.Value);
-                        }
-                    }
-                }
-
-                data.Add(person);
-            }
-
-            return data;
-        }
     }
 }
