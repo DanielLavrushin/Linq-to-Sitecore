@@ -7,11 +7,15 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
+using EnvDTE;
 using LinqToSitecore.VisualStudio.Data;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
+using CodeNamespace = System.CodeDom.CodeNamespace;
+using Constants = EnvDTE.Constants;
 
 namespace LinqToSitecore.VisualStudio
 {
@@ -21,11 +25,17 @@ namespace LinqToSitecore.VisualStudio
         private Item _item;
         private CodeDomProvider _provider;
         private string projectNamespace;
-        public LinqToSitecoreFileGenerator(Item item, CodeDomProvider provider) : base()
+        private DTE _service;
+
+       
+
+        public LinqToSitecoreFileGenerator(Item item) : base()
         {
             _item = item;
-            _provider = provider;
+            _provider =  CodeDomProvider.CreateProvider("C#");
 
+            _service = LinqToSitecoreFactory.DteService;
+   
 
         }
 
@@ -138,6 +148,50 @@ namespace LinqToSitecore.VisualStudio
             return code;
         }
 
+        public bool SaveToFile()
+        {
+            var code = GenerateCode();
+            LinqToSitecoreFactory.DteService.ItemOperations.NewFile(@"General\Visual C# Class", _item.DisplayName,
+            Constants.vsProjectItemKindPhysicalFile);
+
+            var txtSel = (TextSelection)LinqToSitecoreFactory.DteService.ActiveDocument.Selection;
+            txtSel.SelectAll();
+            txtSel.Delete();
+            txtSel.Insert(code);
+            txtSel.MoveTo(1, 1);
+
+            var projectDir = new FileInfo(LinqToSitecoreFactory.Project.FullName).Directory.FullName;
+            var namespacepath = _item.Namespace.EndsWith(".") ? _item.Namespace : _item.Namespace + '.';
+
+
+            string pattern = $@"^(?<project>{LinqToSitecoreFactory.ProjectNamespace}\.)(?<sub>.*)";
+            var regexOptions = RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.CultureInvariant;
+            var regex = new Regex(pattern, regexOptions);
+
+            namespacepath = regex.Replace(namespacepath, @"${sub}");
+            namespacepath = namespacepath.Replace('.', '\\');
+
+
+            if (!Directory.Exists($@"{projectDir}\{namespacepath}"))
+            {
+                Directory.CreateDirectory($@"{projectDir}\{namespacepath}");
+            }
+
+            var codeFilePath = $@"{projectDir}\{namespacepath}{_item.DisplayName}.cs";
+
+            try
+            {
+
+                LinqToSitecoreFactory.DteService.ActiveDocument.Save(codeFilePath);
+                LinqToSitecoreFactory.Project.ProjectItems.AddFromFile(codeFilePath);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+           
+            }
+        }
         public string GenerateCode()
         {
             using (StringWriter writer = new StringWriter(new StringBuilder()))

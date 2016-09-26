@@ -23,7 +23,12 @@ namespace LinqToSitecore.Tests
 
         }
 
+        [TestMethod]
+        public void GetItemTemplatesTest()
+        {
+            var id = new Guid("{A0E26F28-C784-4688-A8CF-DD25E884B184}");
 
+        }
         [TestMethod]
         public void ProjectNamespaceExtractionTest()
         {
