@@ -1,7 +1,7 @@
 <img src= "http://s32.postimg.org/eiwhq873p/linqtositecore.png" height="75" style="float:right" />
 # Linq to Sitecore
 ## About
-This is a small library to help a developer to map sitecore items to the code-model.
+This is a small lightweight library to help a developer to map sitecore items to the code-model using LINQ extensions.
 ## Nuget
 <a href="https://www.nuget.org/packages/LinqToSitecore/">nuget project</a>
 ```
@@ -9,18 +9,17 @@ Install-Package LinqToSitecore
 ```
 
 ##Visual Studio LinqToSitecore Template Generator
-This is a quick and lite Visual Studio Extension, which could help you to generate your classes based on the Sitecore templates. See more details on Visual Studio Gallery.
+This is a quick and lightweight Visual Studio Extension, which could help you to generate your classes based on the Sitecore templates. See more details on Visual Studio Gallery.
 <a href="https://visualstudiogallery.msdn.microsoft.com/2513cf32-c7f3-4a45-8d12-c375dbee67c8">visualstudiogallery</a>
-<img src="https://i1.visualstudiogallery.msdn.s-msft.com/2513cf32-c7f3-4a45-8d12-c375dbee67c8/image/file/229121/1/capture.png" />
+<img src="https://i1.visualstudiogallery.msdn.s-msft.com/2513cf32-c7f3-4a45-8d12-c375dbee67c8/image/file/229215/1/capture.png" />
 
 
 ## Short Example
 Lets imagine you created a user defined custom item template called 'MyCustomTemplate'. It has 3 fields: checkbox, singleline and integer field.
 
 ## Manually create classes
-Create your C# class:
+Create your C# class based on existing Sitecore Template:
 ```C#
-using LinqToSitecore;
 
 public class MyCustomTemplate{
   public string SingleLine { get; set; }
@@ -29,7 +28,7 @@ public class MyCustomTemplate{
   public DateTime Date { get; set; }
 }
 ```
-
+That is it! Now you are ready to get all items from the Sitecore database based on the class you just created.
 Write your queries:
 ```C#
 var myItem = Sitecore.Context.Database.ToList<MyCustomTemplate>();

@@ -47,14 +47,14 @@ namespace LinqToSitecore.VisualStudio
 
             if (_item.IsSystemIncluded)
             {
-                typeDeclaration.Members.Add(CreateSystemProperty("Id", "Guid", "SitecoreSystemPropertyType.Id"));
-                typeDeclaration.Members.Add(CreateSystemProperty("ParentId", "Guid", "SitecoreSystemPropertyType.ParentId"));
-                typeDeclaration.Members.Add(CreateSystemProperty("Item","Item", "SitecoreSystemPropertyType.Item"));
-                typeDeclaration.Members.Add(CreateSystemProperty("Path","System.String", "SitecoreSystemPropertyType.Path"));
-                typeDeclaration.Members.Add(CreateSystemProperty("TemplateId", "Guid", "SitecoreSystemPropertyType.TemplateId"));
+                typeDeclaration.Members.Add(CreateSystemProperty("Id", "Guid", "Id"));
+                typeDeclaration.Members.Add(CreateSystemProperty("ParentId", "Guid", "ParentId"));
+                typeDeclaration.Members.Add(CreateSystemProperty("Item", "Item", "Item"));
+                typeDeclaration.Members.Add(CreateSystemProperty("Path", "System.String", "Path"));
+                typeDeclaration.Members.Add(CreateSystemProperty("TemplateId", "Guid", "TemplateId"));
             }
 
-            foreach (var field in _item.Fields.Where(x=> x.IsChecked))
+            foreach (var field in _item.Fields.Where(x => x.IsChecked))
             {
                 typeDeclaration.Members.Add(CreateProperty(field));
             }
@@ -71,11 +71,12 @@ namespace LinqToSitecore.VisualStudio
 
         private CodeMemberField CreateSystemProperty(string name, string typeName, string attrType)
         {
-            var mField = new CodeMemberField(typeName, name);
+            var bpt = GetBuiltInType(typeName);
+            var mField = bpt == null ? new CodeMemberField(typeName, name) : new CodeMemberField(bpt, name);
 
 
-
-            var attrParam = new CodeAttributeArgument(new CodeTypeReferenceExpression(attrType));
+            var attrParam =
+                new CodeAttributeArgument(new CodeTypeReferenceExpression($"SitecoreSystemPropertyType.{attrType}"));
             var attr = new CodeAttributeDeclaration("SitecoreSystemProperty", attrParam);
             mField.CustomAttributes.Add(attr);
             mField.Name += " { get; set; }";
@@ -84,7 +85,10 @@ namespace LinqToSitecore.VisualStudio
 
         private CodeMemberField CreateProperty(Field field)
         {
-            var mField = new CodeMemberField(NormalizeTypeName(field.NetType), field.PropertyName.Replace(" ", string.Empty));
+            var bpt = GetBuiltInType(field.NetType);
+            var mField = bpt == null
+                ? new CodeMemberField(field.NetType, field.PropertyName.Replace(" ", string.Empty))
+                : new CodeMemberField(bpt, field.PropertyName.Replace(" ", string.Empty));
             mField.Attributes = MemberAttributes.Public;
 
             if (field.Name != mField.Name)
@@ -97,26 +101,39 @@ namespace LinqToSitecore.VisualStudio
 
         }
 
-        private string NormalizeTypeName(string fieldNetType)
+        private Type GetBuiltInType(string fieldNetType)
         {
-          
             switch (fieldNetType)
             {
-                case "String"  :
-                    return typeof(string).Name;
+                case "String":
+                    return typeof(string);
+                case "Guid":
+                    return typeof(Guid);
                 case "Int32":
-                    return typeof(int).Name;
+                    return typeof(int);
                 case "Decimal":
-                    return typeof(decimal).Name;
+                    return typeof(decimal);
                 case "Boolean":
-                    return typeof(bool).Name;
-                case "Float":
-                    return typeof(float).Name;
+                    return typeof(bool);
+                case "Single":
+                    return typeof(float);
+                case "float":
+                    return typeof(float);
+                case "Byte":
+                    return typeof(byte);
+                case "Char":
+                    return typeof(char);
+                case "Int16":
+                    return typeof(short);
+                case "Int64":
+                    return typeof(long);
+                case "Double":
+                    return typeof(double);
                 default:
-                    return fieldNetType;
+                    return null;
             }
-
         }
+      
 
         private CodeAttributeDeclaration CreateLinqToSitecoreAttribute(string fieldName)
         {
