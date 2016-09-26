@@ -63,13 +63,15 @@ namespace LinqToSitecore.VisualStudio.Data
             }
 
             item.Id = itemnode.GetAttributeValue<Guid>("id");
-            item.TemplateId = itemnode.GetAttributeValue<Guid>("templateid");
+            item.TemplateId = GetTemplateId(itemnode);
             item.SortOrder = itemnode.GetAttributeValue<int>("sortorder");
             item.SectionId = itemnode.GetAttributeValue<Guid>("sectionid");
             item.TemplateKey = itemnode.GetAttributeValue<string>("template");
             item.HasChildren = itemnode.GetAttributeValue<bool>("haschildren");
             item.Node = itemnode;
             item.ClassName = item.Name;
+
+          
 
             var itemIcon = itemnode.GetAttributeValue<string>("icon");
 
@@ -98,8 +100,17 @@ namespace LinqToSitecore.VisualStudio.Data
 
             return item;
         }
+        private static Guid GetTemplateId(XmlNode itemnode)
+        {
+            var templateId = itemnode.GetAttributeValue<Guid>("templateid");
+            var tid = itemnode.GetAttributeValue<Guid>("tid");
+            var tfid = itemnode.GetAttributeValue<Guid>("tfid");
 
+            return templateId != Guid.Empty ? templateId : tid != Guid.Empty ? tid : tfid;
+        }
     }
+
+    
 
     public class NetType
     {
