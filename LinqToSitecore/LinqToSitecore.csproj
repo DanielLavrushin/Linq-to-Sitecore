@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LinqToSitecore</RootNamespace>
     <AssemblyName>LinqToSitecore</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -50,6 +50,8 @@
     <Compile Include="Opcodes\ContainsFunctionTranslator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LinqToSitecoreQueryTranslator.cs" />
+    <Compile Include="SitecoreQueryable.cs" />
+    <Compile Include="SitecoreQueryProvider.cs" />
     <Compile Include="SitecoreTemplateAttribute.cs" />
     <Compile Include="TypeSystem.cs" />
   </ItemGroup>

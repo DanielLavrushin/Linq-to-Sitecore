@@ -45,7 +45,7 @@ namespace LinqToSitecore
             return prop;
         }
 
-
+        [Obsolete("This method is obsolete. Use Sitecore.Context.Database.AsQueryable<T>() instead")]
         public static T Cast<T>(this Expression expr) where T : Expression
         {
             return (T)expr;
@@ -92,7 +92,7 @@ namespace LinqToSitecore
             var ntname = GetTemplateNameFromType<T>();
             return item.TemplateName == ntname;
         }
-        private static LinqToSitecoreQueryTranslator GetQueryTranslator(QueryContext contextNode, Database database)
+        internal static LinqToSitecoreQueryTranslator GetQueryTranslator(QueryContext contextNode, Database database)
         {
             Assert.ArgumentNotNull(contextNode, nameof(contextNode));
 
@@ -117,7 +117,7 @@ namespace LinqToSitecore
         }
 
 
-        private static List<T> Query<T>(Database database, Expression<Func<T, bool>> query, bool lazyLoading, params string[] include)
+        internal static List<T> Query<T>(Database database, Expression<Func<T, bool>> query, bool lazyLoading, params string[] include)
         {
             var db = database ?? Context.Database;
 
@@ -150,15 +150,18 @@ namespace LinqToSitecore
 
 
         #region WHERE DATABASE
+        [Obsolete("This method is obsolete. Use Sitecore.Context.Database.AsQueryable<T>() instead")]
         public static ICollection<T> Where<T>(this Database database, Expression<Func<T, bool>> query)
         {
             return Query(database, query, false, null);
         }
+        [Obsolete("This method is obsolete. Use Sitecore.Context.Database.AsQueryable<T>() instead")]
         public static ICollection<T> Where<T>(this Database database, Expression<Func<T, bool>> query, bool lazyLoading)
         {
             return Query(database, query, lazyLoading, null);
         }
 
+        [Obsolete("This method is obsolete. Use Sitecore.Context.Database.AsQueryable<T>() instead")]
         public static ICollection<T> Where<T>(this Database database, Expression<Func<T, bool>> query, params string[] include)
         {
             return Query(database, query, false, include);
@@ -166,15 +169,18 @@ namespace LinqToSitecore
         #endregion
 
         #region LIST DATABASE
+        [Obsolete("This method is obsolete. Use Sitecore.Context.Database.AsQueryable<T>() instead")]
         public static ICollection<T> ToList<T>(this Database database)
         {
             return Query<T>(database, null, false, null);
         }
+        [Obsolete("This method is obsolete. Use Sitecore.Context.Database.AsQueryable<T>() instead")]
         public static ICollection<T> ToList<T>(this Database database, bool lazyLoading)
         {
             return Query<T>(database, null, lazyLoading, null);
         }
 
+        [Obsolete("This method is obsolete. Use Sitecore.Context.Database.AsQueryable<T>() instead")]
         public static ICollection<T> ToList<T>(this Database database, params string[] include)
         {
             return Query<T>(database, null, false, include);
@@ -182,26 +188,32 @@ namespace LinqToSitecore
         #endregion
 
         #region FIRSTORDEFAULT DATABASE
+        [Obsolete("This method is obsolete. Use Sitecore.Context.Database.AsQueryable<T>() instead")]
         public static T FirstOrDefault<T>(this Database database)
         {
             return Query<T>(database, null, false, null).FirstOrDefault();
         }
+        [Obsolete("This method is obsolete. Use Sitecore.Context.Database.AsQueryable<T>() instead")]
         public static T FirstOrDefault<T>(this Database database, bool lazyLoading)
         {
             return Query<T>(database, null, lazyLoading, null).FirstOrDefault();
         }
+        [Obsolete("This method is obsolete. Use Sitecore.Context.Database.AsQueryable<T>() instead")]
         public static T FirstOrDefault<T>(this Database database, params string[] include)
         {
             return Query<T>(database, null, false, include).FirstOrDefault();
         }
+        [Obsolete("This method is obsolete. Use Sitecore.Context.Database.AsQueryable<T>() instead")]
         public static T FirstOrDefault<T>(this Database database, Expression<Func<T, bool>> query)
         {
             return Query(database, query, false, null).FirstOrDefault();
         }
+        [Obsolete("This method is obsolete. Use Sitecore.Context.Database.AsQueryable<T>() instead")]
         public static T FirstOrDefault<T>(this Database database, Expression<Func<T, bool>> query, bool lazyLoading)
         {
             return Query(database, query, lazyLoading, null).FirstOrDefault();
         }
+        [Obsolete("This method is obsolete. Use Sitecore.Context.Database.AsQueryable<T>() instead")]
         public static T FirstOrDefault<T>(this Database database, Expression<Func<T, bool>> query, params string[] include)
         {
             return Query(database, query, false, include).FirstOrDefault();
@@ -210,30 +222,37 @@ namespace LinqToSitecore
 
         #region FIRSTORDEFAULT ITEMS
 
+        [Obsolete("This method is obsolete. Use Sitecore.Context.Database.AsQueryable<T>() instead")]
         public static T FirstOrDefault<T>(this IEnumerable<Item> items)
         {
             return Convert<T>(items.ToList(), null, false, null).FirstOrDefault();
         }
+        [Obsolete("This method is obsolete. Use Sitecore.Context.Database.AsQueryable<T>() instead")]
         public static T FirstOrDefault<T>(this IEnumerable<Item> items, bool lazyLoading)
         {
             return Convert<T>(items.ToList(), null, lazyLoading, null).FirstOrDefault();
         }
+        [Obsolete("This method is obsolete. Use Sitecore.Context.Database.AsQueryable<T>() instead")]
         public static T FirstOrDefault<T>(this IEnumerable<Item> items, params string[] include)
         {
             return Convert<T>(items.ToList(), null, false, include).FirstOrDefault();
         }
+        [Obsolete("This method is obsolete. Use Sitecore.Context.Database.AsQueryable<T>() instead")]
         public static T FirstOrDefault<T>(this IEnumerable<Item> items, Expression<Func<T, bool>> query)
         {
             return FirstOrDefault(items, query, false);
         }
+        [Obsolete("This method is obsolete. Use Sitecore.Context.Database.AsQueryable<T>() instead")]
         public static T FirstOrDefault<T>(this IEnumerable<Item> items, Expression<Func<T, bool>> query, bool lazyLoading)
         {
             return Convert(items.ToList(), query, lazyLoading, null).FirstOrDefault();
         }
+        [Obsolete("This method is obsolete. Use Sitecore.Context.Database.AsQueryable<T>() instead")]
         public static T FirstOrDefault<T>(this IEnumerable<Item> items, Expression<Func<T, bool>> query, params string[] include)
         {
             return Convert(items.ToList(), query, false, include).FirstOrDefault();
         }
+        [Obsolete("This method is obsolete. Use Sitecore.Context.Database.AsQueryable<T>() instead")]
         public static T FirstOrDefault<T>(this IEnumerable<Item> items, Expression<Func<T, bool>> query, bool lazyLoading, params string[] include)
         {
             return Convert(items.ToList(), query, lazyLoading, include).FirstOrDefault();
@@ -241,18 +260,22 @@ namespace LinqToSitecore
         #endregion
 
         #region LIST ITEMS
+        [Obsolete("This method is obsolete. Use Sitecore.Context.Database.AsQueryable<T>() instead")]
         public static List<T> ToList<T>(this IEnumerable<Item> items)
         {
             return Convert<T>(items.ToList(), null, false, null);
         }
+        [Obsolete("This method is obsolete. Use Sitecore.Context.Database.AsQueryable<T>() instead")]
         public static ICollection<T> ToList<T>(this IEnumerable<Item> items, bool lazyLoading)
         {
             return Convert<T>(items.ToList(), null, lazyLoading, null);
         }
+        [Obsolete("This method is obsolete. Use Sitecore.Context.Database.AsQueryable<T>() instead")]
         public static ICollection<T> ToList<T>(this IEnumerable<Item> items, params string[] include)
         {
             return Convert<T>(items.ToList(), null, false, include);
         }
+        [Obsolete("This method is obsolete. Use Sitecore.Context.Database.AsQueryable<T>() instead")]
         public static ICollection<T> ToList<T>(this IEnumerable<Item> items, bool lazyLoading, params string[] include)
         {
             return Convert<T>(items.ToList(), null, lazyLoading, include);
@@ -260,20 +283,30 @@ namespace LinqToSitecore
         #endregion
 
         #region WHERE ITEMS
+        [Obsolete("This method is obsolete. Use Sitecore.Context.Database.AsQueryable<T>() instead")]
         public static ICollection<T> Where<T>(this IEnumerable<Item> items, Expression<Func<T, bool>> query)
         {
             return Convert(items.ToList(), query, false, null);
         }
+        [Obsolete("This method is obsolete. Use Sitecore.Context.Database.AsQueryable<T>() instead")]
         public static ICollection<T> Where<T>(this IEnumerable<Item> items, Expression<Func<T, bool>> query, bool lazyLoading)
         {
             return Convert(items.ToList(), query, lazyLoading, null);
         }
+        [Obsolete("This method is obsolete. Use Sitecore.Context.Database.AsQueryable<T>() instead")]
         public static ICollection<T> Where<T>(this IEnumerable<Item> items, Expression<Func<T, bool>> query, params string[] include)
         {
             return Convert(items.ToList(), query, false, include);
         }
         #endregion
 
+
+        public static SitecoreQueryable<T> AsQueryable<T>(this Database database)
+        {
+            var query = new SitecoreQueryable<T>(database);
+
+            return query;
+        }
 
 
         public static T Parent<T>(this Item item, bool lazyLoading = false)
@@ -306,17 +339,6 @@ namespace LinqToSitecore
             {
                 coll = item?.Database.SelectItems($"{item.Paths.Path}//*").ToList<T>();
             }
-
-            //foreach (var c in coll)
-            //{
-            //    var itemProp = SitecoreQueryWorker.GetTemplateSystemProperty<T>(SitecoreSystemPropertyType.Item);
-            //    if (itemProp != null)
-            //    {
-            //        var subItem = (Item)itemProp.GetValue(c, null);
-            //        Children<T>(c, lazyLoading);
-            //    }
-            //}
-
 
             return coll ?? new List<T>();
         }
@@ -466,7 +488,7 @@ namespace LinqToSitecore
                                     foreach (
                                         var nm in
                                         nmField.NameValues.AllKeys.SelectMany(nmField.NameValues.GetValues,
-                                            (k, v) => new {key = k, value = v}))
+                                            (k, v) => new { key = k, value = v }))
                                     {
                                         if (!dic.ContainsKey(nm.key))
                                         {

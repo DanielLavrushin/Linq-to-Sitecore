@@ -114,7 +114,14 @@ namespace LinqToSitecore
             }
             if (node is MethodCallExpression)
             {
+
                 var mNode = node.Cast<MethodCallExpression>();
+                if (mNode.Method.DeclaringType == typeof(Queryable) && mNode.Method.Name == "Where")
+                {
+                    return EvalOpcodeExpression(mNode.Arguments[1]);
+
+                }
+
                 var field = ((MemberExpression)mNode.Object).Member.Name;
 
 
@@ -230,5 +237,61 @@ namespace LinqToSitecore
         }
     }
 
+
+
+    class BooleanFixVisitor: ExpressionVisitor
+    {
+        public static Expression Process<T>(Expression expression)
+        {
+            return new BooleanFixVisitor().Visit(expression);
+        }
+
+        int bypass;
+        protected override Expression VisitBinary(BinaryExpression node)
+        {
+            if (bypass == 0 && node.Type == typeof(bool))
+            {
+                switch (node.NodeType)
+                {
+                    case ExpressionType.And: // bitwise & - different to &&
+                    case ExpressionType.Or: // bitwise | - different to ||
+                    case ExpressionType.Equal:
+                    case ExpressionType.NotEqual:
+                        bypass++;
+                        var result = base.VisitBinary(node);
+                        bypass--;
+                        return result;
+                }
+            }
+            return base.VisitBinary(node);
+        }
+        protected override Expression VisitUnary(UnaryExpression node)
+        {
+            if (bypass == 0 && node.Type == typeof(bool))
+            {
+                switch (node.NodeType)
+                {
+                    case ExpressionType.Not:
+                        bypass++;
+                        var result = Expression.NotEqual(
+                            base.Visit(node.Operand),
+                            Expression.Constant(true));
+                        bypass--;
+                        return result;
+                }
+            }
+            return base.VisitUnary(node);
+        }
+        protected override Expression VisitMember(MemberExpression node)
+        {
+            if (bypass == 0 && node.Type == typeof(bool))
+            {
+                return Expression.Equal(
+                    base.VisitMember(node),
+                    Expression.Constant(true));
+            }
+            return base.VisitMember(node);
+        }
+    }
 
 }
