@@ -51,6 +51,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Controls\FolderTemplateControl.xaml.cs">
+      <DependentUpon>FolderTemplateControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ItemTemplateControl.xaml.cs">
+      <DependentUpon>ItemTemplateControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Data\AppSettings.cs" />
     <Compile Include="Data\Item.cs" />
     <Compile Include="Data\SitecoreGuids.cs" />
@@ -307,6 +313,14 @@
     <WCFMetadataStorage Include="Service References\SitecoreWebService\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\FolderTemplateControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ItemTemplateControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="LinqToSitecoreSettings.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

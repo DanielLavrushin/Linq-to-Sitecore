@@ -5,6 +5,7 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using EnvDTE;
 using LinqToSitecore.VisualStudio.Data;
 using LinqToSitecore.VisualStudio.SitecoreWebService;
 using Microsoft.Internal.VisualStudio.PlatformUI;
@@ -13,8 +14,29 @@ namespace LinqToSitecore.VisualStudio
 {
     public static class LinqToSitecoreFactory
     {
+        public static DTE DteService { get; set; }
+
+        public static ICollection<Item> Items { get; set; }
+
+        public static Project Project
+        {
+            get { return ((object[]) DteService.ActiveSolutionProjects)[0] as Project; }
+
+        }
+
+
         private static VisualSitecoreServiceSoapClient _service;
         private static AppSettings _settings = AppSettings.Instance();
+
+        public static string ProjectNamespace
+        {
+            get
+            {
+                var properties = Project.Properties.Cast<Property>().ToDictionary(x => x.Name);
+                return properties["DefaultNamespace"].Value.ToString();
+
+            }
+        }
 
         public static VisualSitecoreServiceSoapClient Service
         {
@@ -35,6 +57,8 @@ namespace LinqToSitecore.VisualStudio
                     var endpoint = new EndpointAddress($"{_settings.SitecoreUrl}/sitecore/shell/WebService/Service.asmx");
 
                     _service = new VisualSitecoreServiceSoapClient(binding, endpoint);
+
+          
                 }
                 return _service;
             }
@@ -78,6 +102,7 @@ namespace LinqToSitecore.VisualStudio
 
             }
         }
+
 
         public static Item GetItem(Guid id)
         {

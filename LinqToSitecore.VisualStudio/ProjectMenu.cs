@@ -48,7 +48,8 @@ namespace LinqToSitecore.VisualStudio
 
             this.package = package;
 
-            OleMenuCommandService commandService = this.ServiceProvider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
+            OleMenuCommandService commandService =
+                this.ServiceProvider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
             if (commandService != null)
             {
                 var menuCommandID = new CommandID(CommandSet, CommandId);
@@ -60,21 +61,14 @@ namespace LinqToSitecore.VisualStudio
         /// <summary>
         /// Gets the instance of the command.
         /// </summary>
-        public static ProjectMenu Instance
-        {
-            get;
-            private set;
-        }
+        public static ProjectMenu Instance { get; private set; }
 
         /// <summary>
         /// Gets the service provider from the owner package.
         /// </summary>
         private IServiceProvider ServiceProvider
         {
-            get
-            {
-                return this.package;
-            }
+            get { return this.package; }
         }
 
         /// <summary>
@@ -95,8 +89,8 @@ namespace LinqToSitecore.VisualStudio
         /// <param name="e">Event args.</param>
         private void MenuItemCallback(object sender, EventArgs e)
         {
-            var service = (DTE)ServiceProvider.GetService(typeof(DTE));
-            var window = new LinqToSitecoreImportWindowControl(service);
+            LinqToSitecoreFactory.DteService = (DTE) ServiceProvider.GetService(typeof(DTE));
+            var window = new LinqToSitecoreImportWindowControl();
             window.ShowDialog();
         }
     }

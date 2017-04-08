@@ -24,6 +24,7 @@ namespace LinqToSitecore.VisualStudio
             return null;
         }
 
+
         public static ICollection<Item> ToItems(this XmlNodeList nodes)
         {
             return nodes.Cast<XmlNode>().Where(x=> x != null).Select(x => x.ToItem()).ToList();

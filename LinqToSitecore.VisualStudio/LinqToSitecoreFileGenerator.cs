@@ -1,39 +1,38 @@
 ﻿using System;
 using System.CodeDom;
 using System.CodeDom.Compiler;
-using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
+using System.Text.RegularExpressions;
+using EnvDTE;
 using LinqToSitecore.VisualStudio.Data;
-using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.Shell.Interop;
+using CodeNamespace = System.CodeDom.CodeNamespace;
+using Constants = EnvDTE.Constants;
 
 namespace LinqToSitecore.VisualStudio
 {
     public class LinqToSitecoreFileGenerator
     {
 
-        private Item _item;
-        private CodeDomProvider _provider;
-        private string projectNamespace;
-        public LinqToSitecoreFileGenerator(Item item, CodeDomProvider provider) : base()
+        private readonly Item _item;
+
+
+        public LinqToSitecoreFileGenerator(Item item) 
         {
             _item = item;
-            _provider = provider;
-
-
+            _item.Name = FixName(_item.Name);
         }
 
         private CodeTypeDeclaration CreateClass()
         {
 
-            var typeDeclaration = new CodeTypeDeclaration(_item.Name);
-            typeDeclaration.TypeAttributes = TypeAttributes.Public | TypeAttributes.Class;
+            var typeDeclaration = new CodeTypeDeclaration(_item.Name)
+            {
+                TypeAttributes = TypeAttributes.Public | TypeAttributes.Class
+            };
 
             if (_item.IsSystemIncluded)
             {
@@ -77,8 +76,8 @@ namespace LinqToSitecore.VisualStudio
         {
             var bpt = GetBuiltInType(field.NetType);
             var mField = bpt == null
-                ? new CodeMemberField(field.NetType, field.PropertyName.Replace(" ", string.Empty))
-                : new CodeMemberField(bpt, field.PropertyName.Replace(" ", string.Empty));
+                ? new CodeMemberField(field.NetType, FixName(field.PropertyName))
+                : new CodeMemberField(bpt, FixName(field.PropertyName));
             mField.Attributes = MemberAttributes.Public;
 
             if (field.Name != mField.Name)
@@ -88,6 +87,14 @@ namespace LinqToSitecore.VisualStudio
 
             mField.Name += " { get; set; }";
             return mField;
+
+        }
+
+        private string FixName(string name)
+        {
+            var textInfo = CultureInfo.CurrentCulture.TextInfo;
+            var rgx = new Regex("[^a-zA-Z0-9_]");
+            return rgx.Replace( textInfo.ToTitleCase(name), string.Empty);
 
         }
 
@@ -155,29 +162,76 @@ namespace LinqToSitecore.VisualStudio
             return code;
         }
 
+        public bool SaveToFile()
+        {
+            var code = GenerateCode();
+            LinqToSitecoreFactory.DteService.ItemOperations.NewFile(@"General\Visual C# Class", _item.DisplayName,
+            Constants.vsProjectItemKindPhysicalFile);
+
+            var txtSel = (TextSelection)LinqToSitecoreFactory.DteService.ActiveDocument.Selection;
+            txtSel.SelectAll();
+            txtSel.Delete();
+            txtSel.Insert(code);
+            txtSel.MoveTo(1, 1);
+
+            var projectDir = new FileInfo(LinqToSitecoreFactory.Project.FullName).Directory?.FullName;
+            var namespacepath = _item.Namespace.EndsWith(".") ? _item.Namespace : _item.Namespace + '.';
+
+
+            string pattern = $@"^(?<project>{LinqToSitecoreFactory.ProjectNamespace}\.)(?<sub>.*)";
+            var regexOptions = RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.CultureInvariant;
+            var regex = new Regex(pattern, regexOptions);
+
+            namespacepath = regex.Replace(namespacepath, @"${sub}");
+            namespacepath = namespacepath.Replace('.', '\\');
+
+
+            if (!Directory.Exists($@"{projectDir}\{namespacepath}"))
+            {
+                Directory.CreateDirectory($@"{projectDir}\{namespacepath}");
+            }
+
+            var codeFilePath = $@"{projectDir}\{namespacepath}{_item.DisplayName}.cs";
+
+            try
+            {
+
+                LinqToSitecoreFactory.DteService.ActiveDocument.Save(codeFilePath);
+                LinqToSitecoreFactory.Project.ProjectItems.AddFromFile(codeFilePath);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+           
+            }
+        }
         public string GenerateCode()
         {
-            using (StringWriter writer = new StringWriter(new StringBuilder()))
+            var provider = CodeDomProvider.CreateProvider("C#");
+            using (var writer = new StringWriter(new StringBuilder()))
             {
-                var options = new CodeGeneratorOptions();
-                options.BlankLinesBetweenMembers = true;
-                options.BracingStyle = "Block";
+                var options = new CodeGeneratorOptions
+                {
+                    BlankLinesBetweenMembers = true,
+                    BracingStyle = "Block"
+                };
 
 
-                _provider.GenerateCodeFromCompileUnit(CreateCodeCompileUnit(_item.Namespace), writer, options);
+                provider.GenerateCodeFromCompileUnit(CreateCodeCompileUnit(_item.Namespace), writer, options);
 
                 writer.Flush();
                 var enc = Encoding.GetEncoding(writer.Encoding.WindowsCodePage);
                 var preamble = enc.GetPreamble();
 
-                byte[] body = enc.GetBytes(writer.ToString());
-                int preambleLength = preamble.Length;
+                var body = enc.GetBytes(writer.ToString());
+                var preambleLength = preamble.Length;
 
                 Array.Resize(ref preamble, preambleLength + body.Length);
                 Array.Copy(body, 0, preamble, preambleLength, body.Length);
 
                 //TODO: find a better way to print gets and sets
-                return writer.ToString().Replace("};", "}"); ;
+                return writer.ToString().Replace("};", "}"); 
             }
 
         }
