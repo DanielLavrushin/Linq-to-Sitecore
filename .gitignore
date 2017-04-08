@@ -23,6 +23,7 @@ Libraries/
 bld/
 [Bb]in/
 [Oo]bj/
+*.dll
 
 # Visual Studio 2015 cache/options directory
 .vs/
