@@ -23,7 +23,8 @@ Libraries/
 bld/
 [Bb]in/
 [Oo]bj/
-*.dll
+*Sitecore*.dll
+*Sitecore*.xml
 
 # Visual Studio 2015 cache/options directory
 .vs/
